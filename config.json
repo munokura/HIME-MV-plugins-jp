@@ -1,0 +1,34 @@
+[
+  { "name" : "Max HP",
+    "type" : "basic",
+    "id": 0
+  },
+  { "name" : "Max MP",
+    "type" : "basic",
+    "id": 1
+  },
+  { "name" : "Attack",
+    "type" : "basic",
+    "id": 2
+  },
+  { "name" : "Defense",
+    "type" : "basic",
+    "id": 3
+  },
+  { "name" : "Magical Attack",
+    "type" : "basic",
+    "id": 4
+  },
+  { "name" : "Magical Defense",
+    "type" : "basic",
+    "id": 5
+  },
+  { "name" : "Agility",
+    "type" : "basic",
+    "id": 6
+  },
+  { "name" : "Luck",
+    "type" : "basic",
+    "id": 7
+  }
+]
