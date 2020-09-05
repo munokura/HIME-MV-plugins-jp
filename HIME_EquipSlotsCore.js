@@ -1,4 +1,194 @@
-﻿/*:
+﻿/*
+ * ご質問や懸念がある場合は、次のサイトのいずれかで私に連絡できます。
+ *
+ * Main Website: http://himeworks.com
+ * Facebook: https://www.facebook.com/himeworkscom/
+ * Twitter: https://twitter.com/HimeWorks
+ * Youtube: https://www.youtube.com/c/HimeWorks
+ * Tumblr: http://himeworks.tumblr.com/
+ */
+/*:ja
+ * @title Equip Slots Core
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Apr 15, 2016
+ * @version 1.5
+ * @filename HIME_EquipSlotsCore.js
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_EquipSlotsCore.js
+ * @plugindesc v1.5 - アクター毎に装備スロットをカスタムする機能を追加します。
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * == 説明 ==
+ *
+ * Video: https://www.youtube.com/watch?v=fXcA0IdPsPg
+ *
+ * デフォルトでは、RPGツクールMVには次の5つの装備タイプがあります：
+ *
+ *   武器:1
+ *   盾:2
+ *   頭:3
+ *   身体:4
+ *   装飾品:5
+ *
+ * また、データベースに装備スロットを直接追加および変更することもできます。
+ *
+ * 問題の1つは、全てのアクターが、
+ * これらのスロットに設計した装備を使用できない場合でも、
+ * それらの装備スロットを持っていることです。
+ *
+ * もう1つの問題は、
+ * 同じスロットの複数をアクターに追加できないことです。
+ * アクターはそれぞれ1つしか持てません。
+ * 2つのアクセサリーを着用したくてもできません。
+ *
+ * このプラグインはこれらの問題を解決します。
+ * アクターの装備スロットをカスタマイズする機能を追加し、
+ * 使用するスロットを個別に選択できるようにします。
+ *
+ * == 使用法 ==
+ *
+ * -- 装備スロットの追加 --
+ *
+ * このプラグインを使用している場合、
+ * デフォルトの'初期装備'は使用されなくなります。
+ * 代わりに、メモタグを使用して全てのアクター装備スロットを管理します。
+ *
+ * アクターのメモ欄に下記のメモタグを入力すると、装備スロットを追加できます。
+ *
+ *   <equip slot: ETYPE>
+ *
+ * ETYPEは'装備タイプ'の略で、プロジェクトに設定した装備タイプの1つです。
+ * [タイプ]タブで確認できます。
+ *
+ * ETYPEのIDを記述するか、ETYPEに名前を使うことができます。
+ * 例えば、武器は装備タイプ1なので、次のいずれかを記述できます。
+ *
+ *   <equip slot: 1>
+ *
+ * 装備タイプの名前を変更した場合、
+ * これらのメモタグを更新することを忘れないでください。
+ *
+ * ※装備タイプの名前で日本語など2バイト文字を使用するとエラーになります。
+ * この場合、IDを使用してください。
+ *
+ * アクター/職業の特徴内'武器タイプ装備' '防具タイプ装備'に注意してください。
+ * 適合していない装備を指定した場合、
+ * スロットが用意され、装備は無しになります。
+ *
+ *
+ * 装備スロットを追加したい場合、メモタグを追加してください。
+ * データベースに設定済みと仮定し、
+ * 3つの武器と2つのリングをつける場合は下記になります。
+ *
+ *   <equip slot: 1>
+ *   <equip slot: 1>
+ *   <equip slot: 1>
+ *   <equip slot: 5>
+ *   <equip slot: 5>
+ *
+ * -- 初期装備の指定 --
+ *
+ * [初期装備]欄は使用できなくなったため、
+ * それらを指定する別の方法を見つける必要があります。
+ *
+ * 装備スロットメモタグは、
+ * 'アイテムコード'と呼ばれるものを使用した初期装備をサポートし、
+ * 次のように記述されます。
+ *
+ *   <equip slot: ETYPE ITEMCODE>
+ *
+ * 'ITEMCODE'は、武器、防具、アイテムを素早く参照する方法です。
+ * 次のようになります。
+ *
+ *   a1 - armor 1
+ *   w3 - weapon 3
+ *   i5 - item 5
+ *
+ * 武器4を初期装備としてアクターの装備タイプ1に持たせたい場合、
+ * 下記のメモタグを使用します。
+ *
+ *   <equip slot: 1 w4>
+ *
+ * -- 装備スロットの動的な追加と削除 --
+ *
+ * ゲーム中に装備スロットを追加/削除したい場合、スクリプトコールを使用します。
+ *
+ * ACTOR.addEquipSlot(ETYPE)
+ *
+ * ACTORはGame_Actorオブジェクトへの参照で、
+ * ETYPEは追加する装備スロットの名前/IDです。
+ *
+ * 下記で、アクター2にタイプ4および'Accessory'の追加装備スロットを追加します。
+ *
+ *   $gameActors.actor(2).addEquipSlot(4)
+ *   $gameActors.actor(2).addEquipSlot("Accessory")
+ *
+ * スロットの削除は、同様のスクリプトコールを使用して行われます。
+ *
+ *    ACTOR.removeEquipSlot(ETYPE)
+ *
+ * 追加されている装備スロットを削除する場合、次のように使用します。
+ *
+ *   $gameActors.actor(2).removeEquipSlot(4)
+ *   $gameActors.actor(2).removeEquipSlot("Accessory")
+ *
+ * そのタイプのランダム装備スロットは削除されます。
+ * 装備スロットにアイテムが含まれている場合、アイテムは装備されません。
+ *
+ * 装備スロットが存在しない場合、何も起こりません。
+ *
+ * -- 複数の装備タイプ --
+ *
+ * デフォルトでは、全ての装備に1つの装備タイプがあります。
+ * メモタグを使用して、装備タイプを追加できます。
+ *
+ * 複数の装備タイプを使用すると、
+ * 複数のスロットに同じ装備を配置できます。
+ *
+ * 武器/防具に装備タイプを追加するには、
+ * 武器/防具のメモ欄に次のように入力します。
+ *
+ *   <equip type: TYPE />
+ *
+ * 必要な数の装備タイプを割り当てることができます。
+ *
+ * -- カスタムシーン --
+ *
+ * このプラグインは、必要最低限の装備スロット機能を提供します。
+ * 目的は、それがデフォルトのシーンであろうとカスタムのシーンであろうと、
+ * あらゆる装備シーンでそれを使用できるようにすることです。
+ *
+ * Yanflyの装備メニューを使用して、このプラグインを使用したい場合、
+ * このプラグインを下に配置します。
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * 1.5 - Apr 15, 2016
+ *  * added support for multiple equip types for equips.
+ *  * standardized the way to check whether an equip slot can hold an item
+ * 1.4 - Apr 11, 2016
+ *  * Change the way etype ID is checked
+ *  * Fixed "Change Equipment" command
+ * 1.3 - Mar 14, 2016
+ *  * Added support for adding and removing equip slots using script calls
+ * 1.2 - Nov 20, 2015
+ *  * updated to support enemy equips
+ * 1.1 - Nov 18, 2015
+ *  * updated to support Yanfly's EquipCore
+ * 1.0 - Nov 12, 2015
+ *  * initial release
+ *
+ */
+/*:
 @title Equip Slots Core
 @author Hime --> HimeWorks (http://himeworks.com)
 @date Apr 15, 2016
@@ -174,199 +364,9 @@ This plugin provides bare-bones equip slot functionality. The purpose
 is to be able to use it with *any* equip scene, whether it is the
 default scene or a custom scene.
 
--------------------------------------------------------------------------
- */
-/*:ja
- * @title Equip Slots Core
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Apr 15, 2016
- * @version 1.5
- * @filename HIME_EquipSlotsCore.js
- * @url http://himeworks.com/2015/11/equip-slots-core/
- *
- * ご質問や懸念がある場合は、次のサイトのいずれかで私に連絡できます。
- *
- * Main Website: http://himeworks.com
- * Facebook: https://www.facebook.com/himeworkscom/
- * Twitter: https://twitter.com/HimeWorks
- * Youtube: https://www.youtube.com/c/HimeWorks
- * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.5 - アクター毎に装備スロットをカスタムする機能を追加します。
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * Video: https://www.youtube.com/watch?v=fXcA0IdPsPg
- *
- * デフォルトでは、RPGツクールMVには次の5つの装備タイプがあります：
- *
- *   武器
- *   盾
- *   頭
- *   身体
- *   装飾品
- *
- * また、データベースに装備スロットを直接追加および変更することもできます。
- *
- * 問題の1つは、全てのアクターが、
- * これらのスロットに設計した装備を使用できない場合でも、
- * それらの装備スロットを持っていることです。
- *
- * もう1つの問題は、
- * 同じスロットの複数をアクターに追加できないことです。
- * アクターはそれぞれ1つしか持てません。
- * 2つのアクセサリーを着用したくてもできません。
- *
- * このプラグインはこれらの問題を解決します。
- * アクターの装備スロットをカスタマイズする機能を追加し、
- * 使用するスロットを個別に選択できるようにします。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * 1.5 - Apr 15, 2016
- *  * added support for multiple equip types for equips.
- *  * standardized the way to check whether an equip slot can hold an item
- * 1.4 - Apr 11, 2016
- *  * Change the way etype ID is checked
- *  * Fixed "Change Equipment" command
- * 1.3 - Mar 14, 2016
- *  * Added support for adding and removing equip slots using script calls
- * 1.2 - Nov 20, 2015
- *  * updated to support enemy equips
- * 1.1 - Nov 18, 2015
- *  * updated to support Yanfly's EquipCore
- * 1.0 - Nov 12, 2015
- *  * initial release
- *
- * == 使用法 ==
- *
- * -- 装備スロットの追加 --
- *
- * このプラグインを使用している場合、
- * デフォルトの'初期装備'は使用されなくなります。
- * 代わりに、メモタグを使用して全てのアクター装備スロットを管理します。
- *
- * アクターのメモ欄に下記のメモタグを入力すると、装備スロットを追加できます。
- *
- *   <equip slot: ETYPE>
- *
- * ETYPEは'装備タイプ'の略で、プロジェクトに設定した装備タイプの1つです。
- * [タイプ]タブで確認できます。
- *
- * ETYPEのIDを記述するか、ETYPEに名前を使うことができます。
- * 例えば、武器は装備タイプ1なので、次のいずれかを記述できます。
- *
- *   <equip slot: 1>
- *   <equip slot: Weapon>
- *
- * 装備タイプの名前を変更した場合、
- * これらのメモタグを更新することを忘れないでください。
- *
- * ※装備タイプの名前で日本語など2バイト文字を使用するとエラーになります。
- * この場合、IDを使用してください。
- *
- * アクター/職業の特徴内'武器タイプ装備' '防具タイプ装備'に注意してください。
- * 適合していない装備を指定した場合、
- * スロットが用意され、装備は無しになります。
- *
- *
- * 装備スロットを追加したい場合、メモタグを追加してください。
- * データベースに設定済みと仮定し、
- * 3つの武器と2つのリングをつける場合は下記になります。
- *
- *   <equip slot: Weapon>
- *   <equip slot: Weapon>
- *   <equip slot: Weapon>
- *   <equip slot: Ring>
- *   <equip slot: Ring>
- *
- * -- 初期装備の指定 --
- *
- * [初期装備]欄は使用できなくなったため、
- * それらを指定する別の方法を見つける必要があります。
- *
- * 装備スロットメモタグは、
- * 'アイテムコード'と呼ばれるものを使用した初期装備をサポートし、
- * 次のように記述されます。
- *
- *   <equip slot: ETYPE ITEMCODE>
- *
- * 'ITEMCODE'は、武器、防具、アイテムを素早く参照する方法です。
- * 次のようになります。
- *
- *   a1 - armor 1
- *   w3 - weapon 3
- *   i5 - item 5
- *
- * 武器4を初期装備としてアクターの装備タイプ1に持たせたい場合、
- * 下記のメモタグを使用します。
- *
- *   <equip slot: 1 w4>
- *
- * -- 装備スロットの動的な追加と削除 --
- *
- * ゲーム中に装備スロットを追加/削除したい場合、スクリプトコールを使用します。
- *
- * ACTOR.addEquipSlot(ETYPE)
- *
- * ACTORはGame_Actorオブジェクトへの参照で、
- * ETYPEは追加する装備スロットの名前/IDです。
- *
- * 下記で、アクター2にタイプ4および'Accessory'の追加装備スロットを追加します。
- *
- *   $gameActors.actor(2).addEquipSlot(4)
- *   $gameActors.actor(2).addEquipSlot("Accessory")
- *
- * スロットの削除は、同様のスクリプトコールを使用して行われます。
- *
- *    ACTOR.removeEquipSlot(ETYPE)
- *
- * 追加されている装備スロットを削除する場合、次のように使用します。
- *
- *   $gameActors.actor(2).removeEquipSlot(4)
- *   $gameActors.actor(2).removeEquipSlot("Accessory")
- *
- * そのタイプのランダム装備スロットは削除されます。
- * 装備スロットにアイテムが含まれている場合、アイテムは装備されません。
- *
- * 装備スロットが存在しない場合、何も起こりません。
- *
- * -- 複数の装備タイプ --
- *
- * デフォルトでは、全ての装備に1つの装備タイプがあります。
- * メモタグを使用して、装備タイプを追加できます。
- *
- * 複数の装備タイプを使用すると、
- * 複数のスロットに同じ装備を配置できます。
- *
- * 武器/防具に装備タイプを追加するには、
- * 武器/防具のメモ欄に次のように入力します。
- *
- *   <equip type: TYPE />
- *
- * 必要な数の装備タイプを割り当てることができます。
- *
- * -- カスタムシーン --
- *
- * このプラグインは、必要最低限の装備スロット機能を提供します。
- * 目的は、それがデフォルトのシーンであろうとカスタムのシーンであろうと、
- * あらゆる装備シーンでそれを使用できるようにすることです。
- *
- * Yanflyの装備メニューを使用して、このプラグインを使用したい場合、
- * このプラグインを下に配置します。
- *
  */
 
-var Imported = Imported || {} ;
+var Imported = Imported || {};
 var TH = TH || {};
 Imported.EquipSlotsCore = 1;
 TH.EquipSlotsCore = TH.EquipSlotsCore || {};
@@ -380,7 +380,7 @@ function Game_EquipSlot() {
   $.Regex = /<equip[-_ ]slot:\s+(\w+)(?:\s+(\w)(\d+))?>/img
   $.EtypeRegex = /<equip[-_ ]type:\s*(.+?)\s*\/>/img
 
-  $.etypeIds = function(obj) {
+  $.etypeIds = function (obj) {
     if (obj.etypeIds === undefined) {
       obj.etypeIds = [obj.etypeId];
       var res;
@@ -392,7 +392,7 @@ function Game_EquipSlot() {
     return obj.etypeIds;
   }
 
-  $.etypeNameToId = function(etypeName) {
+  $.etypeNameToId = function (etypeName) {
     if (!$.etypeMap) {
       $.etypeMap = {}
       for (var i = 1; i < $dataSystem.equipTypes.length; i++) {
@@ -403,7 +403,7 @@ function Game_EquipSlot() {
     return $.etypeMap[etypeName.toUpperCase()];
   }
 
-  $.getEtypeId = function(etypeId) {
+  $.getEtypeId = function (etypeId) {
     if (isNaN(etypeId)) {
       etypeId = $.etypeNameToId(etypeId);
     }
@@ -413,58 +413,58 @@ function Game_EquipSlot() {
     return etypeId;
   };
 
-  Game_EquipSlot.prototype.initialize = function() {
+  Game_EquipSlot.prototype.initialize = function () {
     this._etypeId = 1;
     this._item = new Game_Item();
   };
 
-  Game_EquipSlot.prototype.setEtypeId = function(etypeID) {
+  Game_EquipSlot.prototype.setEtypeId = function (etypeID) {
     this._etypeId = etypeID;
   };
 
-  Game_EquipSlot.prototype.etypeId = function() {
+  Game_EquipSlot.prototype.etypeId = function () {
     return this._etypeId;
   };
 
-  Game_EquipSlot.prototype.setObject = function(item) {
+  Game_EquipSlot.prototype.setObject = function (item) {
     this._item.setObject(item);
   };
 
-  Game_EquipSlot.prototype.object = function() {
+  Game_EquipSlot.prototype.object = function () {
     return this._item.object();
   };
 
-  Game_EquipSlot.prototype.setEquip = function(isWeapon, item) {
+  Game_EquipSlot.prototype.setEquip = function (isWeapon, item) {
     this._item.setEquip(isWeapon, item);
   };
 
   /* Support for multiple equip types */
-  Game_EquipSlot.prototype.canEquip = function(item) {
+  Game_EquipSlot.prototype.canEquip = function (item) {
     ids = $.etypeIds(item);
     return ids.contains(this._etypeId);
   }
 
-  Game_EquipSlot.prototype.isEtypeId = function(id) {
+  Game_EquipSlot.prototype.isEtypeId = function (id) {
     return this._etypeId === id;
   };
 
   /***************************************************************************/
 
   var TH_EquipSlotsCore_GameBattler_initMembers = Game_Battler.prototype.initMembers;
-  Game_Battler.prototype.initMembers = function() {
+  Game_Battler.prototype.initMembers = function () {
     this._equips = [];
     TH_EquipSlotsCore_GameBattler_initMembers.call(this);
   };
 
   /* Returns equip slot objects */
-  Game_Battler.prototype.equipSlotList = function() {
+  Game_Battler.prototype.equipSlotList = function () {
     return this._equips;
   };
 
   /* Returns all of the equip slot types for the battler
    * Purely for backwards compatibility
    */
-  Game_Battler.prototype.equipSlots = function() {
+  Game_Battler.prototype.equipSlots = function () {
     var slots = this._equips;
     var ids = [];
     for (var i = 0; i < slots.length; i++) {
@@ -473,13 +473,13 @@ function Game_EquipSlot() {
     return ids;
   };
 
-  Game_Battler.prototype.equips = function() {
-    return this._equips.map(function(item) {
-        return item.object();
+  Game_Battler.prototype.equips = function () {
+    return this._equips.map(function (item) {
+      return item.object();
     });
   };
 
-  Game_Battler.prototype.initEquips = function(equips) {
+  Game_Battler.prototype.initEquips = function (equips) {
     var baseSlots = this.baseSlots();
     if (baseSlots.length > 0) {
       var maxSlots = baseSlots.length;
@@ -493,11 +493,11 @@ function Game_EquipSlot() {
   };
 
   /* Base equip slots for the battler */
-  Game_Battler.prototype.baseSlots = function() {
+  Game_Battler.prototype.baseSlots = function () {
     return [];
   }
 
-  Game_Battler.prototype.getBaseSlots = function(battler) {
+  Game_Battler.prototype.getBaseSlots = function (battler) {
     if (!battler.baseEquipSlots) {
       battler.baseEquipSlots = [];
       var res;
@@ -521,20 +521,20 @@ function Game_EquipSlot() {
     return battler.baseEquipSlots;
   };
 
-  Game_Battler.prototype.weapons = function() {
-    return this.equips().filter(function(item) {
+  Game_Battler.prototype.weapons = function () {
+    return this.equips().filter(function (item) {
       return item && DataManager.isWeapon(item);
     });
   };
 
-  Game_Battler.prototype.armors = function() {
-    return this.equips().filter(function(item) {
+  Game_Battler.prototype.armors = function () {
+    return this.equips().filter(function (item) {
       return item && DataManager.isArmor(item);
     });
   };
 
   /* Finds the first equip slot with the given equip type */
-  Game_Battler.prototype.getSlotByEtypeId = function(etypeId) {
+  Game_Battler.prototype.getSlotByEtypeId = function (etypeId) {
     var slots = this._equips;
     for (var i = 0; i < slots.length; i++) {
       if (slots[i].isEtypeId(etypeId)) {
@@ -544,26 +544,26 @@ function Game_EquipSlot() {
   };
 
   /* Overwrite. */
-  Game_Battler.prototype.changeEquip = function(slotId, item) {
+  Game_Battler.prototype.changeEquip = function (slotId, item) {
     if (this.tradeItemWithParty(item, this.equips()[slotId]) &&
-            (!item || this.equipSlotList()[slotId].canEquip(item))) {
-        this._equips[slotId].setObject(item);
-        this.refresh();
+      (!item || this.equipSlotList()[slotId].canEquip(item))) {
+      this._equips[slotId].setObject(item);
+      this.refresh();
     }
   };
 
   /* Ovewrite. We need to find a slot. Assumes 1 is the weapon type */
-  Game_Battler.prototype.changeEquipById = function(etypeId, itemId) {
+  Game_Battler.prototype.changeEquipById = function (etypeId, itemId) {
     var slotId = this.getSlotByEtypeId(etypeId);
     if (this.equipSlots()[slotId] === 1) {
-        this.changeEquip(slotId, $dataWeapons[itemId]);
+      this.changeEquip(slotId, $dataWeapons[itemId]);
     } else {
-        this.changeEquip(slotId, $dataArmors[itemId]);
+      this.changeEquip(slotId, $dataArmors[itemId]);
     }
   };
 
   /* Adds a new equip slot to the actor */
-  Game_Battler.prototype.addEquipSlot = function(etypeId) {
+  Game_Battler.prototype.addEquipSlot = function (etypeId) {
     var equipSlot = new Game_EquipSlot();
     etypeId = $.getEtypeId(etypeId);
     equipSlot.setEtypeId(etypeId);
@@ -573,7 +573,7 @@ function Game_EquipSlot() {
   /* Removes one instance of the specified equip slot. If an object
    * exists in that slot, the object is un-equipped.
    */
-  Game_Battler.prototype.removeEquipSlot = function(etypeId) {
+  Game_Battler.prototype.removeEquipSlot = function (etypeId) {
     etypeId = $.getEtypeId(etypeId);
     var slots = this._equips;
     for (var i = 0; i < slots.length; i++) {
@@ -586,8 +586,8 @@ function Game_EquipSlot() {
   };
 
   /* Overwrite */
-  Game_Battler.prototype.releaseUnequippableItems = function(forcing) {
-    for (;;) {
+  Game_Battler.prototype.releaseUnequippableItems = function (forcing) {
+    for (; ;) {
       var slots = this.equipSlotList();
       var slotTypes = this.equipSlots();
       var equips = this.equips();
@@ -603,26 +603,26 @@ function Game_EquipSlot() {
         }
       }
       if (!changed) {
-          break;
+        break;
       }
     }
   };
 
   /* Overwrite */
-  Game_Battler.prototype.bestEquipItem = function(slotId) {
+  Game_Battler.prototype.bestEquipItem = function (slotId) {
     var slot = this.equipSlotList()[slotId];
     var etypeId = this.equipSlots()[slotId];
-    var items = $gameParty.equipItems().filter(function(item) {
-        return slot.canEquip(item) && this.canEquip(item);
+    var items = $gameParty.equipItems().filter(function (item) {
+      return slot.canEquip(item) && this.canEquip(item);
     }, this);
     var bestItem = null;
     var bestPerformance = -1000;
     for (var i = 0; i < items.length; i++) {
-        var performance = this.calcEquipItemPerformance(items[i]);
-        if (performance > bestPerformance) {
-            bestPerformance = performance;
-            bestItem = items[i];
-        }
+      var performance = this.calcEquipItemPerformance(items[i]);
+      if (performance > bestPerformance) {
+        bestPerformance = performance;
+        bestItem = items[i];
+      }
     }
     return bestItem;
   };
@@ -631,53 +631,53 @@ function Game_EquipSlot() {
 
   /* Pulled up */
   var TH_GameActor_equipSlots = Game_Actor.prototype.equipSlots;
-  Game_Actor.prototype.equipSlots = function() {
+  Game_Actor.prototype.equipSlots = function () {
     return Game_Battler.prototype.equipSlots.call(this);
   };
 
   /* Pulled up */
-  Game_Actor.prototype.equips = function() {
+  Game_Actor.prototype.equips = function () {
     return Game_Battler.prototype.equips.call(this);
   };
 
   /* Pulled up */
-  Game_Actor.prototype.weapons = function() {
+  Game_Actor.prototype.weapons = function () {
     return Game_Battler.prototype.weapons.call(this);
   };
 
   /* Pulled up */
-  Game_Actor.prototype.armors = function() {
+  Game_Actor.prototype.armors = function () {
     return Game_Battler.prototype.armors.call(this);
   };
 
   /* Pulled up */
   var TH_GameActor_initEquips = Game_Actor.prototype.initEquips;
-  Game_Actor.prototype.initEquips = function(equips) {
+  Game_Actor.prototype.initEquips = function (equips) {
     Game_Battler.prototype.initEquips.call(this, equips);
   };
 
   /* Pulled up */
-  Game_Actor.prototype.changeEquipById = function(etypeId, itemId) {
+  Game_Actor.prototype.changeEquipById = function (etypeId, itemId) {
     Game_Battler.prototype.changeEquipById.call(this, etypeId, itemId);
   };
 
   /* Pulled up */
-  Game_Actor.prototype.changeEquip = function(slotId, item) {
+  Game_Actor.prototype.changeEquip = function (slotId, item) {
     Game_Battler.prototype.changeEquip.call(this, slotId, item);
   };
 
   /* Pulled up */
-  Game_Actor.prototype.releaseUnequippableItems = function(forcing) {
+  Game_Actor.prototype.releaseUnequippableItems = function (forcing) {
     Game_Battler.prototype.releaseUnequippableItems.call(this, forcing);
   };
 
   /* Pulled up */
-  Game_Actor.prototype.bestEquipItem = function(slotId) {
+  Game_Actor.prototype.bestEquipItem = function (slotId) {
     return Game_Battler.prototype.bestEquipItem.call(this, slotId);
   };
 
   /* By default, we check the actor for any equip slots */
-  Game_Actor.prototype.baseSlots = function() {
+  Game_Actor.prototype.baseSlots = function () {
     var slots = Game_Battler.prototype.baseSlots.call(this);
     return slots.concat(this.getBaseSlots(this.actor()))
   };
@@ -685,12 +685,12 @@ function Game_EquipSlot() {
   /***************************************************************************/
 
   /* Overwrite. Ask if the equip slot can hold the item */
-  Window_EquipItem.prototype.includes = function(item) {
+  Window_EquipItem.prototype.includes = function (item) {
     if (item === null) {
-        return true;
+      return true;
     }
     if (this._slotId < 0 || !this._actor.equipSlotList()[this._slotId].canEquip(item)) {
-        return false;
+      return false;
     }
     return this._actor.canEquip(item);
   };
