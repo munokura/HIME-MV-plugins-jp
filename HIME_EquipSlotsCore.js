@@ -127,7 +127,7 @@
  *   $gameActors.actor(2).addEquipSlot(4)
  *   $gameActors.actor(2).addEquipSlot("Accessory")
  *
- * スロットの削除は、同様のスクリプトコールを使用して行われます。
+ * スロットの削除は、同様のスクリプトを使用して行われます。
  *
  *    ACTOR.removeEquipSlot(ETYPE)
  *
@@ -164,6 +164,13 @@
  *
  * Yanflyの装備メニューを使用して、このプラグインを使用したい場合、
  * このプラグインを下に配置します。
+ * 
+ * -- 競合対策 --
+ * 
+ * このプラグインは装備枠にカーソルを合わせたままアクター切り替えを行う
+ * プラグイン（TMOmitEquipCommand.jsなど）と競合します。
+ * これに解決するパッチプラグインが下記にあります。
+ * https://raw.githubusercontent.com/elleonard/RPGtkoolMV-Plugins/master/plugins/DarkPlasma_HIME_EquipSlotCorePatch.js
  *
  * == 利用規約 ==
  *
@@ -188,14 +195,8 @@
  *  * initial release
  *
  */
-/*:
-@title Equip Slots Core
-@author Hime --> HimeWorks (http://himeworks.com)
-@date Apr 15, 2016
-@version 1.5
-@filename HIME_EquipSlotsCore.js
-@url http://himeworks.com/2015/11/equip-slots-core/
 
+/*
 If you have any questions or concerns, you can contact me at any of
 the following sites:
 
@@ -204,6 +205,15 @@ Facebook: https://www.facebook.com/himeworkscom/
 Twitter: https://twitter.com/HimeWorks
 Youtube: https://www.youtube.com/c/HimeWorks
 Tumblr: http://himeworks.tumblr.com/
+*/
+/*:
+@title Equip Slots Core
+@author Hime --> HimeWorks (http://himeworks.com)
+@date Apr 15, 2016
+@version 1.5
+@filename HIME_EquipSlotsCore.js
+@url http://himeworks.com/2015/11/equip-slots-core/
+
 @plugindesc v1.5 - Provides you with tools to set up custom equip slots
 for each actor individually.
 @help
@@ -372,329 +382,328 @@ Imported.EquipSlotsCore = 1;
 TH.EquipSlotsCore = TH.EquipSlotsCore || {};
 
 function Game_EquipSlot() {
-  this.initialize.apply(this, arguments);
+    this.initialize.apply(this, arguments);
 };
 
-(function ($) {
+(function($) {
 
-  $.Regex = /<equip[-_ ]slot:\s+(\w+)(?:\s+(\w)(\d+))?>/img
-  $.EtypeRegex = /<equip[-_ ]type:\s*(.+?)\s*\/>/img
+    $.Regex = /<equip[-_ ]slot:\s+(\w+)(?:\s+(\w)(\d+))?>/img
+    $.EtypeRegex = /<equip[-_ ]type:\s*(.+?)\s*\/>/img
 
-  $.etypeIds = function (obj) {
-    if (obj.etypeIds === undefined) {
-      obj.etypeIds = [obj.etypeId];
-      var res;
-      while (res = $.EtypeRegex.exec(obj.note)) {
+    $.etypeIds = function(obj) {
+        if (obj.etypeIds === undefined) {
+            obj.etypeIds = [obj.etypeId];
+            var res;
+            while (res = $.EtypeRegex.exec(obj.note)) {
 
-        obj.etypeIds.push($.getEtypeId(res[1]));
-      }
-    }
-    return obj.etypeIds;
-  }
-
-  $.etypeNameToId = function (etypeName) {
-    if (!$.etypeMap) {
-      $.etypeMap = {}
-      for (var i = 1; i < $dataSystem.equipTypes.length; i++) {
-        var name = $dataSystem.equipTypes[i].toUpperCase();
-        $.etypeMap[name] = i;
-      }
-    }
-    return $.etypeMap[etypeName.toUpperCase()];
-  }
-
-  $.getEtypeId = function (etypeId) {
-    if (isNaN(etypeId)) {
-      etypeId = $.etypeNameToId(etypeId);
-    }
-    else {
-      etypeId = Math.floor(etypeId)
-    }
-    return etypeId;
-  };
-
-  Game_EquipSlot.prototype.initialize = function () {
-    this._etypeId = 1;
-    this._item = new Game_Item();
-  };
-
-  Game_EquipSlot.prototype.setEtypeId = function (etypeID) {
-    this._etypeId = etypeID;
-  };
-
-  Game_EquipSlot.prototype.etypeId = function () {
-    return this._etypeId;
-  };
-
-  Game_EquipSlot.prototype.setObject = function (item) {
-    this._item.setObject(item);
-  };
-
-  Game_EquipSlot.prototype.object = function () {
-    return this._item.object();
-  };
-
-  Game_EquipSlot.prototype.setEquip = function (isWeapon, item) {
-    this._item.setEquip(isWeapon, item);
-  };
-
-  /* Support for multiple equip types */
-  Game_EquipSlot.prototype.canEquip = function (item) {
-    ids = $.etypeIds(item);
-    return ids.contains(this._etypeId);
-  }
-
-  Game_EquipSlot.prototype.isEtypeId = function (id) {
-    return this._etypeId === id;
-  };
-
-  /***************************************************************************/
-
-  var TH_EquipSlotsCore_GameBattler_initMembers = Game_Battler.prototype.initMembers;
-  Game_Battler.prototype.initMembers = function () {
-    this._equips = [];
-    TH_EquipSlotsCore_GameBattler_initMembers.call(this);
-  };
-
-  /* Returns equip slot objects */
-  Game_Battler.prototype.equipSlotList = function () {
-    return this._equips;
-  };
-
-  /* Returns all of the equip slot types for the battler
-   * Purely for backwards compatibility
-   */
-  Game_Battler.prototype.equipSlots = function () {
-    var slots = this._equips;
-    var ids = [];
-    for (var i = 0; i < slots.length; i++) {
-      ids.push(slots[i].etypeId());
-    }
-    return ids;
-  };
-
-  Game_Battler.prototype.equips = function () {
-    return this._equips.map(function (item) {
-      return item.object();
-    });
-  };
-
-  Game_Battler.prototype.initEquips = function (equips) {
-    var baseSlots = this.baseSlots();
-    if (baseSlots.length > 0) {
-      var maxSlots = baseSlots.length;
-      this._equips = [];
-      for (var i = 0; i < maxSlots; i++) {
-        this._equips[i] = JsonEx.makeDeepCopy(baseSlots[i]);
-      }
-      this.releaseUnequippableItems(true);
-      this.refresh();
-    }
-  };
-
-  /* Base equip slots for the battler */
-  Game_Battler.prototype.baseSlots = function () {
-    return [];
-  }
-
-  Game_Battler.prototype.getBaseSlots = function (battler) {
-    if (!battler.baseEquipSlots) {
-      battler.baseEquipSlots = [];
-      var res;
-      while (res = $.Regex.exec(battler.note)) {
-        var equipSlot = new Game_EquipSlot();
-        var etypeId = res[1];
-        var itemType = res[2];
-        var itemID = res[3];
-
-        // /* Not a number. Assume it's the name of an equip type */
-        etypeId = $.getEtypeId(etypeId);
-
-        equipSlot.setEtypeId(etypeId);
-        if (itemType) {
-          equipSlot.setEquip(itemType.toLowerCase() === "w", Math.floor(itemID));
+                obj.etypeIds.push($.getEtypeId(res[1]));
+            }
         }
-
-        battler.baseEquipSlots.push(equipSlot);
-      }
+        return obj.etypeIds;
     }
-    return battler.baseEquipSlots;
-  };
 
-  Game_Battler.prototype.weapons = function () {
-    return this.equips().filter(function (item) {
-      return item && DataManager.isWeapon(item);
-    });
-  };
-
-  Game_Battler.prototype.armors = function () {
-    return this.equips().filter(function (item) {
-      return item && DataManager.isArmor(item);
-    });
-  };
-
-  /* Finds the first equip slot with the given equip type */
-  Game_Battler.prototype.getSlotByEtypeId = function (etypeId) {
-    var slots = this._equips;
-    for (var i = 0; i < slots.length; i++) {
-      if (slots[i].isEtypeId(etypeId)) {
-        return i;
-      }
+    $.etypeNameToId = function(etypeName) {
+        if (!$.etypeMap) {
+            $.etypeMap = {}
+            for (var i = 1; i < $dataSystem.equipTypes.length; i++) {
+                var name = $dataSystem.equipTypes[i].toUpperCase();
+                $.etypeMap[name] = i;
+            }
+        }
+        return $.etypeMap[etypeName.toUpperCase()];
     }
-  };
 
-  /* Overwrite. */
-  Game_Battler.prototype.changeEquip = function (slotId, item) {
-    if (this.tradeItemWithParty(item, this.equips()[slotId]) &&
-      (!item || this.equipSlotList()[slotId].canEquip(item))) {
-      this._equips[slotId].setObject(item);
-      this.refresh();
-    }
-  };
-
-  /* Ovewrite. We need to find a slot. Assumes 1 is the weapon type */
-  Game_Battler.prototype.changeEquipById = function (etypeId, itemId) {
-    var slotId = this.getSlotByEtypeId(etypeId);
-    if (this.equipSlots()[slotId] === 1) {
-      this.changeEquip(slotId, $dataWeapons[itemId]);
-    } else {
-      this.changeEquip(slotId, $dataArmors[itemId]);
-    }
-  };
-
-  /* Adds a new equip slot to the actor */
-  Game_Battler.prototype.addEquipSlot = function (etypeId) {
-    var equipSlot = new Game_EquipSlot();
-    etypeId = $.getEtypeId(etypeId);
-    equipSlot.setEtypeId(etypeId);
-    this._equips.push(equipSlot);
-  };
-
-  /* Removes one instance of the specified equip slot. If an object
-   * exists in that slot, the object is un-equipped.
-   */
-  Game_Battler.prototype.removeEquipSlot = function (etypeId) {
-    etypeId = $.getEtypeId(etypeId);
-    var slots = this._equips;
-    for (var i = 0; i < slots.length; i++) {
-      if (slots[i].isEtypeId(etypeId)) {
-        this.tradeItemWithParty(null, slots[i].object());
-        slots.splice(i, 1);
-        break;
-      }
+    $.getEtypeId = function(etypeId) {
+        if (isNaN(etypeId)) {
+            etypeId = $.etypeNameToId(etypeId);
+        } else {
+            etypeId = Math.floor(etypeId)
+        }
+        return etypeId;
     };
-  };
 
-  /* Overwrite */
-  Game_Battler.prototype.releaseUnequippableItems = function (forcing) {
-    for (; ;) {
-      var slots = this.equipSlotList();
-      var slotTypes = this.equipSlots();
-      var equips = this.equips();
-      var changed = false;
-      for (var i = 0; i < equips.length; i++) {
-        var item = equips[i];
-        if (item && (!this.canEquip(item) || !slots[i].canEquip(item))) {
-          if (!forcing) {
-            this.tradeItemWithParty(null, item);
-          }
-          this._equips[i].setObject(null);
-          changed = true;
+    Game_EquipSlot.prototype.initialize = function() {
+        this._etypeId = 1;
+        this._item = new Game_Item();
+    };
+
+    Game_EquipSlot.prototype.setEtypeId = function(etypeID) {
+        this._etypeId = etypeID;
+    };
+
+    Game_EquipSlot.prototype.etypeId = function() {
+        return this._etypeId;
+    };
+
+    Game_EquipSlot.prototype.setObject = function(item) {
+        this._item.setObject(item);
+    };
+
+    Game_EquipSlot.prototype.object = function() {
+        return this._item.object();
+    };
+
+    Game_EquipSlot.prototype.setEquip = function(isWeapon, item) {
+        this._item.setEquip(isWeapon, item);
+    };
+
+    /* Support for multiple equip types */
+    Game_EquipSlot.prototype.canEquip = function(item) {
+        ids = $.etypeIds(item);
+        return ids.contains(this._etypeId);
+    }
+
+    Game_EquipSlot.prototype.isEtypeId = function(id) {
+        return this._etypeId === id;
+    };
+
+    /***************************************************************************/
+
+    var TH_EquipSlotsCore_GameBattler_initMembers = Game_Battler.prototype.initMembers;
+    Game_Battler.prototype.initMembers = function() {
+        this._equips = [];
+        TH_EquipSlotsCore_GameBattler_initMembers.call(this);
+    };
+
+    /* Returns equip slot objects */
+    Game_Battler.prototype.equipSlotList = function() {
+        return this._equips;
+    };
+
+    /* Returns all of the equip slot types for the battler
+     * Purely for backwards compatibility
+     */
+    Game_Battler.prototype.equipSlots = function() {
+        var slots = this._equips;
+        var ids = [];
+        for (var i = 0; i < slots.length; i++) {
+            ids.push(slots[i].etypeId());
         }
-      }
-      if (!changed) {
-        break;
-      }
+        return ids;
+    };
+
+    Game_Battler.prototype.equips = function() {
+        return this._equips.map(function(item) {
+            return item.object();
+        });
+    };
+
+    Game_Battler.prototype.initEquips = function(equips) {
+        var baseSlots = this.baseSlots();
+        if (baseSlots.length > 0) {
+            var maxSlots = baseSlots.length;
+            this._equips = [];
+            for (var i = 0; i < maxSlots; i++) {
+                this._equips[i] = JsonEx.makeDeepCopy(baseSlots[i]);
+            }
+            this.releaseUnequippableItems(true);
+            this.refresh();
+        }
+    };
+
+    /* Base equip slots for the battler */
+    Game_Battler.prototype.baseSlots = function() {
+        return [];
     }
-  };
 
-  /* Overwrite */
-  Game_Battler.prototype.bestEquipItem = function (slotId) {
-    var slot = this.equipSlotList()[slotId];
-    var etypeId = this.equipSlots()[slotId];
-    var items = $gameParty.equipItems().filter(function (item) {
-      return slot.canEquip(item) && this.canEquip(item);
-    }, this);
-    var bestItem = null;
-    var bestPerformance = -1000;
-    for (var i = 0; i < items.length; i++) {
-      var performance = this.calcEquipItemPerformance(items[i]);
-      if (performance > bestPerformance) {
-        bestPerformance = performance;
-        bestItem = items[i];
-      }
-    }
-    return bestItem;
-  };
+    Game_Battler.prototype.getBaseSlots = function(battler) {
+        if (!battler.baseEquipSlots) {
+            battler.baseEquipSlots = [];
+            var res;
+            while (res = $.Regex.exec(battler.note)) {
+                var equipSlot = new Game_EquipSlot();
+                var etypeId = res[1];
+                var itemType = res[2];
+                var itemID = res[3];
 
-  /***************************************************************************/
+                // /* Not a number. Assume it's the name of an equip type */
+                etypeId = $.getEtypeId(etypeId);
 
-  /* Pulled up */
-  var TH_GameActor_equipSlots = Game_Actor.prototype.equipSlots;
-  Game_Actor.prototype.equipSlots = function () {
-    return Game_Battler.prototype.equipSlots.call(this);
-  };
+                equipSlot.setEtypeId(etypeId);
+                if (itemType) {
+                    equipSlot.setEquip(itemType.toLowerCase() === "w", Math.floor(itemID));
+                }
 
-  /* Pulled up */
-  Game_Actor.prototype.equips = function () {
-    return Game_Battler.prototype.equips.call(this);
-  };
+                battler.baseEquipSlots.push(equipSlot);
+            }
+        }
+        return battler.baseEquipSlots;
+    };
 
-  /* Pulled up */
-  Game_Actor.prototype.weapons = function () {
-    return Game_Battler.prototype.weapons.call(this);
-  };
+    Game_Battler.prototype.weapons = function() {
+        return this.equips().filter(function(item) {
+            return item && DataManager.isWeapon(item);
+        });
+    };
 
-  /* Pulled up */
-  Game_Actor.prototype.armors = function () {
-    return Game_Battler.prototype.armors.call(this);
-  };
+    Game_Battler.prototype.armors = function() {
+        return this.equips().filter(function(item) {
+            return item && DataManager.isArmor(item);
+        });
+    };
 
-  /* Pulled up */
-  var TH_GameActor_initEquips = Game_Actor.prototype.initEquips;
-  Game_Actor.prototype.initEquips = function (equips) {
-    Game_Battler.prototype.initEquips.call(this, equips);
-  };
+    /* Finds the first equip slot with the given equip type */
+    Game_Battler.prototype.getSlotByEtypeId = function(etypeId) {
+        var slots = this._equips;
+        for (var i = 0; i < slots.length; i++) {
+            if (slots[i].isEtypeId(etypeId)) {
+                return i;
+            }
+        }
+    };
 
-  /* Pulled up */
-  Game_Actor.prototype.changeEquipById = function (etypeId, itemId) {
-    Game_Battler.prototype.changeEquipById.call(this, etypeId, itemId);
-  };
+    /* Overwrite. */
+    Game_Battler.prototype.changeEquip = function(slotId, item) {
+        if (this.tradeItemWithParty(item, this.equips()[slotId]) &&
+            (!item || this.equipSlotList()[slotId].canEquip(item))) {
+            this._equips[slotId].setObject(item);
+            this.refresh();
+        }
+    };
 
-  /* Pulled up */
-  Game_Actor.prototype.changeEquip = function (slotId, item) {
-    Game_Battler.prototype.changeEquip.call(this, slotId, item);
-  };
+    /* Ovewrite. We need to find a slot. Assumes 1 is the weapon type */
+    Game_Battler.prototype.changeEquipById = function(etypeId, itemId) {
+        var slotId = this.getSlotByEtypeId(etypeId);
+        if (this.equipSlots()[slotId] === 1) {
+            this.changeEquip(slotId, $dataWeapons[itemId]);
+        } else {
+            this.changeEquip(slotId, $dataArmors[itemId]);
+        }
+    };
 
-  /* Pulled up */
-  Game_Actor.prototype.releaseUnequippableItems = function (forcing) {
-    Game_Battler.prototype.releaseUnequippableItems.call(this, forcing);
-  };
+    /* Adds a new equip slot to the actor */
+    Game_Battler.prototype.addEquipSlot = function(etypeId) {
+        var equipSlot = new Game_EquipSlot();
+        etypeId = $.getEtypeId(etypeId);
+        equipSlot.setEtypeId(etypeId);
+        this._equips.push(equipSlot);
+    };
 
-  /* Pulled up */
-  Game_Actor.prototype.bestEquipItem = function (slotId) {
-    return Game_Battler.prototype.bestEquipItem.call(this, slotId);
-  };
+    /* Removes one instance of the specified equip slot. If an object
+     * exists in that slot, the object is un-equipped.
+     */
+    Game_Battler.prototype.removeEquipSlot = function(etypeId) {
+        etypeId = $.getEtypeId(etypeId);
+        var slots = this._equips;
+        for (var i = 0; i < slots.length; i++) {
+            if (slots[i].isEtypeId(etypeId)) {
+                this.tradeItemWithParty(null, slots[i].object());
+                slots.splice(i, 1);
+                break;
+            }
+        };
+    };
 
-  /* By default, we check the actor for any equip slots */
-  Game_Actor.prototype.baseSlots = function () {
-    var slots = Game_Battler.prototype.baseSlots.call(this);
-    return slots.concat(this.getBaseSlots(this.actor()))
-  };
+    /* Overwrite */
+    Game_Battler.prototype.releaseUnequippableItems = function(forcing) {
+        for (;;) {
+            var slots = this.equipSlotList();
+            var slotTypes = this.equipSlots();
+            var equips = this.equips();
+            var changed = false;
+            for (var i = 0; i < equips.length; i++) {
+                var item = equips[i];
+                if (item && (!this.canEquip(item) || !slots[i].canEquip(item))) {
+                    if (!forcing) {
+                        this.tradeItemWithParty(null, item);
+                    }
+                    this._equips[i].setObject(null);
+                    changed = true;
+                }
+            }
+            if (!changed) {
+                break;
+            }
+        }
+    };
 
-  /***************************************************************************/
+    /* Overwrite */
+    Game_Battler.prototype.bestEquipItem = function(slotId) {
+        var slot = this.equipSlotList()[slotId];
+        var etypeId = this.equipSlots()[slotId];
+        var items = $gameParty.equipItems().filter(function(item) {
+            return slot.canEquip(item) && this.canEquip(item);
+        }, this);
+        var bestItem = null;
+        var bestPerformance = -1000;
+        for (var i = 0; i < items.length; i++) {
+            var performance = this.calcEquipItemPerformance(items[i]);
+            if (performance > bestPerformance) {
+                bestPerformance = performance;
+                bestItem = items[i];
+            }
+        }
+        return bestItem;
+    };
 
-  /* Overwrite. Ask if the equip slot can hold the item */
-  Window_EquipItem.prototype.includes = function (item) {
-    if (item === null) {
-      return true;
-    }
-    if (this._slotId < 0 || !this._actor.equipSlotList()[this._slotId].canEquip(item)) {
-      return false;
-    }
-    return this._actor.canEquip(item);
-  };
+    /***************************************************************************/
 
-  /***************************************************************************/
+    /* Pulled up */
+    var TH_GameActor_equipSlots = Game_Actor.prototype.equipSlots;
+    Game_Actor.prototype.equipSlots = function() {
+        return Game_Battler.prototype.equipSlots.call(this);
+    };
+
+    /* Pulled up */
+    Game_Actor.prototype.equips = function() {
+        return Game_Battler.prototype.equips.call(this);
+    };
+
+    /* Pulled up */
+    Game_Actor.prototype.weapons = function() {
+        return Game_Battler.prototype.weapons.call(this);
+    };
+
+    /* Pulled up */
+    Game_Actor.prototype.armors = function() {
+        return Game_Battler.prototype.armors.call(this);
+    };
+
+    /* Pulled up */
+    var TH_GameActor_initEquips = Game_Actor.prototype.initEquips;
+    Game_Actor.prototype.initEquips = function(equips) {
+        Game_Battler.prototype.initEquips.call(this, equips);
+    };
+
+    /* Pulled up */
+    Game_Actor.prototype.changeEquipById = function(etypeId, itemId) {
+        Game_Battler.prototype.changeEquipById.call(this, etypeId, itemId);
+    };
+
+    /* Pulled up */
+    Game_Actor.prototype.changeEquip = function(slotId, item) {
+        Game_Battler.prototype.changeEquip.call(this, slotId, item);
+    };
+
+    /* Pulled up */
+    Game_Actor.prototype.releaseUnequippableItems = function(forcing) {
+        Game_Battler.prototype.releaseUnequippableItems.call(this, forcing);
+    };
+
+    /* Pulled up */
+    Game_Actor.prototype.bestEquipItem = function(slotId) {
+        return Game_Battler.prototype.bestEquipItem.call(this, slotId);
+    };
+
+    /* By default, we check the actor for any equip slots */
+    Game_Actor.prototype.baseSlots = function() {
+        var slots = Game_Battler.prototype.baseSlots.call(this);
+        return slots.concat(this.getBaseSlots(this.actor()))
+    };
+
+    /***************************************************************************/
+
+    /* Overwrite. Ask if the equip slot can hold the item */
+    Window_EquipItem.prototype.includes = function(item) {
+        if (item === null) {
+            return true;
+        }
+        if (this._slotId < 0 || !this._actor.equipSlotList()[this._slotId].canEquip(item)) {
+            return false;
+        }
+        return this._actor.canEquip(item);
+    };
+
+    /***************************************************************************/
 
 })(TH.EquipSlotsCore);
