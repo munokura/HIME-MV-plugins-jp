@@ -1,8 +1,388 @@
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * * Main Website: http://himeworks.com
+ * * Facebook: https://www.facebook.com/himeworkscom/
+ * * Twitter: https://twitter.com/HimeWorks
+ * * Youtube: https://www.youtube.com/c/HimeWorks
+ * * Tumblr: http://himeworks.tumblr.com/
+*/
+/*:ja
+ * @title Party Manager
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.12
+ * @date Aug 4, 2020
+ * @filename HIME_PartyManager.js
+ * @url http://himeworks.com/2016/02/party-manager-mv/
+ *
+ * @plugindesc v1.12 複数のパーティを作成/切り替え/合流等の機能を追加します
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * == 説明 ==
+ *
+ * RPGツクールMVには「パーティ」があります。
+ *
+ * パーティは、アクターのグループ、アイテム、武器、防具、通貨、
+ * および潜在的にこのグループに関連するその他の情報で構成されます。
+ *
+ * デフォルトでは、パーティは1つだけです。
+ * プレーヤーがゲーム全体を通してコントロールするものです。
+ *
+ * このプラグインは、追加のパーティと連携するための機能を提供します。
+ *
+ * 1.新しいパーティを作成できます。
+ * ゲーム内の異なるパーティを表すために、別々のパーティを使用できます。
+ * 各パーティは、ストーリーが進むにつれて、
+ * 独自のフォロワーとインベントリのセットを持つ場合があります。
+ *
+ * 2.パーティを切り替えることができます。
+ * ストーリーが1人のパーティから別のパーティに切り替わって、
+ * その場所、パーティ、インベントリ、
+ * その他のパーティ関連の情報を保持したい場合、
+ * 代わりに新しいパーティに切り替えることができます。
+ * 同じマップ上でパーティをリアルタイムで切り替えて、
+ * 複数パーティの制御に関連する追加のメカニズムを構築することもできます。
+ *
+ * 3.パーティを合流できます。
+ * パーティを合流することにより、
+ * 異なるパーティを1つの大きなパーティとしてまとめることができます。
+ * 全てのメンバー、インベントリ、その他の情報が合流されます。
+ *
+ * これら3つが、Party Manager で使用できる基本機能です。
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.12 - Aug 4, 2020
+ *  * Load meta from event note into template event
+ * 1.11 - May 1, 2016
+ *  * Implemented actor locking
+ * 1.10 - Apr 30, 2016
+ *  * added support for checking if actor is in party
+ * 1.9 - Apr 2, 2016
+ *  * added support for "max party members"
+ * 1.8 - Mar 28, 2016
+ *  * fixed bug where merging to an idle party crashes
+ *  * renamed "mergeInventory" to "mergePartyInventory"
+ * 1.7 - Mar 11, 2016
+ *  * added support for getting idle party event on map by party ID
+ * 1.6 - Feb 25, 2016
+ *  * Added `get` convenience method
+ * 1.5 - Feb 9, 2016
+ *  * Fixed bug where $gameParty did not reference the active party on reload
+ *  * Implemented party inventory trading methods
+ * 1.4 - Feb 5, 2016
+ *  * fixed display bug where idle parties are drawn before map transfers
+ * 1.3 - Feb 4, 2016
+ *  * fixed bug where extra sprite remains if you go to the menu and back to map
+ *  * fixed bug where idle parties on other maps are drawn on current map
+ *  * fixed bug where starting a map doesn't setup idle party events
+ *  * added "anyAtRegion" and "anyAtPosition" script calls
+ * 1.2 - Feb 3, 2016
+ *  * fixed bug where `setLocation` wasn't passing in the party ID
+ * 1.1 - Feb 2, 2016
+ *  * added support for checking party position
+ *  * added support for checking party region
+ *  * fixed bug where party position not updated as player moves
+ * 1.0 - Feb 1, 2016
+ *  * initial release
+ *
+ * == 使用法 ==
+ *
+ * --- 簡単な要約 ---
+ *
+ * 複数のパーティの管理には、
+ *
+ * 1.パーティーの作成
+ * 2.パーティーの切り替え
+ * 3.パーティの合流
+ *
+ * パーティを作成するには、パーティIDを選択する必要があります。
+ * デフォルトのパーティIDは1です。
+ * プラグインパラメーターでカスタマイズできます。
+ *
+ * 次に、パーティを作成し、アクターをいくつか追加し、
+ * 必要に応じて位置を選択します。
+ * マップ5の位置(10,12)で、アクター3と4を使用して、
+ * 2と呼ばれるパーティを作成したいとします。
+ * スクリプトは次のとおりです。
+ *
+ *   Party.create(2)
+ *   Party.addActor(2, 3)
+ *   Party.addActor(2, 4)
+ *   Party.setLocation(2, 10, 12, 5)
+ *
+ * パーティーを設定したら、下記でパーティーを切り替えることができます。
+ *
+ *   Party.switch(2)
+ *
+ * 下記で元に戻すことができます。
+ *
+ *   Party.switch(1)
+ *
+ * もしセカンドパーティを終了し、パーティ1に合流する場合は下記になります。
+ *
+ *   Party.merge(2, 1)
+ *
+ * 複数のパーティを管理するために必要なのはこれだけです。
+ * '待機中パーティ'の高度な使用法は下記をお読みください。
+ *
+ * --- パーティ ID ---
+ *
+ * Party Managerは、'パーティID'の概念を使用し、
+ * ゲーム内の各パーティを識別します。
+ *
+ * パーティIDは基本的に、パーティに付ける名前です。
+ * 1、2、3のような数字でも、'sub'、'main'などのテキストでも使用できます。
+ *
+ * パーティIDは、イベントを使用してパーティを管理するため、
+ * ゲーム全体でパーティを管理する簡単な方法を提供することを目的としています。
+ *
+ * --- パーティーの作成 ---
+ *
+ * プロジェクトはデフォルトで1つのパーティから始まります。
+ * プラグインパラメータで割り当てられているIDをカスタマイズできます。
+ *
+ * 追加パーティは全て、イベントで作成する必要があります。
+ * パーティを作成するには、スクリプトを使用します
+ *
+ *    Party.create( PARTY_ID );
+ *
+ * 次のようなパーティーを作成できます
+ *
+ *    Party.create(2);
+ *    Party.create("sub");
+ *
+ * --- パーティーアクターの変更 ---
+ *
+ * 新しいパーティを作成しただけでは、アクターは含まれていません。
+ * 下記のスクリプトを使用して、パーティアクターを追加/削除できます。
+ * ACTOR_IDは、データベース内のアクターのIDです。
+ *
+ *    Party.addActor( PARTY_ID, ACTOR_ID );
+ *    Party.removeActor( PARTY_ID, ACTOR_ID);
+ *
+ * アクター3をパーティ2に追加するには、次のように記述します。
+ *
+ *    Party.addActor(2, 3);
+ *
+ * アクター3をパーティ'main'から外すには、次のように記述します。
+ *
+ *    Party.removeActor("main", 3);
+ *
+ * --- パーティの切り替え ---
+ *
+ * 追加のパーティを作成したら、それらを切り替えることができます。
+ *
+ * パーティを切り替えるには、次のように記述します。
+ *
+ *    Party.switch( PARTY_ID );
+ *
+ * パーティー2に切り替えたい場合、次のように記述します。
+ *
+ *    Party.switch(2);
+ *
+ * パーティを切り替えると、制御は選択したパーティに移り、
+ * 他のパーティは'待機中'ステートになります。
+ * 両方のパーティが同じマップ上にある場合、マップ上で相手を見ることができます。
+ * 詳細については、以下の'待機中パーティ'のセクションを参照してください。
+ *
+ * --- パーティーの場所の変更 ---
+ *
+ * このシステムでは、全てのパーティに場所があります。
+ * パーティを切り替えると、ゲームはパーティの現在の場所に変わります。
+ *
+ * デフォルトでは、パーティを作成すると、
+ * 現在のパーティが置かれている場所に配置されます。
+ *
+ * ゲーム中にパーティの場所を変更したい場合、次のように記述します。
+ *
+ *    Party.setLocation( PARTY_ID, X, Y );
+ *    Party.setLocation( PARTY_ID, X, Y, MAP_ID );
+ *
+ * XとYはマップ上の位置であり、
+ * MAP_IDはパーティの場所を設定するマップのIDです。
+ *
+ * マップIDを省略すると、現在のマップであると見なされます。
+ *
+ * --- パーティの合流 ---
+ *
+ * 2つのパーティを合流したい場合、次のように記述します。
+ *
+ *    Party.merge(PARTY_ID1, PARTY_ID2)
+ *
+ * 'パーティID1がパーティID2に合流する'ことを意味します。
+ * 最初のパーティが現在のパーティである場合、
+ * ゲーム中では自動的に2番目のパーティに切り替わります。
+ *
+ * --- パーティ間取引 ---
+ *
+ * パーティ間でアイテムと通貨を取引できます。
+ *
+ * パーティから別のパーティにアイテムを渡したい場合、次のように記述します。
+ *
+ *   Party.tradeItem( ID1, ID2, ITEM, COUNT )
+ *
+ * ID1はアイテムを受け取るパーティのIDであり、
+ * ID2はアイテムを渡すパーティのIDです。
+ *
+ * ITEMはアイテムオブジェクトです。
+ * ゲームには、アイテム、武器、防具、アイテムがあります。
+ * デフォルトでは、次のように記述します。
+ *
+ *    $dataItems[2]   - アイテム 2
+ *    $dataWeapons[3] - 武器 3
+ *    $dataArmors[12] - 防具 12
+ *
+ * COUNT は、取引したいアイテムの量です。
+ * ファーストパーティに十分な量がない場合、失敗するのではなく、
+ * できる限り取引します。
+ *
+ * パーティから別のパーティに通貨を取引したい場合、次のように記述します。
+ *
+ *   Party.tradeGold( ID1, ID2, amount )
+ *
+ * パーティID1からパーティID2に一定量の通貨を取引しします。
+ * パーティ1に十分な通貨がない場合、できるだけ多くを取引します。
+ *
+ * -- 待機中パーティ --
+ *
+ * デフォルトでは、複数のパーティがいる場合、
+ * いつでも1つのパーティのみが'アクティブ'になります。
+ * 他のパーティは'待機中'であるとしています。
+ * アクティブなパーティとは、現在管理しているパーティです。
+ *
+ * パーティを切り替えると、現在アクティブなパーティとは切り替わります。
+ *
+ * 待機中パーティは、同じマップ上にある場合、
+ * イベントとしてマップ上に表示されます。
+ * この時点では、それらは単なる視覚的なインジケータであり、何もしません。
+ * ただし、独自のイベントを作成して、
+ * これらの待機中パーティと対話する時、動作を決定することができます。
+ *
+ * --- アクティブなパーティー変数 ---
+ *
+ * プラグインパラメータでは、
+ * 'アクティブなパーティ変数'と呼ばれるものを選択できます。
+ * 現在アクティブなパーティを追跡する単なるゲーム変数です。
+ * 主に、イベントの利便性を目的としています。
+ *
+ * RPGツクールMVは変数が数字であると想定していますが、テキストも保存できます。
+ * ただし、条件付き分岐では、
+ * 確認するためにスクリプトの条件付き分岐を使用する必要があります。
+ *
+ * --- パーティーの場所を確認 ---
+ *
+ * 待機中パーティはマップ上のイベントですが、
+ * マップイベントとは異なり、これらのイベントには固定IDがありません。
+ * 代わりに、パーティの位置を直接確認します。
+ *
+ * パーティが特定の場所にいるかどうかを確認したい場合、次のように記述します。
+ *
+ *    Party.atLocation( PARTY_ID, X, Y );
+ *    Party.atLocation( PARTY_ID, X, Y, MAP_ID);
+ *
+ * MAP_IDが指定されない場合、現在のマップIDであると見なされます。
+ * 異なるマップ全体でパーティの位置を確認できることを意味します。
+ *
+ * 指定の場所にパーティがいるかどうかを知りたい場合、次のように記述します。
+ *
+ *    Party.anyAtLocation( X, Y );
+ *    Party.anyAtLocation( X, Y, MAP_ID );
+ *
+ * パーティーが特定のリージョンにいるか確認したい場合、次のように記述します。
+ *
+ *    Party.atRegion( PARTY_ID, REGION_ID );
+ *
+ * 特定のリージョンにパーティがいるか確認したい場合、次のように記述します。
+ *
+ *    Party.anyAtRegion( REGION_ID );
+ *
+ * リージョンIDチェックは、
+ * 現在のマップに対してのみ実行できることに注意してください。
+ *
+ * --- 待機中パーティイベントリファレンスの取得 ---
+ *
+ * 待機中パーティを表すイベントへの参照が必要な場合、
+ * 次のように記述します。
+ *
+ *    $gameMap.idlePartyEvent(PARTY_ID)
+ *
+ * Game_PartyEventオブジェクトへの参照を返します。
+ * 特別な待機中パーティーロジックを除き、基本的にGame_Eventと同じです。
+ *
+ * --- パーティメンバーの最大数の設定 ---
+ *
+ * デフォルトでは、
+ * パーティに参加できるメンバーの数に制限はありません。
+ * 戦闘に参加するメンバー数とは異なります。
+ *
+ * プラグインパラメータでは、
+ * 各パーティに入れられるパーティメンバーの上限数を指定できます。
+ *
+ * 現在のパーティ/特定のパーティ人数が上限か確認したい場合、
+ * 次のように記述します。
+ *
+ *   $gameParty.isPartyFull()
+ *   Party.isPartyFull( PARTY_ID )
+ *
+ * パーティ人数が上限かどうかによって、true / false を返します。
+ *
+ * 制限を変更したい場合、次のように記述します。
+ *
+ *   Party.setMaxPartyMembers( PARTY_ID, NUMBER )
+ *
+ * --- アクターがパーティに参加しているかどうかを確認する ---
+ *
+ * アクターが特定のパーティにいるかどうかを確認したい場合、
+ * 次のように記述します。
+ *
+ *   Party.hasActor( PARTY_ID, ACTOR_ID )
+ *
+ * 指定されたアクターがそのパーティにいる場合、trueを返します。
+ *
+ * --- アクターをパーティにロックする ---
+ *
+ * アクターをパーティにロックしたい場合、次のように記述します。
+ * ACTOR_IDは、操作するアクターのIDです。
+ *
+ *   $gameActors.actor( ACTOR_ID ).lockToParty(true)
+ *
+ * ロックを解除したい場合、次のように記述します。
+ *
+ *   $gameActors.actor( ACTOR_ID ).lockToParty(false)
+ *
+ * @param Default Party ID
+ * @desc 'デフォルトパーティ'のID。ゲームを開始する時の最初のパーティです。
+ * @default 1
+ *
+ * @param Active Party Variable
+ * @desc 現在のアクティブなパーティを保存するために使用する変数。条件分岐・他のプラグインに便利です。
+ * @default 999
+ *
+ * @param Max Party Members
+ * @desc パーティに参加できるパーティメンバーの最大数。戦闘に参加しないメンバーを含みます。
+ * @default -1
+ */
 /*:
 @title Party Manager
 @author Hime --> HimeWorks (http://himeworks.com)
-@version 1.11
-@date May 1, 2016
+@version 1.12
+@date Aug 4, 2020
 @filename HIME_PartyManager.js
 @url http://himeworks.com/2016/02/party-manager-mv/
 
@@ -19,7 +399,7 @@ the following sites:
 * Youtube: https://www.youtube.com/c/HimeWorks
 * Tumblr: http://himeworks.tumblr.com/
 
-@plugindesc v1.11 - Create and manage multiples parties in your game.
+@plugindesc v1.12 - Create and manage multiples parties in your game.
 @help
 == Description ==
 
@@ -60,6 +440,8 @@ Additional functionally will be provided over-time as they are developed.
 
 == Change Log ==
 
+1.12 - Aug 4, 2020
+ * Load meta from event note into template event
 1.11 - May 1, 2016
  * Implemented actor locking
 1.10 - Apr 30, 2016
@@ -371,383 +753,6 @@ Convenient for conditional branches or other plugins.
 Includes members that won't be in battle.
 @default -1
  */
-/*:ja
- * @title Party Manager
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.11
- * @date May 1, 2016
- * @filename HIME_PartyManager.js
- * @url http://himeworks.com/2016/02/party-manager-mv/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * * Main Website: http://himeworks.com
- * * Facebook: https://www.facebook.com/himeworkscom/
- * * Twitter: https://twitter.com/HimeWorks
- * * Youtube: https://www.youtube.com/c/HimeWorks
- * * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.11 複数のパーティを作成/切り替え/合流等の機能を追加します
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * RPGツクールMVには「パーティ」があります。
- *
- * パーティは、アクターのグループ、アイテム、武器、防具、通貨、
- * および潜在的にこのグループに関連するその他の情報で構成されます。
- *
- * デフォルトでは、パーティは1つだけです。
- * プレーヤーがゲーム全体を通してコントロールするものです。
- *
- * このプラグインは、追加のパーティと連携するための機能を提供します。
- *
- * 1.新しいパーティを作成できます。
- * ゲーム内の異なるパーティを表すために、別々のパーティを使用できます。
- * 各パーティは、ストーリーが進むにつれて、
- * 独自のフォロワーとインベントリのセットを持つ場合があります。
- *
- * 2.パーティを切り替えることができます。
- * ストーリーが1人のパーティから別のパーティに切り替わって、
- * その場所、パーティ、インベントリ、
- * その他のパーティ関連の情報を保持したい場合、
- * 代わりに新しいパーティに切り替えることができます。
- * 同じマップ上でパーティをリアルタイムで切り替えて、
- * 複数パーティの制御に関連する追加のメカニズムを構築することもできます。
- *
- * 3.パーティを合流できます。
- * パーティを合流することにより、
- * 異なるパーティを1つの大きなパーティとしてまとめることができます。
- * 全てのメンバー、インベントリ、その他の情報が合流されます。
- *
- * これら3つが、Party Manager で使用できる基本機能です。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.11 - May 1, 2016
- *  * Implemented actor locking
- * 1.10 - Apr 30, 2016
- *  * added support for checking if actor is in party
- * 1.9 - Apr 2, 2016
- *  * added support for "max party members"
- * 1.8 - Mar 28, 2016
- *  * fixed bug where merging to an idle party crashes
- *  * renamed "mergeInventory" to "mergePartyInventory"
- * 1.7 - Mar 11, 2016
- *  * added support for getting idle party event on map by party ID
- * 1.6 - Feb 25, 2016
- *  * Added `get` convenience method
- * 1.5 - Feb 9, 2016
- *  * Fixed bug where $gameParty did not reference the active party on reload
- *  * Implemented party inventory trading methods
- * 1.4 - Feb 5, 2016
- *  * fixed display bug where idle parties are drawn before map transfers
- * 1.3 - Feb 4, 2016
- *  * fixed bug where extra sprite remains if you go to the menu and back to map
- *  * fixed bug where idle parties on other maps are drawn on current map
- *  * fixed bug where starting a map doesn't setup idle party events
- *  * added "anyAtRegion" and "anyAtPosition" script calls
- * 1.2 - Feb 3, 2016
- *  * fixed bug where `setLocation` wasn't passing in the party ID
- * 1.1 - Feb 2, 2016
- *  * added support for checking party position
- *  * added support for checking party region
- *  * fixed bug where party position not updated as player moves
- * 1.0 - Feb 1, 2016
- *  * initial release
- *
- * == 使用法 ==
- *
- * --- 簡単な要約 ---
- *
- * 複数のパーティの管理には、
- *
- * 1.パーティーの作成
- * 2.パーティーの切り替え
- * 3.パーティの合流
- *
- * パーティを作成するには、パーティIDを選択する必要があります。
- * デフォルトのパーティIDは1です。
- * プラグインパラメーターでカスタマイズできます。
- *
- * 次に、パーティを作成し、アクターをいくつか追加し、
- * 必要に応じて位置を選択します。
- * マップ5の位置(10,12)で、アクター3と4を使用して、
- * 2と呼ばれるパーティを作成したいとします。
- * スクリプトは次のとおりです。
- *
- *   Party.create(2)
- *   Party.addActor(2, 3)
- *   Party.addActor(2, 4)
- *   Party.setLocation(2, 10, 12, 5)
- *
- * パーティーを設定したら、下記でパーティーを切り替えることができます。
- *
- *   Party.switch(2)
- *
- * 下記で元に戻すことができます。
- *
- *   Party.switch(1)
- *
- * もしセカンドパーティを終了し、パーティ1に合流する場合は下記になります。
- *
- *   Party.merge(2, 1)
- *
- * 複数のパーティを管理するために必要なのはこれだけです。
- * '待機中パーティ'の高度な使用法は下記をお読みください。
- *
- * --- パーティ ID ---
- *
- * Party Managerは、'パーティID'の概念を使用し、
- * ゲーム内の各パーティを識別します。
- *
- * パーティIDは基本的に、パーティに付ける名前です。
- * 1、2、3のような数字でも、'sub'、'main'などのテキストでも使用できます。
- *
- * パーティIDは、イベントを使用してパーティを管理するため、
- * ゲーム全体でパーティを管理する簡単な方法を提供することを目的としています。
- *
- * --- パーティーの作成 ---
- *
- * プロジェクトはデフォルトで1つのパーティから始まります。
- * プラグインパラメータで割り当てられているIDをカスタマイズできます。
- *
- * 追加パーティは全て、イベントで作成する必要があります。
- * パーティを作成するには、スクリプトを使用します
- *
- *    Party.create( PARTY_ID );
- *
- * 次のようなパーティーを作成できます
- *
- *    Party.create(2);
- *    Party.create("sub");
- *
- * --- パーティーアクターの変更 ---
- *
- * 新しいパーティを作成しただけでは、アクターは含まれていません。
- * 下記のスクリプトを使用して、パーティアクターを追加/削除できます。
- * ACTOR_IDは、データベース内のアクターのIDです。
- *
- *    Party.addActor( PARTY_ID, ACTOR_ID );
- *    Party.removeActor( PARTY_ID, ACTOR_ID);
- *
- * アクター3をパーティ2に追加するには、次のように記述します。
- *
- *    Party.addActor(2, 3);
- *
- * アクター3をパーティ'main'から外すには、次のように記述します。
- *
- *    Party.removeActor("main", 3);
- *
- * --- パーティの切り替え ---
- *
- * 追加のパーティを作成したら、それらを切り替えることができます。
- *
- * パーティを切り替えるには、次のように記述します。
- *
- *    Party.switch( PARTY_ID );
- *
- * パーティー2に切り替えたい場合、次のように記述します。
- *
- *    Party.switch(2);
- *
- * パーティを切り替えると、制御は選択したパーティに移り、
- * 他のパーティは'待機中'ステートになります。
- * 両方のパーティが同じマップ上にある場合、マップ上で相手を見ることができます。
- * 詳細については、以下の'待機中パーティ'のセクションを参照してください。
- *
- * --- パーティーの場所の変更 ---
- *
- * このシステムでは、全てのパーティに場所があります。
- * パーティを切り替えると、ゲームはパーティの現在の場所に変わります。
- *
- * デフォルトでは、パーティを作成すると、
- * 現在のパーティが置かれている場所に配置されます。
- *
- * ゲーム中にパーティの場所を変更したい場合、次のように記述します。
- *
- *    Party.setLocation( PARTY_ID, X, Y );
- *    Party.setLocation( PARTY_ID, X, Y, MAP_ID );
- *
- * XとYはマップ上の位置であり、
- * MAP_IDはパーティの場所を設定するマップのIDです。
- *
- * マップIDを省略すると、現在のマップであると見なされます。
- *
- * --- パーティの合流 ---
- *
- * 2つのパーティを合流したい場合、次のように記述します。
- *
- *    Party.merge(PARTY_ID1, PARTY_ID2)
- *
- * 'パーティID1がパーティID2に合流する'ことを意味します。
- * 最初のパーティが現在のパーティである場合、
- * ゲーム中では自動的に2番目のパーティに切り替わります。
- *
- * --- パーティ間取引 ---
- *
- * パーティ間でアイテムと通貨を取引できます。
- *
- * パーティから別のパーティにアイテムを渡したい場合、次のように記述します。
- *
- *   Party.tradeItem( ID1, ID2, ITEM, COUNT )
- *
- * ID1はアイテムを受け取るパーティのIDであり、
- * ID2はアイテムを渡すパーティのIDです。
- *
- * ITEMはアイテムオブジェクトです。
- * ゲームには、アイテム、武器、防具、アイテムがあります。
- * デフォルトでは、次のように記述します。
- *
- *    $dataItems[2]   - アイテム 2
- *    $dataWeapons[3] - 武器 3
- *    $dataArmors[12] - 防具 12
- *
- * COUNT は、取引したいアイテムの量です。
- * ファーストパーティに十分な量がない場合、失敗するのではなく、
- * できる限り取引します。
- *
- * パーティから別のパーティに通貨を取引したい場合、次のように記述します。
- *
- *   Party.tradeGold( ID1, ID2, amount )
- *
- * パーティID1からパーティID2に一定量の通貨を取引しします。
- * パーティ1に十分な通貨がない場合、できるだけ多くを取引します。
- *
- * -- 待機中パーティ --
- *
- * デフォルトでは、複数のパーティがいる場合、
- * いつでも1つのパーティのみが'アクティブ'になります。
- * 他のパーティは'待機中'であるとしています。
- * アクティブなパーティとは、現在管理しているパーティです。
- *
- * パーティを切り替えると、現在アクティブなパーティとは切り替わります。
- *
- * 待機中パーティは、同じマップ上にある場合、
- * イベントとしてマップ上に表示されます。
- * この時点では、それらは単なる視覚的なインジケータであり、何もしません。
- * ただし、独自のイベントを作成して、
- * これらの待機中パーティと対話する時、動作を決定することができます。
- *
- * --- アクティブなパーティー変数 ---
- *
- * プラグインパラメータでは、
- * 'アクティブなパーティ変数'と呼ばれるものを選択できます。
- * 現在アクティブなパーティを追跡する単なるゲーム変数です。
- * 主に、イベントの利便性を目的としています。
- *
- * RPGツクールMVは変数が数字であると想定していますが、テキストも保存できます。
- * ただし、条件付き分岐では、
- * 確認するためにスクリプトの条件付き分岐を使用する必要があります。
- *
- * --- パーティーの場所を確認 ---
- *
- * 待機中パーティはマップ上のイベントですが、
- * マップイベントとは異なり、これらのイベントには固定IDがありません。
- * 代わりに、パーティの位置を直接確認します。
- *
- * パーティが特定の場所にいるかどうかを確認したい場合、次のように記述します。
- *
- *    Party.atLocation( PARTY_ID, X, Y );
- *    Party.atLocation( PARTY_ID, X, Y, MAP_ID);
- *
- * MAP_IDが指定されない場合、現在のマップIDであると見なされます。
- * 異なるマップ全体でパーティの位置を確認できることを意味します。
- *
- * 指定の場所にパーティがいるかどうかを知りたい場合、次のように記述します。
- *
- *    Party.anyAtLocation( X, Y );
- *    Party.anyAtLocation( X, Y, MAP_ID );
- *
- * パーティーが特定のリージョンにいるか確認したい場合、次のように記述します。
- *
- *    Party.atRegion( PARTY_ID, REGION_ID );
- *
- * 特定のリージョンにパーティがいるか確認したい場合、次のように記述します。
- *
- *    Party.anyAtRegion( REGION_ID );
- *
- * リージョンIDチェックは、
- * 現在のマップに対してのみ実行できることに注意してください。
- *
- * --- 待機中パーティイベントリファレンスの取得 ---
- *
- * 待機中パーティを表すイベントへの参照が必要な場合、
- * 次のように記述します。
- *
- *    $gameMap.idlePartyEvent(PARTY_ID)
- *
- * Game_PartyEventオブジェクトへの参照を返します。
- * 特別な待機中パーティーロジックを除き、基本的にGame_Eventと同じです。
- *
- * --- パーティメンバーの最大数の設定 ---
- *
- * デフォルトでは、
- * パーティに参加できるメンバーの数に制限はありません。
- * 戦闘に参加するメンバー数とは異なります。
- *
- * プラグインパラメータでは、
- * 各パーティに入れられるパーティメンバーの上限数を指定できます。
- *
- * 現在のパーティ/特定のパーティ人数が上限か確認したい場合、
- * 次のように記述します。
- *
- *   $gameParty.isPartyFull()
- *   Party.isPartyFull( PARTY_ID )
- *
- * パーティ人数が上限かどうかによって、true / false を返します。
- *
- * 制限を変更したい場合、次のように記述します。
- *
- *   Party.setMaxPartyMembers( PARTY_ID, NUMBER )
- *
- * --- アクターがパーティに参加しているかどうかを確認する ---
- *
- * アクターが特定のパーティにいるかどうかを確認したい場合、
- * 次のように記述します。
- *
- *   Party.hasActor( PARTY_ID, ACTOR_ID )
- *
- * 指定されたアクターがそのパーティにいる場合、trueを返します。
- *
- * --- アクターをパーティにロックする ---
- *
- * アクターをパーティにロックしたい場合、次のように記述します。
- * ACTOR_IDは、操作するアクターのIDです。
- *
- *   $gameActors.actor( ACTOR_ID ).lockToParty(true)
- *
- * ロックを解除したい場合、次のように記述します。
- *
- *   $gameActors.actor( ACTOR_ID ).lockToParty(false)
- *
- * @param Default Party ID
- * @desc 'デフォルトパーティ'のID。ゲームを開始する時の最初のパーティです。
- * @default 1
- *
- * @param Active Party Variable
- * @desc 現在のアクティブなパーティを保存するために使用する変数。条件分岐・他のプラグインに便利です。
- * @default 999
- *
- * @param Max Party Members
- * @desc パーティに参加できるパーティメンバーの最大数。戦闘に参加しないメンバーを含みます。
- * @default -1
- */
 
 var Imported = Imported || {};
 var TH = TH || {};
@@ -756,661 +761,662 @@ TH.PartyManager = TH.PartyManager || {};
 
 /* For script call purposes */
 function Party() {
-  // static object
+    // static object
 };
 
 /* Main party manager */
 function Game_Parties() {
-  this.initialize.apply(this, arguments);
+    this.initialize.apply(this, arguments);
 };
 
 /* A special event that represents an idle event */
 function Game_PartyEvent() {
-  this.initialize.apply(this, arguments);
+    this.initialize.apply(this, arguments);
 };
 
 Game_PartyEvent.prototype = Object.create(Game_Event.prototype);
 Game_PartyEvent.prototype.constructor = Game_PartyEvent;
 
-(function ($) {
+(function($) {
 
-  // hardcode for now
-  $.templateEvent = { "id": 9999, "name": "EV015", "note": "", "pages": [{ "conditions": { "actorId": 1, "actorValid": false, "itemId": 1, "itemValid": false, "selfSwitchCh": "A", "selfSwitchValid": false, "switch1Id": 1, "switch1Valid": false, "switch2Id": 1, "switch2Valid": false, "variableId": 1, "variableValid": false, "variableValue": 0 }, "directionFix": false, "image": { "characterIndex": 0, "characterName": "", "direction": 2, "pattern": 0, "tileId": 0 }, "list": [{ "code": 0, "indent": 0, "parameters": [] }], "moveFrequency": 3, "moveRoute": { "list": [{ "code": 0, "parameters": [] }], "repeat": true, "skippable": false, "wait": false }, "moveSpeed": 3, "moveType": 0, "priorityType": 1, "stepAnime": true, "through": false, "trigger": 0, "walkAnime": true }], "x": 13, "y": 25 }
+    // hardcode for now
+    $.templateEvent = { "id": 9999, "name": "EV015", "note": "", "pages": [{ "conditions": { "actorId": 1, "actorValid": false, "itemId": 1, "itemValid": false, "selfSwitchCh": "A", "selfSwitchValid": false, "switch1Id": 1, "switch1Valid": false, "switch2Id": 1, "switch2Valid": false, "variableId": 1, "variableValid": false, "variableValue": 0 }, "directionFix": false, "image": { "characterIndex": 0, "characterName": "", "direction": 2, "pattern": 0, "tileId": 0 }, "list": [{ "code": 0, "indent": 0, "parameters": [] }], "moveFrequency": 3, "moveRoute": { "list": [{ "code": 0, "parameters": [] }], "repeat": true, "skippable": false, "wait": false }, "moveSpeed": 3, "moveType": 0, "priorityType": 1, "stepAnime": true, "through": false, "trigger": 0, "walkAnime": true }], "x": 13, "y": 25 }
 
-  $.params = PluginManager.parameters("HIME_PartyManager");
-  $.defaultPartyId = $.params["Default Party ID"].trim();
-  $.activePartyVarId = Math.floor($.params["Active Party Variable"]);
-  $.maxPartyMembers = Math.floor($.params["Max Party Members"]);
+    $.params = PluginManager.parameters("HIME_PartyManager");
+    $.defaultPartyId = $.params["Default Party ID"].trim();
+    $.activePartyVarId = Math.floor($.params["Active Party Variable"]);
+    $.maxPartyMembers = Math.floor($.params["Max Party Members"]);
 
-  /***************************************************************************/
+    /***************************************************************************/
 
-  var TH_DataManager_createGameObjects = DataManager.createGameObjects;
-  DataManager.createGameObjects = function () {
-    TH_DataManager_createGameObjects.call(this);
-    $gameParties = new Game_Parties();
-  };
+    var TH_DataManager_createGameObjects = DataManager.createGameObjects;
+    DataManager.createGameObjects = function() {
+        TH_DataManager_createGameObjects.call(this);
+        $gameParties = new Game_Parties();
 
-  var TH_DataManager_makeSaveContents = DataManager.makeSaveContents;
-  DataManager.makeSaveContents = function () {
-    var contents = TH_DataManager_makeSaveContents.call(this);
-    contents.parties = $gameParties;
-    return contents;
-  };
+        // need to load metadata from the event as well
+        this.extractMetadata($.templateEvent)
+    };
 
-  var TH_DataManager_extractSaveContents = DataManager.extractSaveContents;
-  DataManager.extractSaveContents = function (contents) {
-    TH_DataManager_extractSaveContents.call(this, contents);
-    $gameParties = contents.parties;
-    $gameParty = $gameParties.getActiveParty();
-  };
+    var TH_DataManager_makeSaveContents = DataManager.makeSaveContents;
+    DataManager.makeSaveContents = function() {
+        var contents = TH_DataManager_makeSaveContents.call(this);
+        contents.parties = $gameParties;
+        return contents;
+    };
 
-  /***************************************************************************/
+    var TH_DataManager_extractSaveContents = DataManager.extractSaveContents;
+    DataManager.extractSaveContents = function(contents) {
+        TH_DataManager_extractSaveContents.call(this, contents);
+        $gameParties = contents.parties;
+        $gameParty = $gameParties.getActiveParty();
+    };
 
-  Game_Parties.prototype.initialize = function () {
-    this._parties = {};
+    /***************************************************************************/
 
-    // defaults
-    var id = $.defaultPartyId;
-    $gameParty.setId(id);
-    $gameParty.setLocation($dataSystem.startMapId, $dataSystem.startX, $dataSystem.startY);
-    this._parties[id] = $gameParty;
-    this._activeId = id;
-    $gameVariables.setValue($.activePartyVarId, id);
-  };
+    Game_Parties.prototype.initialize = function() {
+        this._parties = {};
 
-  Game_Parties.prototype.parties = function () {
-    var data = [];
-    var ids = Object.keys(this._parties);
-    for (var i = 0; i < ids.length; i++) {
-      data.push(this._parties[ids[i]]);
-    }
-    return data;
-  };
+        // defaults
+        var id = $.defaultPartyId;
+        $gameParty.setId(id);
+        $gameParty.setLocation($dataSystem.startMapId, $dataSystem.startX, $dataSystem.startY);
+        this._parties[id] = $gameParty;
+        this._activeId = id;
+        $gameVariables.setValue($.activePartyVarId, id);
+    };
 
-  Game_Parties.prototype.idleParties = function () {
-    var data = [];
-    var ids = Object.keys(this._parties);
-    for (var i = 0; i < ids.length; i++) {
-      if (this._activeId !== ids[i]) {
-        data.push(this._parties[ids[i]]);
-      }
-    }
-    return data;
-  };
+    Game_Parties.prototype.parties = function() {
+        var data = [];
+        var ids = Object.keys(this._parties);
+        for (var i = 0; i < ids.length; i++) {
+            data.push(this._parties[ids[i]]);
+        }
+        return data;
+    };
 
-  Game_Parties.prototype.getActiveParty = function () {
-    return this._parties[this._activeId];
-  };
+    Game_Parties.prototype.idleParties = function() {
+        var data = [];
+        var ids = Object.keys(this._parties);
+        for (var i = 0; i < ids.length; i++) {
+            if (this._activeId !== ids[i]) {
+                data.push(this._parties[ids[i]]);
+            }
+        }
+        return data;
+    };
 
-  Game_Parties.prototype.isActive = function (id) {
-    return id.toString() === this._activeId;
-  };
+    Game_Parties.prototype.getActiveParty = function() {
+        return this._parties[this._activeId];
+    };
 
-  Game_Parties.prototype.getParty = function (id) {
-    return this._parties[id];
-  };
+    Game_Parties.prototype.isActive = function(id) {
+        return id.toString() === this._activeId;
+    };
 
-  /* Create a new party with the specified ID and members.
-   * If party already exists, do not replace it
-   */
-  Game_Parties.prototype.createParty = function (id) {
-    id = id.toString();
-    var party = this._parties[id];
-    if (!party) {
-      var party = new Game_Party();
-      party.setId(id);
-      party.setLocation($gameMap.mapId(), $gamePlayer.x, $gamePlayer.y);
-      this._parties[id] = party;
-    }
-    return party;
-  };
+    Game_Parties.prototype.getParty = function(id) {
+        return this._parties[id];
+    };
 
-  Game_Parties.prototype.addActor = function (id, actorId) {
-    this._parties[id].addActor(actorId);
-  };
+    /* Create a new party with the specified ID and members.
+     * If party already exists, do not replace it
+     */
+    Game_Parties.prototype.createParty = function(id) {
+        id = id.toString();
+        var party = this._parties[id];
+        if (!party) {
+            var party = new Game_Party();
+            party.setId(id);
+            party.setLocation($gameMap.mapId(), $gamePlayer.x, $gamePlayer.y);
+            this._parties[id] = party;
+        }
+        return party;
+    };
 
-  Game_Parties.prototype.removeActor = function (id, actorId) {
-    this._parties[id].removeActor(actorId);
-  };
+    Game_Parties.prototype.addActor = function(id, actorId) {
+        this._parties[id].addActor(actorId);
+    };
 
-  Game_Parties.prototype.setLocation = function (id, x, y, mapId) {
-    if (mapId === undefined) {
-      mapId = $gameMap.mapId();
-    }
-    this._parties[id].setLocation(mapId, x, y);
-    $gamePlayer.refreshPartyLocation();
-  };
+    Game_Parties.prototype.removeActor = function(id, actorId) {
+        this._parties[id].removeActor(actorId);
+    };
 
-  Game_Parties.prototype.deleteParty = function (id) {
-    delete this._parties[id];
-  };
+    Game_Parties.prototype.setLocation = function(id, x, y, mapId) {
+        if (mapId === undefined) {
+            mapId = $gameMap.mapId();
+        }
+        this._parties[id].setLocation(mapId, x, y);
+        $gamePlayer.refreshPartyLocation();
+    };
 
-  /* Switch to the party with the specified ID */
-  Game_Parties.prototype.switchParty = function (id) {
-    id = id.toString();
+    Game_Parties.prototype.deleteParty = function(id) {
+        delete this._parties[id];
+    };
 
-    if (this.canSwitch(id)) {
+    /* Switch to the party with the specified ID */
+    Game_Parties.prototype.switchParty = function(id) {
+        id = id.toString();
 
-      var oldParty = this._parties[this._activeId]
-      if (oldParty) {
-        this._parties[this._activeId].prepareSwitch();
-      }
-      this._activeId = id;
-      $gameVariables.setValue($.activePartyVarId, id);
-      $gameParty = this._parties[id];
-      $gamePlayer.refreshPartyLocation();
-    }
-    return this._parties[this._activeId];
-  };
+        if (this.canSwitch(id)) {
 
-  Game_Parties.prototype.canSwitch = function (id) {
-    if (id === this._activeId) {
-      return false;
-    }
-    return true;
-  };
+            var oldParty = this._parties[this._activeId]
+            if (oldParty) {
+                this._parties[this._activeId].prepareSwitch();
+            }
+            this._activeId = id;
+            $gameVariables.setValue($.activePartyVarId, id);
+            $gameParty = this._parties[id];
+            $gamePlayer.refreshPartyLocation();
+        }
+        return this._parties[this._activeId];
+    };
 
-  Game_Parties.prototype.canMerge = function (id1, id2) {
-    if (id1 === id2) {
-      return false;
-    }
-    return true;
-  };
-
-  Game_Parties.prototype.canTrade = function (id1, id2) {
-    if (id1 === id2) {
-      return false;
-    }
-    return true;
-  };
-
-  /* Merges party 1 into party 2. Party 1 is then deleted
-   */
-  Game_Parties.prototype.merge = function (id1, id2) {
-    id1 = id1.toString();
-    id2 = id2.toString();
-    if (this.canMerge(id1, id2)) {
-      var party1 = this.getParty(id1);
-      var party2 = this.getParty(id2);
-      party2.mergeWith(party1);
-      this.deleteParty(id1);
-
-      if (this._activeId === id1) {
-        this.switchParty(id2);
-      }
-    }
-    $gamePlayer.refreshPartyLocation();
-    return party2;
-  };
-
-  Game_Parties.prototype.atLocation = function (id, x, y, mapId) {
-    if (mapId === undefined) {
-      mapId = $gameMap.mapId();
-    }
-    return this._parties[id].atLocation(mapId, x, y);
-  };
-
-  /* Returns true if there are any parties at the specified location */
-  Game_Parties.prototype.anyAtLocation = function (x, y, mapId) {
-    if (mapId === undefined) {
-      mapId = $gameMap.mapId();
-    }
-    var parties = this._parties;
-    var ids = Object.keys(parties);
-    for (var i = 0; i < ids.length; i++) {
-      if (parties[ids[i]].atLocation(mapId, x, y)) {
+    Game_Parties.prototype.canSwitch = function(id) {
+        if (id === this._activeId) {
+            return false;
+        }
         return true;
-      }
-    }
-    return false;
-  };
+    };
 
-  /* Returns true if there are any parties at the specified region */
-  Game_Parties.prototype.atRegion = function (id, regionId) {
-    return this._parties[id].atRegion(regionId);
-  };
-
-  Game_Parties.prototype.anyAtRegion = function (regionId) {
-    var parties = this._parties;
-    var ids = Object.keys(parties);
-    for (var i = 0; i < ids.length; i++) {
-      if (parties[ids[i]].atRegion(regionId)) {
+    Game_Parties.prototype.canMerge = function(id1, id2) {
+        if (id1 === id2) {
+            return false;
+        }
         return true;
-      }
+    };
+
+    Game_Parties.prototype.canTrade = function(id1, id2) {
+        if (id1 === id2) {
+            return false;
+        }
+        return true;
+    };
+
+    /* Merges party 1 into party 2. Party 1 is then deleted
+     */
+    Game_Parties.prototype.merge = function(id1, id2) {
+        id1 = id1.toString();
+        id2 = id2.toString();
+        if (this.canMerge(id1, id2)) {
+            var party1 = this.getParty(id1);
+            var party2 = this.getParty(id2);
+            party2.mergeWith(party1);
+            this.deleteParty(id1);
+
+            if (this._activeId === id1) {
+                this.switchParty(id2);
+            }
+        }
+        $gamePlayer.refreshPartyLocation();
+        return party2;
+    };
+
+    Game_Parties.prototype.atLocation = function(id, x, y, mapId) {
+        if (mapId === undefined) {
+            mapId = $gameMap.mapId();
+        }
+        return this._parties[id].atLocation(mapId, x, y);
+    };
+
+    /* Returns true if there are any parties at the specified location */
+    Game_Parties.prototype.anyAtLocation = function(x, y, mapId) {
+        if (mapId === undefined) {
+            mapId = $gameMap.mapId();
+        }
+        var parties = this._parties;
+        var ids = Object.keys(parties);
+        for (var i = 0; i < ids.length; i++) {
+            if (parties[ids[i]].atLocation(mapId, x, y)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    /* Returns true if there are any parties at the specified region */
+    Game_Parties.prototype.atRegion = function(id, regionId) {
+        return this._parties[id].atRegion(regionId);
+    };
+
+    Game_Parties.prototype.anyAtRegion = function(regionId) {
+        var parties = this._parties;
+        var ids = Object.keys(parties);
+        for (var i = 0; i < ids.length; i++) {
+            if (parties[ids[i]].atRegion(regionId)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    /* Sends an item from party 1 to party 2 */
+    Game_Parties.prototype.tradeItem = function(id1, id2, item, count) {
+        if (this.canTrade(id1, id2)) {
+            var party1 = this._parties[id1];
+            var party2 = this._parties[id2];
+            var countAvailable = party1.numItems(item);
+            var countTransferred = Math.min(count, countAvailable);
+            party1.loseItem(item, countTransferred, false);
+            party2.gainItem(item, countTransferred, false);
+        }
+    };
+
+    /* Sends gold from party 1 to party 2 */
+    Game_Parties.prototype.tradeGold = function(id1, id2, amount) {
+        if (this.canTrade(id1, id2)) {
+            var party1 = this._parties[id1]
+            var party2 = this._parties[id2]
+            var goldAvailable = party1.gold();
+            var goldTransferred = Math.min(amount, goldAvailable);
+
+            party1.loseGold(goldTransferred);
+            party2.gainGold(goldTransferred);
+        }
+    };
+
+    Game_Parties.prototype.setMaxPartyMembers = function(id, amount) {
+        var party = this._parties[id];
+        if (party) {
+            party.setMaxPartyMembers(amount);
+        }
+    };
+
+    Game_Parties.prototype.isPartyFull = function(id) {
+        var party = this._parties[id];
+        if (party) {
+            return party.isPartyFull();
+        }
+    };
+
+    Game_Parties.prototype.hasActor = function(id, actorId) {
+        var party = this._parties[id];
+        if (party) {
+            return party.isActorInParty(actorId);
+        }
+    };
+
+    /***************************************************************************/
+
+    Object.defineProperties(Game_Party.prototype, {
+        id: { get: function() { return this._id; }, configurable: true }
+    });
+
+    var TH_GameParty_initialize = Game_Party.prototype.initialize
+    Game_Party.prototype.initialize = function() {
+        TH_GameParty_initialize.call(this);
+        this._maxPartyMembers = $.maxPartyMembers;
+        this._location = { mapId: 0, x: 0, y: 0 }
+        this._direction = 2;
+    };
+
+    Game_Party.prototype.setId = function(id) {
+        this._id = id;
     }
-    return false;
-  };
 
-  /* Sends an item from party 1 to party 2 */
-  Game_Parties.prototype.tradeItem = function (id1, id2, item, count) {
-    if (this.canTrade(id1, id2)) {
-      var party1 = this._parties[id1];
-      var party2 = this._parties[id2];
-      var countAvailable = party1.numItems(item);
-      var countTransferred = Math.min(count, countAvailable);
-      party1.loseItem(item, countTransferred, false);
-      party2.gainItem(item, countTransferred, false);
+    Game_Party.prototype.location = function() {
+        return this._location;
+    };
+
+    Game_Party.prototype.direction = function() {
+        return this._direction;
+    };
+
+    Game_Party.prototype.setLocation = function(mapId, x, y) {
+        this._location = { mapId: mapId, x: x, y: y };
+    };
+
+    Game_Party.prototype.mergeWith = function(otherParty) {
+        this.mergeMembers(otherParty);
+        this.mergePartyInventory(otherParty);
+    };
+
+    Game_Party.prototype.mergeMembers = function(otherParty) {
+        var members = otherParty.members();
+        for (var i = 0; i < members.length; i++) {
+            this.addActor(members[i].actorId());
+        }
+    };
+
+    Game_Party.prototype.mergePartyInventory = function(otherParty) {
+        this.mergeWeapons(otherParty);
+        this.mergeArmors(otherParty);
+        this.mergeItems(otherParty);
+        this.mergeGold(otherParty);
+    };
+
+    Game_Party.prototype.mergeWeapons = function(otherParty) {
+        var objects = otherParty.weapons();
+        for (var i = 0; i < objects.length; i++) {
+            var obj = objects[i];
+            var num = otherParty.numItems(obj);
+            this.gainItem(obj, num, false);
+        }
+    };
+
+    Game_Party.prototype.mergeArmors = function(otherParty) {
+        var objects = otherParty.armors();
+        for (var i = 0; i < objects.length; i++) {
+            var obj = objects[i];
+            var num = otherParty.numItems(obj);
+            this.gainItem(obj, num, false);
+        }
+    };
+
+    Game_Party.prototype.mergeItems = function(otherParty) {
+        var objects = otherParty.items();
+        for (var i = 0; i < objects.length; i++) {
+            var obj = objects[i];
+            var num = otherParty.numItems(obj);
+            this.gainItem(obj, num, false);
+        }
+    };
+
+    Game_Party.prototype.mergeGold = function(otherParty) {
+        this.gainGold(otherParty.gold());
+    };
+
+    Game_Party.prototype.setMaxPartyMembers = function(amount) {
+        this._maxPartyMembers = amount;
+    };
+
+    /* Total number of members that can be in the party */
+    Game_Party.prototype.maxPartyMembers = function() {
+        return this._maxPartyMembers;
+    };
+
+    /* Cannot add actor if party is full */
+    var TH_GameParty_addActor = Game_Party.prototype.addActor;
+    Game_Party.prototype.addActor = function(actorId) {
+        if (!this.isPartyFull()) {
+            TH_GameParty_addActor.call(this, actorId);
+        }
+    };
+
+    /* Returns true if the party cannot hold anymore actors */
+    Game_Party.prototype.isPartyFull = function() {
+        var max = this.maxPartyMembers();
+        return max > 0 && this._actors.length >= this.maxPartyMembers();
+    };
+
+    Game_Party.prototype.isActorInParty = function(actorId) {
+        return this._actors.contains(actorId);
     }
-  };
 
-  /* Sends gold from party 1 to party 2 */
-  Game_Parties.prototype.tradeGold = function (id1, id2, amount) {
-    if (this.canTrade(id1, id2)) {
-      var party1 = this._parties[id1]
-      var party2 = this._parties[id2]
-      var goldAvailable = party1.gold();
-      var goldTransferred = Math.min(amount, goldAvailable);
+    /* Store location and direction */
+    Game_Party.prototype.prepareSwitch = function() {
+        this.updateLocation();
+    };
 
-      party1.loseGold(goldTransferred);
-      party2.gainGold(goldTransferred);
+    Game_Party.prototype.updateLocation = function() {
+        this._direction = $gamePlayer.direction();
+        this.setLocation($gameMap.mapId(), $gamePlayer.x, $gamePlayer.y);
+    };
+
+    Game_Party.prototype.atLocation = function(mapId, x, y) {
+        var loc = this._location;
+        return !!(loc.mapId === $gameMap.mapId() && x === loc.x && y === loc.y);
+    };
+
+    Game_Party.prototype.atRegion = function(regionId) {
+        var loc = this._location;
+        return !!(loc.mapId === $gameMap.mapId() && $gameMap.regionId(loc.x, loc.y));
+    };
+
+    /***************************************************************************/
+
+    var TH_GameBattler_initialize = Game_Battler.prototype.initialize;
+    Game_Battler.prototype.initialize = function() {
+        TH_GameBattler_initialize.call(this);
+        this._isPartyLocked = false;
+    };
+
+    Game_Battler.prototype.lockToParty = function(bool) {
+        this._isPartyLocked = bool;
+    };
+
+    Game_Actor.prototype.isPartyLocked = function() {
+        return this._isPartyLocked;
+    };
+
+    /***************************************************************************/
+
+    /* New party? Maybe we need to move to a different map
+     * Assumes one player game
+     */
+    Game_Player.prototype.refreshPartyLocation = function() {
+        var loc = $gameParty.location();
+        if (loc.mapId !== $gameMap.mapId()) {
+            this.reserveTransfer(loc.mapId, loc.x, loc.y, $gameParty.direction(), 2)
+        } else {
+            this.setPosition(loc.x, loc.y);
+            this._followers.synchronize(loc.x, loc.y, this.direction())
+            this.center(loc.x, loc.y);
+            this.setDirection($gameParty.direction());
+            this.refresh();
+            $gameMap.refreshIdlePartyEvents();
+        }
+    };
+
+    var TH_GamePlayer_update = Game_Player.prototype.update;
+    Game_Player.prototype.update = function(sceneActive) {
+        TH_GamePlayer_update.call(this, sceneActive);
+        $gameParty.updateLocation();
+    };
+
+    /***************************************************************************/
+
+    Game_PartyEvent.prototype.initialize = function(party, mapId, eventId) {
+        this._party = party;
+        Game_Event.prototype.initialize.call(this, mapId, eventId);
     }
-  };
 
-  Game_Parties.prototype.setMaxPartyMembers = function (id, amount) {
-    var party = this._parties[id];
-    if (party) {
-      party.setMaxPartyMembers(amount);
+    Game_PartyEvent.prototype.event = function() {
+        return $.templateEvent;
+    };
+
+    Game_PartyEvent.prototype.refresh = function() {
+        Game_Event.prototype.refresh.call(this);
+        var leader = this._party.leader();
+        var loc = this._party.location();
+        this.setPosition(loc.x, loc.y);
+        this.erased = Party.isActive(this._party);
+        if (leader) {
+            this._characterName = leader.characterName();
+            this._characterIndex = leader.characterIndex();
+        } else {
+            this._characterName = "";
+            this._characterIndex = 0;
+        }
+        this.setDirection(this._party.direction());
+    };
+
+    /***************************************************************************/
+
+    var TH_GameMap_initialize = Game_Map.prototype.initialize;
+    Game_Map.prototype.initialize = function() {
+        TH_GameMap_initialize.call(this);
+        this._idlePartyEvents = {};
     }
-  };
 
-  Game_Parties.prototype.isPartyFull = function (id) {
-    var party = this._parties[id];
-    if (party) {
-      return party.isPartyFull();
+    Game_Map.prototype.idlePartyEvents = function() {
+        var data = [];
+        var keys = Object.keys(this._idlePartyEvents);
+        for (var i = 0; i < keys.length; i++) {
+            var evId = this._idlePartyEvents[keys[i]];
+            data.push(this._events[evId]);
+        }
+        return data;
+    };
+
+    Game_Map.prototype.idlePartyEvent = function(partyId) {
+        return this._events[this._idlePartyEvents[partyId]];
+    };
+
+    var TH_GameMap_setupEvents = Game_Map.prototype.setupEvents;
+    Game_Map.prototype.setupEvents = function() {
+        TH_GameMap_setupEvents.call(this);
+        this.setupIdlePartyEvents();
+    };
+
+    Game_Map.prototype.setupIdlePartyEvents = function() {
+        var ids = Object.keys(this._idlePartyEvents);
+        for (var i = 0; i < ids.length; i++) {
+            this.removeIdlePartyEvent(ids[i]);
+        }
+        var parties = $gameParties.idleParties();
+        for (var i = 0; i < parties.length; i++) {
+            this.addIdlePartyEvent(parties[i]);
+        }
+    };
+
+    Game_Map.prototype.refreshIdlePartyEvents = function() {
+        this.setupIdlePartyEvents();
+        SceneManager._scene._spriteset.refreshIdlePartyEvents();
+    };
+
+    Game_Map.prototype.addIdlePartyEvent = function(party) {
+        var partyId = party.id;
+        if (!this._idlePartyEvents[partyId] && party.location().mapId === this._mapId) {
+            // potential memory issue if you switch too many times
+            id = this._events.length + 1;
+
+            // hardcode some random ID for now.
+            this._events[id] = new Game_PartyEvent(party, this._mapId, id);
+            this._idlePartyEvents[partyId] = id;
+        }
+    };
+
+    Game_Map.prototype.removeIdlePartyEvent = function(id) {
+        var evId = this._idlePartyEvents[id];
+        this._events[evId] = null;
+        delete this._idlePartyEvents[id];
+    };
+
+    /***************************************************************************/
+
+    Sprite_Character.prototype.isIdleParty = function() {
+        return this._character.constructor === Game_PartyEvent;
+    };
+
+    /***************************************************************************/
+
+    var TH_SpritesetMap_initialize = Spriteset_Map.prototype.initialize;
+    Spriteset_Map.prototype.initialize = function() {
+        this._idlePartySprites = [];
+        TH_SpritesetMap_initialize.call(this);
+    };
+
+    var TH_SpritesetMap_createCharacters = Spriteset_Map.prototype.createCharacters;
+    Spriteset_Map.prototype.createCharacters = function() {
+        TH_SpritesetMap_createCharacters.call(this);
+
+        // Go through the sprites and make sure we keep track of these to avoid
+        // double creation
+        for (var i = 0; i < this._characterSprites.length; i++) {
+            if (this._characterSprites[i].isIdleParty()) {
+                this._idlePartySprites.push(this._characterSprites[i]);
+            }
+        }
+    };
+
+    Spriteset_Map.prototype.addIdlePartyEvent = function(ev) {
+        var spr = new Sprite_Character(ev);
+        this._characterSprites.push(spr)
+        this._idlePartySprites.push(spr);
+        this._tilemap.addChild(spr);
     }
-  };
 
-  Game_Parties.prototype.hasActor = function (id, actorId) {
-    var party = this._parties[id];
-    if (party) {
-      return party.isActorInParty(actorId);
+    Spriteset_Map.prototype.refreshIdlePartyEvents = function() {
+        this.deleteIdlePartyEvents();
+        this.createIdlePartyEvents();
+    };
+
+    Spriteset_Map.prototype.createIdlePartyEvents = function() {
+        var partyEvents = $gameMap.idlePartyEvents();
+        for (var i = 0; i < partyEvents.length; i++) {
+            this.addIdlePartyEvent(partyEvents[i]);
+        }
+    };
+
+    Spriteset_Map.prototype.deleteIdlePartyEvents = function() {
+        for (var i = 0; i < this._idlePartySprites.length; i++) {
+            var spr = this._idlePartySprites[i];
+            var index = this._characterSprites.indexOf(spr);
+            if (index > -1) {
+                this._characterSprites.splice(index, 1);
+            }
+            this._tilemap.removeChild(spr);
+        }
+        this._idlePartySprites = [];
+    };
+
+    /***************************************************************************/
+
+    Party.create = function(id, members, location) {
+        return $gameParties.createParty(id, members, location);
+    };
+
+    Party.get = function(id) {
+        return $gameParties.getParty(id);
+    };
+
+    Party.addActor = function(id, actorId) {
+        return $gameParties.addActor(id, actorId);
+    };
+
+    Party.removeActor = function(id, actorId) {
+        return $gameParties.removeActor(id, actorId);
+    };
+
+    Party.hasActor = function(id, actorId) {
+        return $gameParties.hasActor(id, actorId);
+    };
+
+    Party.setLocation = function(id, x, y, mapId) {
+        return $gameParties.setLocation(id, x, y, mapId);
     }
-  };
 
-  /***************************************************************************/
+    Party.switch = function(id) {
+        return $gameParties.switchParty(id);
+    };
 
-  Object.defineProperties(Game_Party.prototype, {
-    id: { get: function () { return this._id; }, configurable: true }
-  });
+    Party.merge = function(id1, id2) {
+        return $gameParties.merge(id1, id2);
+    };
 
-  var TH_GameParty_initialize = Game_Party.prototype.initialize
-  Game_Party.prototype.initialize = function () {
-    TH_GameParty_initialize.call(this);
-    this._maxPartyMembers = $.maxPartyMembers;
-    this._location = { mapId: 0, x: 0, y: 0 }
-    this._direction = 2;
-  };
+    Party.isActive = function(id) {
+        return $gameParties.isActive(id);
+    };
 
-  Game_Party.prototype.setId = function (id) {
-    this._id = id;
-  }
+    Party.atLocation = function(id, x, y, mapId) {
+        return $gameParties.atLocation(id, x, y, mapId);
+    };
 
-  Game_Party.prototype.location = function () {
-    return this._location;
-  };
+    Party.atRegion = function(id, regionId) {
+        return $gameParties.atRegion(id, regionId);
+    };
 
-  Game_Party.prototype.direction = function () {
-    return this._direction;
-  };
+    Party.anyAtLocation = function(x, y, mapId) {
+        return $gameParties.anyAtLocation(x, y, mapId);
+    };
 
-  Game_Party.prototype.setLocation = function (mapId, x, y) {
-    this._location = { mapId: mapId, x: x, y: y };
-  };
+    Party.anyAtRegion = function(regionId) {
+        return $gameParties.anyAtRegion(regionId);
+    };
 
-  Game_Party.prototype.mergeWith = function (otherParty) {
-    this.mergeMembers(otherParty);
-    this.mergePartyInventory(otherParty);
-  };
+    Party.tradeItem = function(id1, id2, item, count) {
+        $gameParties.tradeItem(id1, id2, item, count);
+    };
 
-  Game_Party.prototype.mergeMembers = function (otherParty) {
-    var members = otherParty.members();
-    for (var i = 0; i < members.length; i++) {
-      this.addActor(members[i].actorId());
-    }
-  };
+    Party.tradeGold = function(id1, id2, amount) {
+        $gameParties.tradeGold(id1, id2, amount);
+    };
 
-  Game_Party.prototype.mergePartyInventory = function (otherParty) {
-    this.mergeWeapons(otherParty);
-    this.mergeArmors(otherParty);
-    this.mergeItems(otherParty);
-    this.mergeGold(otherParty);
-  };
+    Party.setMaxPartyMembers = function(id, amount) {
+        $gameParties.setMaxPartyMembers(id, amount);
+    };
 
-  Game_Party.prototype.mergeWeapons = function (otherParty) {
-    var objects = otherParty.weapons();
-    for (var i = 0; i < objects.length; i++) {
-      var obj = objects[i];
-      var num = otherParty.numItems(obj);
-      this.gainItem(obj, num, false);
-    }
-  };
-
-  Game_Party.prototype.mergeArmors = function (otherParty) {
-    var objects = otherParty.armors();
-    for (var i = 0; i < objects.length; i++) {
-      var obj = objects[i];
-      var num = otherParty.numItems(obj);
-      this.gainItem(obj, num, false);
-    }
-  };
-
-  Game_Party.prototype.mergeItems = function (otherParty) {
-    var objects = otherParty.items();
-    for (var i = 0; i < objects.length; i++) {
-      var obj = objects[i];
-      var num = otherParty.numItems(obj);
-      this.gainItem(obj, num, false);
-    }
-  };
-
-  Game_Party.prototype.mergeGold = function (otherParty) {
-    this.gainGold(otherParty.gold());
-  };
-
-  Game_Party.prototype.setMaxPartyMembers = function (amount) {
-    this._maxPartyMembers = amount;
-  };
-
-  /* Total number of members that can be in the party */
-  Game_Party.prototype.maxPartyMembers = function () {
-    return this._maxPartyMembers;
-  };
-
-  /* Cannot add actor if party is full */
-  var TH_GameParty_addActor = Game_Party.prototype.addActor;
-  Game_Party.prototype.addActor = function (actorId) {
-    if (!this.isPartyFull()) {
-      TH_GameParty_addActor.call(this, actorId);
-    }
-  };
-
-  /* Returns true if the party cannot hold anymore actors */
-  Game_Party.prototype.isPartyFull = function () {
-    var max = this.maxPartyMembers();
-    return max > 0 && this._actors.length >= this.maxPartyMembers();
-  };
-
-  Game_Party.prototype.isActorInParty = function (actorId) {
-    return this._actors.contains(actorId);
-  }
-
-  /* Store location and direction */
-  Game_Party.prototype.prepareSwitch = function () {
-    this.updateLocation();
-  };
-
-  Game_Party.prototype.updateLocation = function () {
-    this._direction = $gamePlayer.direction();
-    this.setLocation($gameMap.mapId(), $gamePlayer.x, $gamePlayer.y);
-  };
-
-  Game_Party.prototype.atLocation = function (mapId, x, y) {
-    var loc = this._location;
-    return !!(loc.mapId === $gameMap.mapId() && x === loc.x && y === loc.y);
-  };
-
-  Game_Party.prototype.atRegion = function (regionId) {
-    var loc = this._location;
-    return !!(loc.mapId === $gameMap.mapId() && $gameMap.regionId(loc.x, loc.y));
-  };
-
-  /***************************************************************************/
-
-  var TH_GameBattler_initialize = Game_Battler.prototype.initialize;
-  Game_Battler.prototype.initialize = function () {
-    TH_GameBattler_initialize.call(this);
-    this._isPartyLocked = false;
-  };
-
-  Game_Battler.prototype.lockToParty = function (bool) {
-    this._isPartyLocked = bool;
-  };
-
-  Game_Actor.prototype.isPartyLocked = function () {
-    return this._isPartyLocked;
-  };
-
-  /***************************************************************************/
-
-  /* New party? Maybe we need to move to a different map
-   * Assumes one player game
-   */
-  Game_Player.prototype.refreshPartyLocation = function () {
-    var loc = $gameParty.location();
-    if (loc.mapId !== $gameMap.mapId()) {
-      this.reserveTransfer(loc.mapId, loc.x, loc.y, $gameParty.direction(), 2)
-    }
-    else {
-      this.setPosition(loc.x, loc.y);
-      this._followers.synchronize(loc.x, loc.y, this.direction())
-      this.center(loc.x, loc.y);
-      this.setDirection($gameParty.direction());
-      this.refresh();
-      $gameMap.refreshIdlePartyEvents();
-    }
-  };
-
-  var TH_GamePlayer_update = Game_Player.prototype.update;
-  Game_Player.prototype.update = function (sceneActive) {
-    TH_GamePlayer_update.call(this, sceneActive);
-    $gameParty.updateLocation();
-  };
-
-  /***************************************************************************/
-
-  Game_PartyEvent.prototype.initialize = function (party, mapId, eventId) {
-    this._party = party;
-    Game_Event.prototype.initialize.call(this, mapId, eventId);
-  }
-
-  Game_PartyEvent.prototype.event = function () {
-    return $.templateEvent;
-  };
-
-  Game_PartyEvent.prototype.refresh = function () {
-    Game_Event.prototype.refresh.call(this);
-    var leader = this._party.leader();
-    var loc = this._party.location();
-    this.setPosition(loc.x, loc.y);
-    this.erased = Party.isActive(this._party);
-    if (leader) {
-      this._characterName = leader.characterName();
-      this._characterIndex = leader.characterIndex();
-    }
-    else {
-      this._characterName = "";
-      this._characterIndex = 0;
-    }
-    this.setDirection(this._party.direction());
-  };
-
-  /***************************************************************************/
-
-  var TH_GameMap_initialize = Game_Map.prototype.initialize;
-  Game_Map.prototype.initialize = function () {
-    TH_GameMap_initialize.call(this);
-    this._idlePartyEvents = {};
-  }
-
-  Game_Map.prototype.idlePartyEvents = function () {
-    var data = [];
-    var keys = Object.keys(this._idlePartyEvents);
-    for (var i = 0; i < keys.length; i++) {
-      var evId = this._idlePartyEvents[keys[i]];
-      data.push(this._events[evId]);
-    }
-    return data;
-  };
-
-  Game_Map.prototype.idlePartyEvent = function (partyId) {
-    return this._events[this._idlePartyEvents[partyId]];
-  };
-
-  var TH_GameMap_setupEvents = Game_Map.prototype.setupEvents;
-  Game_Map.prototype.setupEvents = function () {
-    TH_GameMap_setupEvents.call(this);
-    this.setupIdlePartyEvents();
-  };
-
-  Game_Map.prototype.setupIdlePartyEvents = function () {
-    var ids = Object.keys(this._idlePartyEvents);
-    for (var i = 0; i < ids.length; i++) {
-      this.removeIdlePartyEvent(ids[i]);
-    }
-    var parties = $gameParties.idleParties();
-    for (var i = 0; i < parties.length; i++) {
-      this.addIdlePartyEvent(parties[i]);
-    }
-  };
-
-  Game_Map.prototype.refreshIdlePartyEvents = function () {
-    this.setupIdlePartyEvents();
-    SceneManager._scene._spriteset.refreshIdlePartyEvents();
-  };
-
-  Game_Map.prototype.addIdlePartyEvent = function (party) {
-    var partyId = party.id;
-    if (!this._idlePartyEvents[partyId] && party.location().mapId === this._mapId) {
-      // potential memory issue if you switch too many times
-      id = this._events.length + 1;
-
-      // hardcode some random ID for now.
-      this._events[id] = new Game_PartyEvent(party, this._mapId, id);
-      this._idlePartyEvents[partyId] = id;
-    }
-  };
-
-  Game_Map.prototype.removeIdlePartyEvent = function (id) {
-    var evId = this._idlePartyEvents[id];
-    this._events[evId] = null;
-    delete this._idlePartyEvents[id];
-  };
-
-  /***************************************************************************/
-
-  Sprite_Character.prototype.isIdleParty = function () {
-    return this._character.constructor === Game_PartyEvent;
-  };
-
-  /***************************************************************************/
-
-  var TH_SpritesetMap_initialize = Spriteset_Map.prototype.initialize;
-  Spriteset_Map.prototype.initialize = function () {
-    this._idlePartySprites = [];
-    TH_SpritesetMap_initialize.call(this);
-  };
-
-  var TH_SpritesetMap_createCharacters = Spriteset_Map.prototype.createCharacters;
-  Spriteset_Map.prototype.createCharacters = function () {
-    TH_SpritesetMap_createCharacters.call(this);
-
-    // Go through the sprites and make sure we keep track of these to avoid
-    // double creation
-    for (var i = 0; i < this._characterSprites.length; i++) {
-      if (this._characterSprites[i].isIdleParty()) {
-        this._idlePartySprites.push(this._characterSprites[i]);
-      }
-    }
-  };
-
-  Spriteset_Map.prototype.addIdlePartyEvent = function (ev) {
-    var spr = new Sprite_Character(ev);
-    this._characterSprites.push(spr)
-    this._idlePartySprites.push(spr);
-    this._tilemap.addChild(spr);
-  }
-
-  Spriteset_Map.prototype.refreshIdlePartyEvents = function () {
-    this.deleteIdlePartyEvents();
-    this.createIdlePartyEvents();
-  };
-
-  Spriteset_Map.prototype.createIdlePartyEvents = function () {
-    var partyEvents = $gameMap.idlePartyEvents();
-    for (var i = 0; i < partyEvents.length; i++) {
-      this.addIdlePartyEvent(partyEvents[i]);
-    }
-  };
-
-  Spriteset_Map.prototype.deleteIdlePartyEvents = function () {
-    for (var i = 0; i < this._idlePartySprites.length; i++) {
-      var spr = this._idlePartySprites[i];
-      var index = this._characterSprites.indexOf(spr);
-      if (index > -1) {
-        this._characterSprites.splice(index, 1);
-      }
-      this._tilemap.removeChild(spr);
-    }
-    this._idlePartySprites = [];
-  };
-
-  /***************************************************************************/
-
-  Party.create = function (id, members, location) {
-    return $gameParties.createParty(id, members, location);
-  };
-
-  Party.get = function (id) {
-    return $gameParties.getParty(id);
-  };
-
-  Party.addActor = function (id, actorId) {
-    return $gameParties.addActor(id, actorId);
-  };
-
-  Party.removeActor = function (id, actorId) {
-    return $gameParties.removeActor(id, actorId);
-  };
-
-  Party.hasActor = function (id, actorId) {
-    return $gameParties.hasActor(id, actorId);
-  };
-
-  Party.setLocation = function (id, x, y, mapId) {
-    return $gameParties.setLocation(id, x, y, mapId);
-  }
-
-  Party.switch = function (id) {
-    return $gameParties.switchParty(id);
-  };
-
-  Party.merge = function (id1, id2) {
-    return $gameParties.merge(id1, id2);
-  };
-
-  Party.isActive = function (id) {
-    return $gameParties.isActive(id);
-  };
-
-  Party.atLocation = function (id, x, y, mapId) {
-    return $gameParties.atLocation(id, x, y, mapId);
-  };
-
-  Party.atRegion = function (id, regionId) {
-    return $gameParties.atRegion(id, regionId);
-  };
-
-  Party.anyAtLocation = function (x, y, mapId) {
-    return $gameParties.anyAtLocation(x, y, mapId);
-  };
-
-  Party.anyAtRegion = function (regionId) {
-    return $gameParties.anyAtRegion(regionId);
-  };
-
-  Party.tradeItem = function (id1, id2, item, count) {
-    $gameParties.tradeItem(id1, id2, item, count);
-  };
-
-  Party.tradeGold = function (id1, id2, amount) {
-    $gameParties.tradeGold(id1, id2, amount);
-  };
-
-  Party.setMaxPartyMembers = function (id, amount) {
-    $gameParties.setMaxPartyMembers(id, amount);
-  };
-
-  Party.isPartyFull = function (id) {
-    return $gameParties.isPartyFull(id);
-  };
+    Party.isPartyFull = function(id) {
+        return $gameParties.isPartyFull(id);
+    };
 })(TH.PartyManager);
