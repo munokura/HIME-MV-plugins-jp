@@ -1,3 +1,114 @@
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * Main Website: http://himeworks.com
+ * Facebook: https://www.facebook.com/himeworkscom/
+ * Twitter: https://twitter.com/HimeWorks
+ * Youtube: https://www.youtube.com/c/HimeWorks
+ * Tumblr: http://himeworks.tumblr.com/
+*/
+
+/*:ja
+ * @target MZ MV
+ * @title Pre-Title Events
+ * @author Hime @ HimeWorks (http://himeworks.com)
+ * @date Feb 23, 2016
+ * @filename HIME_PreTitleEvents.js
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_PreTitleEvents.js
+ * 
+ * @param Pre-Title Map ID
+ * @text タイトル前マップID
+ * @desc タイトル前イベントのマップID
+ * @type number
+ * @min 1
+ * @default 1
+ *
+ * @param Use As Title
+ * @text タイトル画面不使用
+ * @type boolean
+ * @desc 通常のタイトル画面使わずに、そのままゲームを開始する場合、trueに設定します。
+ * @on タイトル不使用
+ * @off タイトル使用
+ * @default false
+ *
+ * @plugindesc タイトル表示前に実行するイベントを作成できます。
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ *
+ * == 説明 ==
+ *
+ * RPGツクールMVを使用すると、タイトル画面が表示されますが、
+ * タイトル画面が表示される前に、何かをさせる制御はできません。
+ *
+ * 例えば、スプラッシュスクリーンを表示したり、
+ * 紹介ビデオを表示したりです。
+ *
+ * このプラグインを使用すると、
+ * 使い慣れたイベントを使用して、
+ * タイトル画面の前に何をすべきかを簡単にまとめることができます。
+ *
+ * イベントなので、基本的には何でもできます！
+ *
+ * == 使用法 ==
+ *
+ * -- スプラッシュスクリーンとして使用 --
+ *
+ * タイトル前イベントを作成する新しいマップを作成することから始めます。
+ *
+ * 次に、プラグイン管理に移動し、プラグインエントリをダブルクリックし、
+ * 'Pre-Title Map ID'値をマップのIDに設定します。
+ *
+ * タイトル前イベントが終了しても、
+ * 自動的にタイトル画面に移動しないことに注意してください。
+ * イベントの動作を完全に制御できるようにするためです。
+ *
+ * 後でタイトル画面に移動する場合、次のスクリプトを使用します。
+ *
+ *    SceneManager.goto(Scene_Title)
+ *
+ * -- タイトル画面として使用 --
+ *
+ * このプラグインは、
+ * タイトル画面をタイトル前イベント用に
+ * 選択したマップに置き換えるオプションを提供します。
+ *
+ * これにより、自分でタイトル画面をイベントにできます。
+ *
+ * プラグインのパラメーターで、
+ * タイトル画面としてタイトル前マップをゲームで処理する場合、
+ * 'Use As Title'オプションをtrueに設定します。
+ *
+ * プレーヤーがゲームを終了してメニューに戻ると決定した場合、
+ * タイトル前画面に戻ることを意味します。
+ *
+ * それ以外の場合、
+ * タイトル前画面は単にスプラッシュ画面になり、
+ * 一度表示されます。
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は連絡してください
+ *
+ *
+ * == Change Log ==
+ *
+ * Feb 23, 2016 - pre-title map can be used as the title screen.
+ * Nov 14, 2015 - switched to a new pre-title map subclass
+ * Nov  5, 2015 - initial release
+ *
+ */
+
 /*:
 @title Pre-Title Events
 @author Hime @ HimeWorks (http://himeworks.com
@@ -89,106 +200,6 @@ be displayed once.
 @desc Replaces the title screen with this map. Set this to true if you
 want this to be used as your title screen by default.
 @default false
- */
-/*:ja
- * @title Pre-Title Events
- * @author Hime @ HimeWorks (http://himeworks.com
- * @date Feb 23, 2016
- * @filename HIME_PreTitleEvents.js
- * @url http://himeworks.com/2015/11/pre-title-events/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * Main Website: http://himeworks.com
- * Facebook: https://www.facebook.com/himeworkscom/
- * Twitter: https://twitter.com/HimeWorks
- * Youtube: https://www.youtube.com/c/HimeWorks
- * Tumblr: http://himeworks.tumblr.com/
- * 
- * @plugindesc タイトル表示前に実行するイベントを作成できます。
- *
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * RPGツクールMVを使用すると、タイトル画面が表示されますが、
- * タイトル画面が表示される前に、何かをさせる制御はできません。
- *
- * 例えば、スプラッシュスクリーンを表示したり、
- * 紹介ビデオを表示したりです。
- *
- * このプラグインを使用すると、
- * 使い慣れたイベントを使用して、
- * タイトル画面の前に何をすべきかを簡単にまとめることができます。
- *
- * イベントなので、基本的には何でもできます！
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は連絡してください
- *
- *
- * == Change Log ==
- *
- * Feb 23, 2016 - pre-title map can be used as the title screen.
- * Nov 14, 2015 - switched to a new pre-title map subclass
- * Nov  5, 2015 - initial release
- *
- * == 使用法 ==
- *
- * -- スプラッシュスクリーンとして使用 --
- *
- * タイトル前イベントを作成する新しいマップを作成することから始めます。
- *
- * 次に、プラグイン管理に移動し、プラグインエントリをダブルクリックし、
- * 'Pre-Title Map ID'値をマップのIDに設定します。
- *
- * タイトル前イベントが終了しても、
- * 自動的にタイトル画面に移動しないことに注意してください。
- * イベントの動作を完全に制御できるようにするためです。
- *
- * 後でタイトル画面に移動する場合、次のスクリプトを使用します。
- *
- *    SceneManager.goto(Scene_Title)
- *
- * -- タイトル画面として使用 --
- *
- * このプラグインは、
- * タイトル画面をタイトル前イベント用に
- * 選択したマップに置き換えるオプションを提供します。
- *
- * これにより、自分でタイトル画面をイベントにできます。
- *
- * プラグインのパラメーターで、
- * タイトル画面としてタイトル前マップをゲームで処理する場合、
- * 'Use As Title'オプションをtrueに設定します。
- *
- * プレーヤーがゲームを終了してメニューに戻ると決定した場合、
- * タイトル前画面に戻ることを意味します。
- *
- * それ以外の場合、
- * タイトル前画面は単にスプラッシュ画面になり、
- * 一度表示されます。
- *
- * @param Pre-Title Map ID
- * @desc タイトル前イベントのマップ
- * @default 1
- *
- * @param Use As Title
- * @type boolean
- * @desc タイトル画面をこのマップに置き換えます。デフォルトでタイトル画面として使用する場合、trueに設定します。
- * @default false
  */
 
 var Imported = Imported || {};
