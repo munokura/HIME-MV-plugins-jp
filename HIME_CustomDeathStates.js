@@ -1,3 +1,75 @@
+/*:ja
+ * @target MV
+ * @title Custom Death States
+ * @author Hime @ HimeWorks
+ * @date Nov 17, 2015
+ * @filename HIME_CustomDeathStates.js
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_CustomDeathStates.js
+ *
+ *
+ * @plugindesc v1.0 戦闘不能と判断するステートを追加します
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/custom-death-states/
+ *
+ * == 説明 ==
+ *
+ * Video: https://youtu.be/s56kl3HIGGM
+ *
+ * RPGツクールMVでは、
+ * デフォルトの戦闘不能ステートはデータベースの最初のステートです。
+ * このステートが適用されると、バトラー(敵/アクター)は戦闘不能とみなされます。
+ * 戦闘中、全ての敵に戦闘不能ステートが適用されている場合、
+ * アクターの勝利となります。
+ * 全アクターに戦闘不能ステートが適用されている場合、アクターは敗北します。
+ * 戦闘以外で、全アクターが戦闘不能ステートになると、ゲームオーバーです。
+ * しかし、他のステートを戦闘不能ステートとみなしたい場合はどうなるでしょうか?
+ * 例えば、全てのアクターが石化していたらゲームオーバーにしたい。
+ * あるいは、全てのアクターが眠ってしまった場合、ゲームオーバーにしたい。
+ * このプラグインを使うと、
+ * 他のステートを'戦闘不能'ステートとして指定することができます。
+ * 通常の戦闘不能ステートとは異なり、アクターはHP/MPを失うことはありませんが、
+ * 戦闘不能とみなされます。
+ *
+ * 
+ * == 使用方法 ==
+ *
+ * そのステートを戦闘不能ステートとみなすかどうかを指定するには、
+ * ステートのメモ欄にこのメモタグを書き込んでください。
+ *
+ *   <custom death state>
+ *
+ * 
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * 
+ * == Change Log ==
+ *
+ * Nov 17, 2015 -  initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
 /*:
 @title Custom Death States
 @author Hime @ HimeWorks
@@ -62,113 +134,49 @@ go to the states in the database and write this note-tag in their note-box:
 And you're ready to go!
 
  */
-/*:ja
- * @title Custom Death States
- * @author Hime @ HimeWorks
- * @date Nov 17, 2015
- * @filename HIME_CustomDeathStates.js
- * @url http://himeworks.com/2015/11/custom-death-states/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 戦闘不能と判断するステートを追加します
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * Video: https://youtu.be/s56kl3HIGGM
- *
- * RPGツクールMVでは、
- * デフォルトの戦闘不能ステートはデータベースの最初のステートです。
- * このステートが適用されると、バトラー(敵/アクター)は戦闘不能とみなされます。
- * 戦闘中、全ての敵に戦闘不能ステートが適用されている場合、
- * アクターの勝利となります。
- * 全アクターに戦闘不能ステートが適用されている場合、アクターは敗北します。
- * 戦闘以外で、全アクターが戦闘不能ステートになると、ゲームオーバーです。
- * しかし、他のステートを戦闘不能ステートとみなしたい場合はどうなるでしょうか?
- * 例えば、全てのアクターが石化していたらゲームオーバーにしたい。
- * あるいは、全てのアクターが眠ってしまった場合、ゲームオーバーにしたい。
- * このプラグインを使うと、
- * 他のステートを'戦闘不能'ステートとして指定することができます。
- * 通常の戦闘不能ステートとは異なり、アクターはHP/MPを失うことはありませんが、
- * 戦闘不能とみなされます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * Nov 17, 2015 -  initial release
- *
- * == 使用方法 ==
- *
- * そのステートを戦闘不能ステートとみなすかどうかを指定するには、
- * ステートのメモ欄にこのメモタグを書き込んでください。
- *
- *   <custom death state>
- *
- */
 
 var Imported = Imported || {};
 var TH = TH || {};
 Imported.CustomDeathStates = 1;
 TH.CustomDeathStates = TH.CustomDeathStates || {};
 
-(function ($) {
+(function($) {
 
-  $.Regex = /<custom[-_ ]death[-_ ]state>/i
+    $.Regex = /<custom[-_ ]death[-_ ]state>/i
 
-  $.loadCustomDeathStates = function () {
-    $.customDeathStates = [];
-    var state;
-    var res;
-    for (var i = 1, len = $dataStates.length; i < len; i++) {
-      state = $dataStates[i];
-      res = $.Regex.exec(state.note);
-      if (res) {
-        $.customDeathStates.push(i);
-      }
-    }
-  };
+    $.loadCustomDeathStates = function() {
+        $.customDeathStates = [];
+        var state;
+        var res;
+        for (var i = 1, len = $dataStates.length; i < len; i++) {
+            state = $dataStates[i];
+            res = $.Regex.exec(state.note);
+            if (res) {
+                $.customDeathStates.push(i);
+            }
+        }
+    };
 
-  var TH_CustomDeathStates_DataManager_createGameObjects = DataManager.createGameObjects;
-  DataManager.createGameObjects = function () {
-    TH_CustomDeathStates_DataManager_createGameObjects.call(this);
-    $.loadCustomDeathStates();
-  };
+    var TH_CustomDeathStates_DataManager_createGameObjects = DataManager.createGameObjects;
+    DataManager.createGameObjects = function() {
+        TH_CustomDeathStates_DataManager_createGameObjects.call(this);
+        $.loadCustomDeathStates();
+    };
 
-  var TH_CustomDeathStates_GameBattlerBase_isDeathStateAffected = Game_BattlerBase.prototype.isDeathStateAffected;
-  Game_BattlerBase.prototype.isDeathStateAffected = function () {
-    return TH_CustomDeathStates_GameBattlerBase_isDeathStateAffected.call(this) || this.isCustomDeathStateAffected();
-  };
+    var TH_CustomDeathStates_GameBattlerBase_isDeathStateAffected = Game_BattlerBase.prototype.isDeathStateAffected;
+    Game_BattlerBase.prototype.isDeathStateAffected = function() {
+        return TH_CustomDeathStates_GameBattlerBase_isDeathStateAffected.call(this) || this.isCustomDeathStateAffected();
+    };
 
-  /* Returns true if any custom death state is applied */
-  Game_BattlerBase.prototype.isCustomDeathStateAffected = function () {
-    var states = $.customDeathStates;
-    for (var i = 0, len = states.length; i < len; i++) {
+    /* Returns true if any custom death state is applied */
+    Game_BattlerBase.prototype.isCustomDeathStateAffected = function() {
+        var states = $.customDeathStates;
+        for (var i = 0, len = states.length; i < len; i++) {
 
-      if (this.isStateAffected(states[i])) {
-        return true;
-      }
-    }
-    return false;
-  };
+            if (this.isStateAffected(states[i])) {
+                return true;
+            }
+        }
+        return false;
+    };
 })(TH.CustomDeathStates);
