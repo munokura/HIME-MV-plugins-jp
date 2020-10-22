@@ -1,4 +1,91 @@
-﻿/*:
+﻿/*:ja
+ * @target MZ MV
+ * @title SVActor Enemies
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.2
+ * @date Dec 5, 2015
+ * @filename HIME_SideviewActorEnemies.js
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_SideviewActorEnemies.js
+ *
+ * @plugindesc v1.2 [SV]戦闘キャラ(アクター)を敵として使用できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/sideview-enemy-actors/
+ *
+ * == 説明 ==
+ *
+ * [SV]戦闘キャラを敵として使用しますか?
+ *
+ * 例えば、アクターの1人が敵に参加することを決めた時には、
+ * パーティにいた時と同じ姿を見せたいです。
+ *
+ * このプラグインを使用すると、
+ * [SV]戦闘キャラを使用するように敵を設定できます。
+ *
+ *
+ * == 関連プラグイン ==
+ *
+ * * Enemy Equips
+ *   http://himeworks.com/2015/11/enemy-equips/
+ *
+ * 
+ * == 使用法 ==
+ *
+ * 敵のメモ欄にメモタグを入れます。
+ *
+ *   <sv actor name: NAME />
+ *
+ * NAMEは、使用する[SV]戦闘キャラのファイル名です。
+ * 画像はsv_actorsフォルダー内に配置する必要があります。
+ *
+ * 例
+ * <sv actor name: Actor1_2 />
+ *
+ * [SV]戦闘キャラを使用する場合を除き、他の全ては敵に対して同じです。
+ * 通常どおり敵グループエディターで敵の位置を設定し、敵がそこに表示されます。
+ *
+ * [SV]戦闘キャラシートから画像の1つを取得し、
+ * それをデータベース内の敵の画像として使用できます。
+ * ※残念ですが、武器のアニメーションは反映されないようです。
+ *
+ * 
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * 1.2 - Dec 5, 2015
+ *   * enemy actors do not collapse if knocked out by event
+ * 1.1 - Nov 22, 2015
+ *   * fixed state overlays being mirrored on enemies
+ * 1.0 - Nov 21, 2015
+ *   * initial release
+ *
+ */
+
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * * Main Website: http://himeworks.com
+ * * Facebook: https://www.facebook.com/himeworkscom/
+ * * Twitter: https://twitter.com/HimeWorks
+ * * Youtube: https://www.youtube.com/c/HimeWorks
+ * * Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
 @title SVActor Enemies
 @author Hime --> HimeWorks (http://himeworks.com)
 @version 1.2
@@ -68,85 +155,6 @@ You can take one of the sprites from the SV Actor spritesheet and use
 that as the enemy sprite in the database.
 
  */
-/*:ja
- * @title SVActor Enemies
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.2
- * @date Dec 5, 2015
- * @filename HIME_SideviewActorEnemies.js
- * @url http://himeworks.com/2015/11/sideview-enemy-actors/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * * Main Website: http://himeworks.com
- * * Facebook: https://www.facebook.com/himeworkscom/
- * * Twitter: https://twitter.com/HimeWorks
- * * Youtube: https://www.youtube.com/c/HimeWorks
- * * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.2 要HIME_EnemyEquips.js。[SV]戦闘キャラ(アクター)を敵として使用できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * [SV]戦闘キャラを敵として使用しますか?
- *
- * 例えば、アクターの1人が敵に参加することを決めた時には、
- * パーティにいた時と同じ姿を見せたいです。
- *
- * このプラグインを使用すると、
- * [SV]戦闘キャラを使用するように敵を設定できます。
- *
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * 1.2 - Dec 5, 2015
- *   * enemy actors do not collapse if knocked out by event
- * 1.1 - Nov 22, 2015
- *   * fixed state overlays being mirrored on enemies
- * 1.0 - Nov 21, 2015
- *   * initial release
- *
- * == 必要プラグイン ==
- *
- * * Enemy Equips
- *   http://himeworks.com/2015/11/enemy-equips/
- *
- * == 使用法 ==
- *
- * 敵のメモ欄にメモタグを入れます。
- *
- *   <sv actor name: NAME />
- *
- * NAMEは、使用する[SV]戦闘キャラのファイル名です。
- * 画像はsv_actorsフォルダー内に配置する必要があります。
- *
- * 例
- * <sv actor name: Actor1_2 />
- *
- * [SV]戦闘キャラを使用する場合を除き、他の全ては敵に対して同じです。
- * 通常どおり敵グループエディターで敵の位置を設定し、敵がそこに表示されます。
- *
- * [SV]戦闘キャラシートから画像の1つを取得し、
- * それをデータベース内の敵の画像として使用できます。
- * ※残念ですが、武器のアニメーションは反映されないようです。
- *
- */
 
 var Imported = Imported || {};
 var TH = TH || {};
@@ -154,194 +162,193 @@ Imported.SideviewActorEnemies = 1;
 TH.SideviewActorEnemies = TH.SideviewActorEnemies || {};
 
 function Sprite_EnemyActor() {
-  this.initialize.apply(this, arguments);
+    this.initialize.apply(this, arguments);
 }
 
-(function ($) {
+(function($) {
 
-  Sprite_EnemyActor.prototype = Object.create(Sprite_Actor.prototype);
-  Sprite_EnemyActor.prototype.constructor = Sprite_EnemyActor;
+    Sprite_EnemyActor.prototype = Object.create(Sprite_Actor.prototype);
+    Sprite_EnemyActor.prototype.constructor = Sprite_EnemyActor;
 
-  Sprite_EnemyActor.prototype.initialize = function (battler) {
-    Sprite_Actor.prototype.initialize.call(this, battler);
-  };
+    Sprite_EnemyActor.prototype.initialize = function(battler) {
+        Sprite_Actor.prototype.initialize.call(this, battler);
+    };
 
-  Sprite_EnemyActor.prototype.moveToStartPosition = function () {
-    this.startMove(-150, 0, 0);
-  };
+    Sprite_EnemyActor.prototype.moveToStartPosition = function() {
+        this.startMove(-150, 0, 0);
+    };
 
-  Sprite_EnemyActor.prototype.startEntryMotion = function () {
-    if (this._actor && this._actor.canMove()) {
-      this.startMotion('walk');
-      this.startMove(0, 0, 300);
-    } else if (!this.isMoving()) {
-      this.refreshMotion();
-      this.startMove(0, 0, 0);
-    }
-  };
+    Sprite_EnemyActor.prototype.startEntryMotion = function() {
+        if (this._actor && this._actor.canMove()) {
+            this.startMotion('walk');
+            this.startMove(0, 0, 300);
+        } else if (!this.isMoving()) {
+            this.refreshMotion();
+            this.startMove(0, 0, 0);
+        }
+    };
 
-  Sprite_EnemyActor.prototype.stepForward = function () {
-    this.startMove(48, 0, 12);
-  };
+    Sprite_EnemyActor.prototype.stepForward = function() {
+        this.startMove(48, 0, 12);
+    };
 
-  Sprite_EnemyActor.prototype.stepBack = function () {
-    this.startMove(0, 0, 12);
-  };
+    Sprite_EnemyActor.prototype.stepBack = function() {
+        this.startMove(0, 0, 12);
+    };
 
-  /* Doesn't actually work */
-  Sprite_EnemyActor.prototype.retreat = function () {
-    this.startMove(-300, 0, 30);
-  };
+    /* Doesn't actually work */
+    Sprite_EnemyActor.prototype.retreat = function() {
+        this.startMove(-300, 0, 30);
+    };
 
-  Sprite_EnemyActor.prototype.setActorHome = function (index) {
-    // No
-  };
+    Sprite_EnemyActor.prototype.setActorHome = function(index) {
+        // No
+    };
 
-  Sprite_EnemyActor.prototype.updateBitmap = function () {
-    Sprite_Battler.prototype.updateBitmap.call(this);
-    var name = this._actor.svActorName();
-    if (this._battlerName !== name) {
-      this._battlerName = name;
-      this._mainSprite.bitmap = ImageManager.loadSvActor(name);
-      this.scale.x = -1;
-      // this._mainSprite.scale.x = -1
-      this._stateSprite.scale.x = -1
-    }
-  };
+    Sprite_EnemyActor.prototype.updateBitmap = function() {
+        Sprite_Battler.prototype.updateBitmap.call(this);
+        var name = this._actor.svActorName();
+        if (this._battlerName !== name) {
+            this._battlerName = name;
+            this._mainSprite.bitmap = ImageManager.loadSvActor(name);
+            this.scale.x = -1;
+            // this._mainSprite.scale.x = -1
+            this._stateSprite.scale.x = -1
+        }
+    };
 
-  Sprite_EnemyActor.prototype.motionSpeed = function () {
-    return 12;
-  };
+    Sprite_EnemyActor.prototype.motionSpeed = function() {
+        return 12;
+    };
 
-  Sprite_EnemyActor.prototype.updateVisibility = function () {
-    Sprite_Actor.prototype.updateVisibility.call(this);
-    if (!this._battler || !this._battler.useSVActorSprite()) {
-      this.visible = false;
-    }
-  };
-  Sprite_Actor.prototype.updateMotion = function () {
-    this.setupMotion();
-    this.setupWeaponAnimation();
-    if (this._actor.isMotionRefreshRequested()) {
-      this.refreshMotion();
-      this._actor.clearMotion();
-    }
-    this.updateMotionCount();
-  };
+    Sprite_EnemyActor.prototype.updateVisibility = function() {
+        Sprite_Actor.prototype.updateVisibility.call(this);
+        if (!this._battler || !this._battler.useSVActorSprite()) {
+            this.visible = false;
+        }
+    };
+    Sprite_Actor.prototype.updateMotion = function() {
+        this.setupMotion();
+        this.setupWeaponAnimation();
+        if (this._actor.isMotionRefreshRequested()) {
+            this.refreshMotion();
+            this._actor.clearMotion();
+        }
+        this.updateMotionCount();
+    };
 
-  /***************************************************************************/
+    /***************************************************************************/
 
-  var TH_SpriteEnemy_setBattler = Sprite_Enemy.prototype.setBattler;
-  Sprite_Enemy.prototype.setBattler = function (battler) {
-    TH_SpriteEnemy_setBattler.call(this, battler);
-    this._useSVActorSprite = battler.useSVActorSprite();
-    if (this._useSVActorSprite) {
-      this._svActorSprite = new Sprite_EnemyActor(battler);
-      this._svActorSprite.setBattler(battler);
-      this.addChild(this._svActorSprite);
-    }
-  };
+    var TH_SpriteEnemy_setBattler = Sprite_Enemy.prototype.setBattler;
+    Sprite_Enemy.prototype.setBattler = function(battler) {
+        TH_SpriteEnemy_setBattler.call(this, battler);
+        this._useSVActorSprite = battler.useSVActorSprite();
+        if (this._useSVActorSprite) {
+            this._svActorSprite = new Sprite_EnemyActor(battler);
+            this._svActorSprite.setBattler(battler);
+            this.addChild(this._svActorSprite);
+        }
+    };
 
-  var TH_SpriteEnemy_update = Sprite_Enemy.prototype.update
-  Sprite_Enemy.prototype.update = function () {
-    this.updateSpriteType();
-    if (this._useSVActorSprite) {
-      Sprite_Battler.prototype.update.call(this);
-      // this._battlerName = "";
-      this._stateIconSprite.visible = false
-      this.bitmap = ImageManager.loadBitmap("", 0);
-      this._svActorSprite.update();
-    }
-    else {
-      this._stateIconSprite.visible = true
-      TH_SpriteEnemy_update.call(this);
-    }
-  };
+    var TH_SpriteEnemy_update = Sprite_Enemy.prototype.update
+    Sprite_Enemy.prototype.update = function() {
+        this.updateSpriteType();
+        if (this._useSVActorSprite) {
+            Sprite_Battler.prototype.update.call(this);
+            // this._battlerName = "";
+            this._stateIconSprite.visible = false
+            this.bitmap = ImageManager.loadBitmap("", 0);
+            this._svActorSprite.update();
+        } else {
+            this._stateIconSprite.visible = true
+            TH_SpriteEnemy_update.call(this);
+        }
+    };
 
-  Sprite_Enemy.prototype.updateSpriteType = function () {
-    this._useSVActorSprite = this._enemy.useSVActorSprite();
-  };
+    Sprite_Enemy.prototype.updateSpriteType = function() {
+        this._useSVActorSprite = this._enemy.useSVActorSprite();
+    };
 
-  /***************************************************************************/
+    /***************************************************************************/
 
-  $.Regex = /<sv[-_ ]actor[-_ ]name:\s*(.+?)\s*\/>/i
-  $.loadSVActorName = function (enemy) {
-    if (enemy.svActorName === undefined) {
-      enemy.svActorName = "";
-      var res = $.Regex.exec(enemy.note)
-      if (res) {
-        enemy.svActorName = res[1];
-      }
-    }
-    return enemy.svActorName;
-  };
+    $.Regex = /<sv[-_ ]actor[-_ ]name:\s*(.+?)\s*\/>/i
+    $.loadSVActorName = function(enemy) {
+        if (enemy.svActorName === undefined) {
+            enemy.svActorName = "";
+            var res = $.Regex.exec(enemy.note)
+            if (res) {
+                enemy.svActorName = res[1];
+            }
+        }
+        return enemy.svActorName;
+    };
 
-  var TH_SideviewActorEnemies_GameEnemy_initMembers = Game_Enemy.prototype.initMembers
-  Game_Enemy.prototype.initMembers = function () {
-    TH_SideviewActorEnemies_GameEnemy_initMembers.call(this);
-    this._svActorName = '';
-  };
+    var TH_SideviewActorEnemies_GameEnemy_initMembers = Game_Enemy.prototype.initMembers
+    Game_Enemy.prototype.initMembers = function() {
+        TH_SideviewActorEnemies_GameEnemy_initMembers.call(this);
+        this._svActorName = '';
+    };
 
-  var TH_SideviewActorEnemies_GameEnemy_setup = Game_Enemy.prototype.setup
-  Game_Enemy.prototype.setup = function (enemyId, x, y) {
-    TH_SideviewActorEnemies_GameEnemy_setup.call(this, enemyId, x, y);
-    this.refreshSVActorName();
-  };
+    var TH_SideviewActorEnemies_GameEnemy_setup = Game_Enemy.prototype.setup
+    Game_Enemy.prototype.setup = function(enemyId, x, y) {
+        TH_SideviewActorEnemies_GameEnemy_setup.call(this, enemyId, x, y);
+        this.refreshSVActorName();
+    };
 
-  Game_Enemy.prototype.refreshSVActorName = function () {
-    this._svActorName = $.loadSVActorName(this.enemy());
-  };
+    Game_Enemy.prototype.refreshSVActorName = function() {
+        this._svActorName = $.loadSVActorName(this.enemy());
+    };
 
-  Game_Enemy.prototype.svActorName = function () {
-    return this._svActorName;
-  };
+    Game_Enemy.prototype.svActorName = function() {
+        return this._svActorName;
+    };
 
-  Game_Enemy.prototype.useSVActorSprite = function () {
-    return this._svActorName !== "";
-  };
+    Game_Enemy.prototype.useSVActorSprite = function() {
+        return this._svActorName !== "";
+    };
 
-  Game_Enemy.prototype.performCounter = function () {
-    Game_Battler.prototype.performCounter.call(this);
-    this.performAttack();
-  };
+    Game_Enemy.prototype.performCounter = function() {
+        Game_Battler.prototype.performCounter.call(this);
+        this.performAttack();
+    };
 
-  /* TO-DO: Doesn't support transform yet */
-  var TH_GameEnemy_transform = Game_Enemy.prototype.transform;
-  Game_Enemy.prototype.transform = function (enemyId) {
-    TH_GameEnemy_transform.call(this, enemyId);
-    this.refreshSVActorName();
-  };
+    /* TO-DO: Doesn't support transform yet */
+    var TH_GameEnemy_transform = Game_Enemy.prototype.transform;
+    Game_Enemy.prototype.transform = function(enemyId) {
+        TH_GameEnemy_transform.call(this, enemyId);
+        this.refreshSVActorName();
+    };
 
-  /* Copied from Game_Actor */
-  var TH_GameEnemy_performAction = Game_Enemy.prototype.performAction;
-  Game_Enemy.prototype.performAction = function (action) {
-    TH_GameEnemy_performAction.call(this, action);
-    if (action.isAttack()) {
-      this.performAttack();
-    } else if (action.isGuard()) {
-      this.requestMotion('guard');
-    } else if (action.isMagicSkill()) {
-      this.requestMotion('spell');
-    } else if (action.isSkill()) {
-      this.requestMotion('skill');
-    } else if (action.isItem()) {
-      this.requestMotion('item');
-    }
-  };
+    /* Copied from Game_Actor */
+    var TH_GameEnemy_performAction = Game_Enemy.prototype.performAction;
+    Game_Enemy.prototype.performAction = function(action) {
+        TH_GameEnemy_performAction.call(this, action);
+        if (action.isAttack()) {
+            this.performAttack();
+        } else if (action.isGuard()) {
+            this.requestMotion('guard');
+        } else if (action.isMagicSkill()) {
+            this.requestMotion('spell');
+        } else if (action.isSkill()) {
+            this.requestMotion('skill');
+        } else if (action.isItem()) {
+            this.requestMotion('item');
+        }
+    };
 
-  Game_Enemy.prototype.performAttack = function () {
-    // Nothing
-  };
+    Game_Enemy.prototype.performAttack = function() {
+        // Nothing
+    };
 
-  var TH_BattleManager_updateEventMain = BattleManager.updateEventMain;
-  BattleManager.updateEventMain = function () {
-    $gameTroop.requestMotionRefresh();
-    return TH_BattleManager_updateEventMain.call(this);
-  };
+    var TH_BattleManager_updateEventMain = BattleManager.updateEventMain;
+    BattleManager.updateEventMain = function() {
+        $gameTroop.requestMotionRefresh();
+        return TH_BattleManager_updateEventMain.call(this);
+    };
 
-  Game_Troop.prototype.requestMotionRefresh = function () {
-    this.members().forEach(function (enemy) {
-      enemy.requestMotionRefresh();
-    });
-  };
+    Game_Troop.prototype.requestMotionRefresh = function() {
+        this.members().forEach(function(enemy) {
+            enemy.requestMotionRefresh();
+        });
+    };
 })(TH.SideviewActorEnemies);
