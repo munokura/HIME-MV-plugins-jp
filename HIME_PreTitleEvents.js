@@ -1,19 +1,3 @@
-/*
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * Main Website: http://himeworks.com
- * Facebook: https://www.facebook.com/himeworkscom/
- * Twitter: https://twitter.com/HimeWorks
- * Youtube: https://www.youtube.com/c/HimeWorks
- * Tumblr: http://himeworks.tumblr.com/
-*/
-
 /*:ja
  * @target MZ MV
  * @title Pre-Title Events
@@ -21,22 +5,6 @@
  * @date Feb 23, 2016
  * @filename HIME_PreTitleEvents.js
  * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_PreTitleEvents.js
- * 
- * @param Pre-Title Map ID
- * @text タイトル前マップID
- * @desc タイトル前イベントのマップID
- * @type number
- * @min 1
- * @default 1
- *
- * @param Use As Title
- * @text タイトル画面不使用
- * @type boolean
- * @desc 通常のタイトル画面使わずに、そのままゲームを開始する場合、trueに設定します。
- * @on タイトル不使用
- * @off タイトル使用
- * @default false
- *
  * @plugindesc タイトル表示前に実行するイベントを作成できます。
  *
  * @help
@@ -44,10 +12,12 @@
  * https://fungamemake.com/
  * https://twitter.com/munokura/
  *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/pre-title-events/
  *
  * == 説明 ==
  *
- * RPGツクールMVを使用すると、タイトル画面が表示されますが、
+ * RPGツクールMV・MZを使用すると、タイトル画面が表示されますが、
  * タイトル画面が表示される前に、何かをさせる制御はできません。
  *
  * 例えば、スプラッシュスクリーンを表示したり、
@@ -74,7 +44,7 @@
  *
  * 後でタイトル画面に移動する場合、次のスクリプトを使用します。
  *
- *    SceneManager.goto(Scene_Title)
+ *    SceneManager.goto(Scene_Title);
  *
  * -- タイトル画面として使用 --
  *
@@ -107,6 +77,37 @@
  * Nov 14, 2015 - switched to a new pre-title map subclass
  * Nov  5, 2015 - initial release
  *
+ * @param Pre-Title Map ID
+ * @text タイトル前マップID
+ * @desc タイトル前イベントのマップID
+ * @type number
+ * @min 1
+ * @default 1
+ *
+ * @param Use As Title
+ * @text タイトル画面不使用
+ * @type boolean
+ * @desc 通常のタイトル画面使わずに、そのままゲームを開始する場合、trueに設定します。
+ * @on タイトル不使用
+ * @off タイトル使用
+ * @default false
+ *
+ */
+
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * Main Website: http://himeworks.com
+ * Facebook: https://www.facebook.com/himeworkscom/
+ * Twitter: https://twitter.com/HimeWorks
+ * Youtube: https://www.youtube.com/c/HimeWorks
+ * Tumblr: http://himeworks.tumblr.com/
  */
 
 /*:
@@ -207,34 +208,33 @@ var TH = TH || {};
 Imported.PreTitleEvents = 1;
 TH.PreTitleEvents = TH.PreTitleEvents || {};
 
-(function ($) {
+(function($) {
 
-  $.Parameters = PluginManager.parameters('HIME_PreTitleEvents');
-  $.MapID = Math.floor($.Parameters['Pre-Title Map ID']) || 1;
-  $.UseAsTitle = $.Parameters['Use As Title'].trim().toUpperCase() === "TRUE";
-  $.ShownOnce = false;
+    $.Parameters = PluginManager.parameters('HIME_PreTitleEvents');
+    $.MapID = Math.floor($.Parameters['Pre-Title Map ID']) || 1;
+    $.UseAsTitle = $.Parameters['Use As Title'].trim().toUpperCase() === "TRUE";
+    $.ShownOnce = false;
 
-  function Scene_PretitleMap() {
-    this.initialize.apply(this, arguments);
-  }
-
-  Scene_PretitleMap.prototype = Object.create(Scene_Map.prototype);
-  Scene_PretitleMap.prototype.constructor = Scene_PretitleMap;
-
-  Scene_PretitleMap.prototype.initialize = function () {
-    Scene_Map.prototype.initialize.call(this);
-    DataManager.setupNewGame();
-    $gamePlayer.reserveTransfer($.MapID, 0, 0);
-  }
-
-  var TH_SceneManager_goto = SceneManager.goto;
-  SceneManager.goto = function (sceneClass) {
-    if (sceneClass === Scene_Title && ($.UseAsTitle || !$.ShownOnce)) {
-      this._nextScene = new Scene_PretitleMap();
-      $.ShownOnce = true;
+    function Scene_PretitleMap() {
+        this.initialize.apply(this, arguments);
     }
-    else {
-      TH_SceneManager_goto.call(this, sceneClass);
+
+    Scene_PretitleMap.prototype = Object.create(Scene_Map.prototype);
+    Scene_PretitleMap.prototype.constructor = Scene_PretitleMap;
+
+    Scene_PretitleMap.prototype.initialize = function() {
+        Scene_Map.prototype.initialize.call(this);
+        DataManager.setupNewGame();
+        $gamePlayer.reserveTransfer($.MapID, 0, 0);
     }
-  };
+
+    var TH_SceneManager_goto = SceneManager.goto;
+    SceneManager.goto = function(sceneClass) {
+        if (sceneClass === Scene_Title && ($.UseAsTitle || !$.ShownOnce)) {
+            this._nextScene = new Scene_PretitleMap();
+            $.ShownOnce = true;
+        } else {
+            TH_SceneManager_goto.call(this, sceneClass);
+        }
+    };
 })(TH.PreTitleEvents);

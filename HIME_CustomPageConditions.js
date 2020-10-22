@@ -5,7 +5,7 @@
  * @version 1.6
  * @date Aug 20, 2020
  * @filename HIME_CustomPageConditions.js
- * @url http://himeworks.com/2015/10/custom-page-conditions-mv/
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_CustomPageConditions.js
  * @plugindesc v1.6 イベントページの出現条件をイベント処理でカスタムできます
  *
  * @command activate_page
@@ -16,6 +16,9 @@
  * https://fungamemake.com/
  * https://twitter.com/munokura/
  *
+ * 元プラグイン:
+ * http://himeworks.com/2015/10/custom-page-conditions-mv/
+ * 
  * == 説明 ==
  *
  * イベントはページの集合体です。
@@ -45,6 +48,7 @@
  * カスタムページ条件を利用することで、
  * 生産性が向上し、プロジェクトの管理がしやすくなります。
  *
+ * 
  * == 使用法 ==
  *
  * イベントでカスタムページ条件を作成するには、次の注釈を作成します。
@@ -109,6 +113,7 @@
  * 1.0 - Oct 24, 2015
  *   * Initial release
  */
+
 /*:
 @title Custom Page Conditions
 @author Hime --> HimeWorks (http://himeworks.com)

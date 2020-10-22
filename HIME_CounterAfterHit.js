@@ -1,4 +1,63 @@
-﻿/*:
+﻿/*:ja
+ * @target MZ MV
+ * @title Counter After Hit
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Nov 30, 2015
+ * @filename HIME_CounterAfterHit.js
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_CounterAfterHit.js
+ *
+ * @plugindesc 攻撃を回避せずに反撃をするように反撃の仕様を変更します。
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/counter-after-hit/
+ * 
+ * 
+ * == 説明 ==
+ *
+ * Video: https://www.youtube.com/watch?v=5bWZAdDSjaQ
+ *
+ * デフォルトでは、対象が正常に反撃すると、
+ * 対象は自動的に攻撃者のアクションを回避し、通常の攻撃で反撃します。
+ * このプラグインは、対象が自動的に回避しないように変更し、
+ * その後、反撃を実行します。
+ *
+ * 
+ * == 利用規約 ==
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は、連絡してください
+ *
+ * 
+ * == Change Log ==
+ *
+ * Nov 30, 2015 -  initial release
+ *
+ * == 使用法 ==
+ *
+ * プラグインをプロジェクトへ入れるだけです。
+ *
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * * Main Website: http://himeworks.com
+ * * Facebook: https://www.facebook.com/himeworkscom/
+ * * Twitter: https://twitter.com/HimeWorks
+ * * Youtube: https://www.youtube.com/c/HimeWorks
+ * * Tumblr: http://himeworks.tumblr.com/
+ *
+ */
+
+/*:
 @title Counter After Hit
 @author Hime --> HimeWorks (http://himeworks.com)
 @date Nov 30, 2015
@@ -45,83 +104,33 @@ Nov 30, 2015 -  initial release
 Plug and play.
 
  */
-/*:ja
- * @title Counter After Hit
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Nov 30, 2015
- * @filename HIME_CounterAfterHit.js
- * @url http://himeworks.com/2015/11/counter-after-hit/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * * Main Website: http://himeworks.com
- * * Facebook: https://www.facebook.com/himeworkscom/
- * * Twitter: https://twitter.com/HimeWorks
- * * Youtube: https://www.youtube.com/c/HimeWorks
- * * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc 攻撃を回避せずに反撃をするように反撃の仕様を変更します。
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * Video: https://www.youtube.com/watch?v=5bWZAdDSjaQ
- *
- * デフォルトでは、対象が正常に反撃すると、
- * 対象は自動的に攻撃者のアクションを回避し、通常の攻撃で反撃します。
- * このプラグインは、対象が自動的に回避しないように変更し、
- * その後、反撃を実行します。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は、連絡してください
- *
- * == Change Log ==
- *
- * Nov 30, 2015 -  initial release
- *
- * == 使用法 ==
- *
- * プラグインをプロジェクトへ入れるだけです。
- *
- */
 
-var Imported = Imported || {} ;
+var Imported = Imported || {};
 var TH = TH || {};
 Imported.CounterAfterHit = 1;
 TH.CounterAfterHit = TH.CounterAfterHit || {};
 
-(function ($) {
+(function($) {
 
-  /* Request a counterattack after the normal attack */
-  var TH_BattleManager_invokeCounterAttack = BattleManager.invokeCounterAttack;
-  BattleManager.invokeCounterAttack = function(subject, target) {
-    this.invokeNormalAction(subject, target);
-    this._logWindow.push('performCounterAfterHit', BattleManager.invokeCounterAfterHit, this, subject, target);
-  };
+    /* Request a counterattack after the normal attack */
+    var TH_BattleManager_invokeCounterAttack = BattleManager.invokeCounterAttack;
+    BattleManager.invokeCounterAttack = function(subject, target) {
+        this.invokeNormalAction(subject, target);
+        this._logWindow.push('performCounterAfterHit', BattleManager.invokeCounterAfterHit, this, subject, target);
+    };
 
-  BattleManager.invokeCounterAfterHit = function(subject, target) {
-    if (target.canCounter()) {
-      TH_BattleManager_invokeCounterAttack.call(this, subject, target);
-    }
-  };
+    BattleManager.invokeCounterAfterHit = function(subject, target) {
+        if (target.canCounter()) {
+            TH_BattleManager_invokeCounterAttack.call(this, subject, target);
+        }
+    };
 
-  Game_Battler.prototype.canCounter = function() {
-    return this.canMove();
-  };
+    Game_Battler.prototype.canCounter = function() {
+        return this.canMove();
+    };
 
-  /* Perform a counterattack */
-  Window_BattleLog.prototype.performCounterAfterHit = function(method, caller, subject, target) {
-    method.call(caller, subject, target)
-  };
+    /* Perform a counterattack */
+    Window_BattleLog.prototype.performCounterAfterHit = function(method, caller, subject, target) {
+        method.call(caller, subject, target)
+    };
 })(TH.CounterAfterHit);

@@ -1,12 +1,13 @@
 /*:ja
+ * @target MZ MV
  * @title Target Any Scope
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @version 1.0
  * @date Aug 22, 2020
  * @filename HIME_TargetAnyScope.js
  * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_TargetAnyScope.js
- * @target MZ MV
  * @plugindesc v1.0 - 誰でも対象となるスキルを作成できるようになります。
+ *
  * @help
  * 翻訳:ムノクラ
  * https://fungamemake.com/

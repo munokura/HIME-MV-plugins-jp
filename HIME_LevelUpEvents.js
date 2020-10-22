@@ -1,29 +1,19 @@
-﻿/* 
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- * 
- * - https://www.patreon.com/himeworks
- * 
- * ご質問や懸念がある場合、次のサイトのいずれかで私に連絡できます。
- * 
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- */
-/*:ja
+﻿/*:ja
+ * @target MZ MV
  * @title Level Up Events
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @date Jun 15, 2020
  * @filename HIME_LevelUpEvents.js
- * @url http://himeworks.com/2015/10/level-up-events/
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_LevelUpEvents.js
  * 
  * @plugindesc アクターのレベルアップ時にコモンイベントを実行できます
  * @help
  * 翻訳:ムノクラ
  * https://fungamemake.com/
  * https://twitter.com/munokura/
+ * 
+ * 元プラグイン:
+ * http://himeworks.com/2015/10/level-up-events/
  * 
  * == 説明 ==
  * 
@@ -35,7 +25,7 @@
  * 各アクターにはそれぞれレベルアップのコモンイベントがあるので、
  * 個々のアクターに何が起こるかを簡単に整理することができます。
  *
- * 動作にはHIME_CommonEventQueueが必要です。
+ * RPGツクールMVでの動作にはHIME_CommonEventQueueが必要です。
  * 
  * == 使用方法 == 
  * 
@@ -64,6 +54,22 @@
  * Oct 27, 2015
  *   - Initial release
  */
+
+/* 
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ * 
+ * - https://www.patreon.com/himeworks
+ * 
+ * ご質問や懸念がある場合、次のサイトのいずれかで私に連絡できます。
+ * 
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
 /*:
 @title Level Up Events
 @author Hime --> HimeWorks (http://himeworks.com)
