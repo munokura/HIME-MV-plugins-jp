@@ -1,38 +1,11 @@
-﻿/*
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- */
-/*:ja
+﻿/*:ja
  * @target MZ MV
  * @title Disabled Choice Conditions
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @version 1.4
  * @date Aug 24, 2020
  * @filename HIME_DisabledChoiceConditions.js
- * @url http://himeworks.com/2015/10/disabled-choice-conditions/
- *
- * @command disableCommand
- * @desc ページを起動します
- * 
- * @arg Choice Number
- * @type number
- * @desc 無効にするかどうかの選択。1, 2, 3, ...
- * 
- * @arg Condition
- * @type note
- * @desc 選択肢を無効にする場合にtrueを返す式。
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_DisabledChoiceConditions.js
  *
  * @plugindesc v1.4 '選択肢の表示'の選択肢毎に有効/無効をカスタム条件で切り替えられます。
  * @help
@@ -40,6 +13,10 @@
  * https://fungamemake.com/
  * https://twitter.com/munokura/
  *
+ * 元プラグイン:
+ * http://himeworks.com/2015/10/disabled-choice-conditions/
+ * 
+ * 
  * == 説明 ==
  *
  * RPGツクールMVには、
@@ -103,6 +80,35 @@
  *  * added support for plugin/conditional pair
  * 1.0 - Oct 31, 2015
  *  * initial release
+ * 
+ * 
+ * @command disableCommand
+ * @desc ページを起動します
+ * 
+ * @arg Choice Number
+ * @type number
+ * @desc 無効にするかどうかの選択。1, 2, 3, ...
+ * 
+ * @arg Condition
+ * @type note
+ * @desc 選択肢を無効にする場合にtrueを返す式。
+ */
+
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ *
  */
 
 /*:
