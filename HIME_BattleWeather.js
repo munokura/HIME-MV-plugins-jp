@@ -1,4 +1,38 @@
-﻿/*:
+﻿/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_BattleWeather.js
+ * @title Battle Weather
+ * @author Hime
+ * @date Oct 26, 2015
+ * 
+ * @plugindesc v1.0 戦闘中に天候を表示できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/10/battle-weather/
+ * 
+ * == 説明 ==
+ *
+ * マップで天候の変更があった場合、その効果は戦闘には反映されません。
+ * つまり、マップ上で大雪が降っていても、戦闘に入ると完全に晴れます。
+ * このプラグインを使用すると、天候の変更は戦闘に持ち越され、
+ * 戦闘中に天候の変更を開始/停止することもできます。
+ *
+ * == 使用方法 ==
+ *
+ * インストールするだけで動きます。
+ * 
+ * 
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ */
+
+ /*:
 @title Battle Weather
 @author Hime
 @date Oct 26, 2015
@@ -25,34 +59,6 @@ you can even start or stop weather effects during battle.
 
 Plug and Play.
 
- */
-/*:ja
- * @title Battle Weather
- * @author Hime
- * @date Oct 26, 2015
- * @url http://himeworks.com/2015/10/battle-weather/
- * @plugindesc v1.0 戦闘中に天候を表示できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * マップで天候の変更があった場合、その効果は戦闘には反映されません。
- * つまり、マップ上で大雪が降っていても、戦闘に入ると完全に晴れます。
- * このプラグインを使用すると、天候の変更は戦闘に持ち越され、
- * 戦闘中に天候の変更を開始/停止することもできます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == 使用方法 ==
- *
- * インストールするだけで動きます。
- *
  */
 var Imported = Imported || {};
 var TH = TH || {};

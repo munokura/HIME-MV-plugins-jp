@@ -1,4 +1,105 @@
-/*:
+/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_WindowBackgroundColors.js
+ * @title Window Background Colors
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.0
+ * @date Apr 14, 2016
+ * @video https://www.youtube.com/watch?v=KMArLErZCwQ
+ * @filename HIME_WindowBackgroundColors.js
+ *
+ * @plugindesc v1.0 ゲーム中にウィンドウ背景色と不透明度を変更できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/04/window-background-colors/
+ *
+ * == 説明 ==
+ *
+ * デフォルトでは、RPGツクールMVのウィンドウの色は次の2つで決まります。
+ *
+ * 1. img/systemフォルダ内の 'Window' というウィンドウスキンファイル
+ * 2. 標準的な背景の不透明度
+ *
+ * 例えばデフォルトのウィンドウは暗い色で半透明の不透明度になっています。
+ * しかし、もし素敵なソリッドカラーにしたいとしたらどうでしょうか?
+ * このプラグインを使えば、ウィンドウ色を素早く設定することができます。
+ * このプラグインはウィンドウスキンの背景色の設定を上書きします。
+ *
+ * 
+ * == 使用方法 ==
+ *
+ * プラグインのパラメータで、ウィンドウに使用する色と不透明度を選択します。
+ * プラグインはデフォルトのウィンドウ色で設定されています。
+ * これらの設定は全てのウィンドウに適用されます。
+ * 不透明度は0から255の間の値で、0は完全に透明、255は完全に不透明です。
+ * 背景色はRGB値のリストで、[R,G,B]として指定します。
+ * 例えば、赤のウィンドウにしたい場合、次のように書きます。
+ *
+ * [255, 0, 0]
+ *
+ * カラーホイールを使用して、RGB値が何であるかを判断するのに役立ちます。
+ * ゲーム内でのウィンドウ背景色、不透明度を変更するには、
+ * 以下のスクリプトを使用します。
+ *
+ * $gameSystem.setWindowBackColor(R, G, B)
+ * $gameSystem.setWindowBackOpacity(A)
+ *
+ * ここでの、R,G,B,Aは0から255までの整数です。
+ *
+ * -- オプションメニューのカラー設定 --
+ *
+ * このプラグインは、ビデオにあるように
+ * オプションメニューに設定を追加しないことに注意してください。
+ * このような機能をご希望の場合、私に連絡していただければ、
+ * プロジェクトに実装する方法を検討します。
+ *
+ * 
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.0 - Apr 14, 2016
+ *  * initial release
+ *
+ * @param Opacity
+ * @text ウィンドウ不透明度
+ * @type number
+ * @max 255
+ * @desc ウィンドウ背景の不透明度
+ * 0から255の間で、0は透明、255は完全に不透明
+ * @default 192
+ *
+ * @param Background Color
+ * @text ウィンドウ背景色
+ * @desc ウィンドウ背景色
+ * 書式は[赤,緑,青]でRGBです。
+ * @default [42, 37, 43]
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+*/
+
+ /*:
 @title Window Background Colors
 @author Hime --> HimeWorks (http://himeworks.com)
 @version 1.0
@@ -92,100 +193,6 @@ where 0 is transparent and 255 is fully opaque.
 @desc Background color for your windows.
 Format is RGB as [Red, Green, Blue]
 @default [42, 37, 43]
- */
-/*:ja
- * @title Window Background Colors
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.0
- * @date Apr 14, 2016
- * @video https://www.youtube.com/watch?v=KMArLErZCwQ
- * @filename HIME_WindowBackgroundColors.js
- * @url http://himeworks.com/2016/04/window-background-colors/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 ゲーム中にウィンドウ背景色と不透明度を変更できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * デフォルトでは、RPGツクールMVのウィンドウの色は次の2つで決まります。
- *
- * 1. img/systemフォルダ内の 'Window' というウィンドウスキンファイル
- * 2. 標準的な背景の不透明度
- *
- * 例えばデフォルトのウィンドウは暗い色で半透明の不透明度になっています。
- * しかし、もし素敵なソリッドカラーにしたいとしたらどうでしょうか?
- * このプラグインを使えば、ウィンドウ色を素早く設定することができます。
- * このプラグインはウィンドウスキンの背景色の設定を上書きします。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.0 - Apr 14, 2016
- *  * initial release
- *
- * == 使用方法 ==
- *
- * プラグインのパラメータで、ウィンドウに使用する色と不透明度を選択します。
- * プラグインはデフォルトのウィンドウ色で設定されています。
- * これらの設定は全てのウィンドウに適用されます。
- * 不透明度は0から255の間の値で、0は完全に透明、255は完全に不透明です。
- * 背景色はRGB値のリストで、[R,G,B]として指定します。
- * 例えば、赤のウィンドウにしたい場合、次のように書きます。
- *
- * [255, 0, 0]
- *
- * カラーホイールを使用して、RGB値が何であるかを判断するのに役立ちます。
- * ゲーム内でのウィンドウ背景色、不透明度を変更するには、
- * 以下のスクリプトを使用します。
- *
- * $gameSystem.setWindowBackColor(R, G, B)
- * $gameSystem.setWindowBackOpacity(A)
- *
- * ここでの、R,G,B,Aは0から255までの整数です。
- *
- * -- オプションメニューのカラー設定 --
- *
- * このプラグインは、ビデオにあるように
- * オプションメニューに設定を追加しないことに注意してください。
- * このような機能をご希望の場合、私に連絡していただければ、
- * プロジェクトに実装する方法を検討します。
- *
- * @param Opacity
- * @text ウィンドウ不透明度
- * @type number
- * @max 255
- * @desc ウィンドウ背景の不透明度
- * 0から255の間で、0は透明、255は完全に不透明
- * @default 192
- *
- * @param Background Color
- * @text ウィンドウ背景色
- * @desc ウィンドウ背景色
- * 書式は[赤,緑,青]でRGBです。
- * @default [42, 37, 43]
  */
 
 var Imported = Imported || {};

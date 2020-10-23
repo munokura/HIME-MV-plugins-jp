@@ -1,3 +1,146 @@
+/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_GuestFollowers.js
+ * @title Guest Followers
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.3
+ * @date Mar 25, 2016
+ * @filename HIME_GuestFollowers.js
+ * 
+ * @plugindesc v1.3 パーティの隊列歩行にゲストを加えられます。
+ * @help 
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ * 
+ * 元プラグイン:
+ * http://himeworks.com/2016/03/guest-followers/
+ * 
+ * == 説明 ==
+ * 
+ * Video: https://www.youtube.com/watch?v=5ZJM4KXd19U
+ * 
+ * RPGメーカーでは、アクターで構成されたパーティがあります。
+ * パーティにアクターを追加したり、外したりできます。
+ * ただし、デフォルトではパーティ内の全てのアクターがメニューで操作でき、
+ * 戦闘に参加できるようになっています。
+ * パーティに参加していないアクターを、
+ * あたかもパーティの一員であるかのように見せたい場合があるかもしれません。
+ * 例えば、NPCが洞窟の中を同行して欲しいと頼まれて、
+ * プレイヤーにNPCがついてきていることを見せたいが、
+ * 実際にNPCを使って戦闘をして欲しくないと思ったとしましょう。
+ * このプラグインを使えば、アクターを"ゲスト"として追加することができます。
+ * 
+ * == 使用方法 ==
+ * 
+ * このプラグインを動作させるには、「パーティの隊列歩行」が
+ * ONになっている必要があります。
+ * （データベース＞システム＞オプション＞パーティの隊列歩行）
+ * 
+ * このプラグインでのゲストとは、メインメニューに表示されなく、
+ * 隊列歩行の最後尾についてくるアクターを指します。
+ * また、既に通常のパーティの一員であるアクターを
+ * ゲストとして追加できてしまうので、注意してください。
+ * 
+ * -- パーティーにゲストアクターを追加 --
+ * 
+ * 下記のスクリプトで、パーティにゲストアクターを追加します。
+ * 
+ *   PARTY.addGuestActor( ACTOR_ID );
+ *   
+ * PARTYは有効なGame_Party参照、
+ * ACTOR_IDはゲストとして追加したいアクターのIDです。
+ * 
+ * 例えば、現在のパーティーにアクター4をゲストとして追加するには、
+ * 次のように書きます。
+ * 
+ *   $gameParty.addGuestActor(4);
+ * 
+ * 同じゲストアクターをパーティに追加できるのは一度だけです。
+ * 同じゲストアクターを複数回追加しようとしても、何もしません。
+ * 
+ * -- パーティーからゲストアクターを外す --
+ * 
+ * 下記のスクリプトで、パーティからゲストアクターを外します。
+ * 
+ *   PARTY.removeGuestActor( ACTOR_ID );
+ *   
+ * 例えば、アクター4を現在のパーティからゲストアクターを外すには、
+ * 次のように書きます。
+ * 
+ *   $gameParty.removeGuestActor(4);
+ *   
+ * -- ゲストアクターがパーティーに参加しているか確認 --
+ * 
+ * 下記のスクリプトで、パーティに特定のゲストアクターがいるかを確認します。
+ * 
+ *   PARTY.hasGuestActor( ACTOR_ID );
+ *   
+ * 例えば、アクター4が現在のパーティのゲストかを確認するには、
+ * 条件分岐で次のように書きます。
+ * 
+ *   $gameParty.hasGuestActor(4);
+ *   
+ * アクター4がパーティーのゲストである場合、true を返します。
+ * 
+ * -- 移動ルートでゲストアクターの制御 --
+ * 
+ * 必要に応じてゲストアクターを制御するために、
+ * 移動ルートを使用することができます。
+ * ゲストを移動させるには、最初にプラグインコマンドを入れます。
+ * 
+ *   guest_move_route ID
+ *   
+ * IDはアクターゲストのIDを意味します。
+ * この下に移動経路コマンドが続きます。
+ * アクターID4のゲストを移動させたい場合、
+ * 次のようにプラグインコマンドを書きます。
+ * 
+ *   guest_move_route 4
+ *   
+ * 移動ルートコマンドが、この後に続きます。
+ * 
+ * 使用例
+ *   ◆プラグインコマンド：guest_move_route 4
+ *   ◆移動ルートの設定：プレイヤー (飛ばす, ウェイト)
+ *   ：　　　　　　　　：◇下に移動
+ *   ：　　　　　　　　：◇下に移動
+ *   ：　　　　　　　　：◇下に移動
+ * 
+ * 
+ * == 利用規約 ==
+ * 
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ * 
+ * == Change Log ==
+ * 
+ * 1.3 - Mar 26, 2016
+ *  * fixed bug where plugin command fails
+ * 1.2 - Mar 25, 2016
+ *  * added support for guest follower move route mode
+ * 1.1 - Mar 22, 2016
+ *  * Fixed bug where plugin crashes if player has no followers
+ * 1.0 - Mar 21, 2016
+ *  * Initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ * 
+ * - https://www.patreon.com/himeworks
+ * 
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ * 
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+*/
+
 /*:
 @title Guest Followers
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -113,143 +256,6 @@ whose actor ID was 4, you would just write
   
 Followed by a move route command.
 
- */
-/*:ja
- * @title Guest Followers
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.3
- * @date Mar 25, 2016
- * @filename HIME_GuestFollowers.js
- * @url http://himeworks.com/2016/03/guest-followers/
- * 
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- * 
- * - https://www.patreon.com/himeworks
- * 
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- * 
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- * 
- * @plugindesc v1.3 パーティの隊列歩行にゲストを加えられます。
- * @help 
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- * 
- * == 説明 ==
- * 
- * Video: https://www.youtube.com/watch?v=5ZJM4KXd19U
- * 
- * RPGメーカーでは、アクターで構成されたパーティがあります。
- * パーティにアクターを追加したり、外したりできます。
- * ただし、デフォルトではパーティ内の全てのアクターがメニューで操作でき、
- * 戦闘に参加できるようになっています。
- * パーティに参加していないアクターを、
- * あたかもパーティの一員であるかのように見せたい場合があるかもしれません。
- * 例えば、NPCが洞窟の中を同行して欲しいと頼まれて、
- * プレイヤーにNPCがついてきていることを見せたいが、
- * 実際にNPCを使って戦闘をして欲しくないと思ったとしましょう。
- * このプラグインを使えば、アクターを"ゲスト"として追加することができます。
- * 
- * == 利用規約 ==
- * 
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- * 
- * == Change Log ==
- * 
- * 1.3 - Mar 26, 2016
- *  * fixed bug where plugin command fails
- * 1.2 - Mar 25, 2016
- *  * added support for guest follower move route mode
- * 1.1 - Mar 22, 2016
- *  * Fixed bug where plugin crashes if player has no followers
- * 1.0 - Mar 21, 2016
- *  * Initial release
- * 
- * == 使用方法 ==
- * 
- * このプラグインを動作させるには、「パーティの隊列歩行」が
- * ONになっている必要があります。
- * （データベース＞システム＞オプション＞パーティの隊列歩行）
- * 
- * このプラグインでのゲストとは、メインメニューに表示されなく、
- * 隊列歩行の最後尾についてくるアクターを指します。
- * また、既に通常のパーティの一員であるアクターを
- * ゲストとして追加できてしまうので、注意してください。
- * 
- * -- パーティーにゲストアクターを追加 --
- * 
- * 下記のスクリプトで、パーティにゲストアクターを追加します。
- * 
- *   PARTY.addGuestActor( ACTOR_ID );
- *   
- * PARTYは有効なGame_Party参照、
- * ACTOR_IDはゲストとして追加したいアクターのIDです。
- * 
- * 例えば、現在のパーティーにアクター4をゲストとして追加するには、
- * 次のように書きます。
- * 
- *   $gameParty.addGuestActor(4);
- * 
- * 同じゲストアクターをパーティに追加できるのは一度だけです。
- * 同じゲストアクターを複数回追加しようとしても、何もしません。
- * 
- * -- パーティーからゲストアクターを外す --
- * 
- * 下記のスクリプトで、パーティからゲストアクターを外します。
- * 
- *   PARTY.removeGuestActor( ACTOR_ID );
- *   
- * 例えば、アクター4を現在のパーティからゲストアクターを外すには、
- * 次のように書きます。
- * 
- *   $gameParty.removeGuestActor(4);
- *   
- * -- ゲストアクターがパーティーに参加しているか確認 --
- * 
- * 下記のスクリプトで、パーティに特定のゲストアクターがいるかを確認します。
- * 
- *   PARTY.hasGuestActor( ACTOR_ID );
- *   
- * 例えば、アクター4が現在のパーティのゲストかを確認するには、
- * 条件分岐で次のように書きます。
- * 
- *   $gameParty.hasGuestActor(4);
- *   
- * アクター4がパーティーのゲストである場合、true を返します。
- * 
- * -- 移動ルートでゲストアクターの制御 --
- * 
- * 必要に応じてゲストアクターを制御するために、
- * 移動ルートを使用することができます。
- * ゲストを移動させるには、最初にプラグインコマンドを入れます。
- * 
- *   guest_move_route ID
- *   
- * IDはアクターゲストのIDを意味します。
- * この下に移動経路コマンドが続きます。
- * アクターID4のゲストを移動させたい場合、
- * 次のようにプラグインコマンドを書きます。
- * 
- *   guest_move_route 4
- *   
- * 移動ルートコマンドが、この後に続きます。
- * 
- * 使用例
- *   ◆プラグインコマンド：guest_move_route 4
- *   ◆移動ルートの設定：プレイヤー (飛ばす, ウェイト)
- *   ：　　　　　　　　：◇下に移動
- *   ：　　　　　　　　：◇下に移動
- *   ：　　　　　　　　：◇下に移動
- * 
  */
 
 var Imported = Imported || {};

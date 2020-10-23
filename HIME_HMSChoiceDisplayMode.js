@@ -1,3 +1,118 @@
+/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_HMSChoiceDisplayMode.js
+ * @title HMS: Choice Display Mode
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Oct 24, 2016
+ * @version 1.3
+ * @filename HIME_HMSChoiceDisplayMode.js
+ *
+ * @plugindesc v1.3 メッセージ内に選択肢を表示できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/04/hms-choice-display-mode/
+ *
+ * == 説明 ==
+ *
+ * デフォルトでは、プレイヤーに選択肢を提示して選択させると、
+ * メッセージウィンドウとは別のウィンドウに選択肢が表示されます。
+ * しかし、特定の状況で異なる選択肢を表示したい場合はどうでしょうか。
+ * このプラグインを使うと、
+ * デフォルトの表示方法と新しい表示方法を切り替えることで、
+ * メッセージ内に選択肢を表示できます。
+ *
+ * == 使用方法 ==
+ *
+ * --- 選択表示モード ---
+ *
+ * 選択肢を表示するには2つの方法があります。
+ *
+ * 1. デフォルト
+ * 2. 埋め込み
+ *
+ * デフォルトモードとは、
+ * 選択肢が通常通りメッセージの外に表示されることを意味します。
+ * 埋め込みモードとは、
+ * 選択肢がメッセージ内に表示されることを意味します。
+ *
+ * --- 表示モードの変更 ---
+ *
+ * モードを切り替えるには、スクリプトを使います。
+ *
+ *   HMS.setChoiceMode( "MODE" )
+ *
+ * MODEの選択肢は下記です。
+ *
+ *   Default - デフォルト
+ *   Embed   - 埋め込み
+ *
+ * その後に表示される全ての選択肢は、指定されたモードを使用します。
+ *
+ * 例:
+ *   HMS.setChoiceMode( "Embed" )
+ *
+ * --- 選択インデント ---
+ *
+ * 選択肢がメッセージウィンドウに埋め込まれている場合、
+ * プラグインのパラメータでインデント量を指定できます。
+ * デフォルトでは36ピクセルです。
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.3 - Oct 24, 2016
+ *  * Upgrade to 1.3.3 libraries: Window.prototype._maskWindow changed
+ * 1.2 - Aug 12, 2016
+ *  * Upgrade to 1.3.0 libraries
+ * 1.1 - Apr 27, 2016
+ *  * Implemented dynamic visible row calculation
+ *  * Fixed bug where choices are not shown correctly for empty message
+ *  * Display informative message when choices provided with no message
+ * 1.0 - Apr 27, 2016
+ *  * initial release
+ *
+ * @param Default Choice Mode
+ * @text デフォルト選択モード
+ * @type select
+ * @option デフォルト
+ * @value Default
+ * @option 埋め込み
+ * @value Embed
+ * @desc デフォルトの選択モード
+ * デフォルト:Default / 埋め込み:Embed
+ * @default Default
+ *
+ * @param Choice Indent
+ * @text 選択インデント
+ * @type number
+ * @desc 選択肢がインデントされるピクセル数
+ * @default 36
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+*/
+
 /*:
 @title HMS: Choice Display Mode
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -96,115 +211,6 @@ Options: Default, Embed (default: Default)
 @desc Number of pixels that the choices should be indented
 @default 36
 */
-/*:ja
- * @title HMS: Choice Display Mode
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Oct 24, 2016
- * @version 1.3
- * @filename HIME_HMSChoiceDisplayMode.js
- * @url http://himeworks.com/2016/04/hms-choice-display-mode/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.3 メッセージ内に選択肢を表示できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * デフォルトでは、プレイヤーに選択肢を提示して選択させると、
- * メッセージウィンドウとは別のウィンドウに選択肢が表示されます。
- * しかし、特定の状況で異なる選択肢を表示したい場合はどうでしょうか。
- * このプラグインを使うと、
- * デフォルトの表示方法と新しい表示方法を切り替えることで、
- * メッセージ内に選択肢を表示できます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.3 - Oct 24, 2016
- *  * Upgrade to 1.3.3 libraries: Window.prototype._maskWindow changed
- * 1.2 - Aug 12, 2016
- *  * Upgrade to 1.3.0 libraries
- * 1.1 - Apr 27, 2016
- *  * Implemented dynamic visible row calculation
- *  * Fixed bug where choices are not shown correctly for empty message
- *  * Display informative message when choices provided with no message
- * 1.0 - Apr 27, 2016
- *  * initial release
- *
- * == 使用方法 ==
- *
- * --- 選択表示モード ---
- *
- * 選択肢を表示するには2つの方法があります。
- *
- * 1. デフォルト
- * 2. 埋め込み
- *
- * デフォルトモードとは、
- * 選択肢が通常通りメッセージの外に表示されることを意味します。
- * 埋め込みモードとは、
- * 選択肢がメッセージ内に表示されることを意味します。
- *
- * --- 表示モードの変更 ---
- *
- * モードを切り替えるには、スクリプトを使います。
- *
- *   HMS.setChoiceMode( "MODE" )
- *
- * MODEの選択肢は下記です。
- *
- *   Default - デフォルト
- *   Embed   - 埋め込み
- *
- * その後に表示される全ての選択肢は、指定されたモードを使用します。
- *
- * 例:
- *   HMS.setChoiceMode( "Embed" )
- *
- * --- 選択インデント ---
- *
- * 選択肢がメッセージウィンドウに埋め込まれている場合、
- * プラグインのパラメータでインデント量を指定できます。
- * デフォルトでは36ピクセルです。
- *
- * @param Default Choice Mode
- * @text デフォルト選択モード
- * @type select
- * @option デフォルト
- * @value Default
- * @option 埋め込み
- * @value Embed
- * @desc デフォルトの選択モード
- * デフォルト:Default / 埋め込み:Embed
- * @default Default
- *
- * @param Choice Indent
- * @text 選択インデント
- * @desc 選択肢がインデントされるピクセル数
- * @default 36
- */
 
 var Imported = Imported || {};
 var TH = TH || {};

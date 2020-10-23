@@ -1,4 +1,68 @@
-﻿/*:
+﻿/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_DisableDashing.js
+ * @title Disable Dashing
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.0
+ * @date Jan 10, 2016
+ * @filename HIME_DisableDashing.js
+ *
+ * @plugindesc v1.0 プレイヤーのダッシュ禁止・許可を切り替えられます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/01/disable-dashing/
+ * 
+ * == 説明 ==
+ *
+ * デフォルトでは、シフトボタンを押してダッシュすることができます。
+ * マップにいる時、ダッシュを無効にするオプションをサポートしています。
+ * しかし、ゲーム中に手動でダッシュを無効にする方法はありません。
+ * 例えば、カットシーンでプレイヤーがダッシュしないようにしたい場合などです。
+ *
+ * このプラグインを使用すると、プラグインコマンドを使用して
+ * プレイヤーのダッシュ禁止・許可を切り替えられます。
+ *
+ * == 使用方法 ==
+ *
+ * 以下のプラグインコマンドを使用します。
+ *
+ *   enable_dashing
+ *   disable_dashing
+ *
+ * ダッシュを許可・禁止にします。
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.0 - Jan 10, 2016
+ *  - initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+*/
+
+ /*:
 @title Disable Dashing
 @author Hime --> HimeWorks (http://himeworks.com)
 @version 1.0
@@ -52,66 +116,6 @@ Use the following plugin commands
 
 To enable or disable dashing.
 
- */
-/*:ja
- * @title Disable Dashing
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.0
- * @date Jan 10, 2016
- * @filename HIME_DisableDashing.js
- * @url http://himeworks.com/2016/01/disable-dashing/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 プレイヤーのダッシュ禁止・許可を切り替えられます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * デフォルトでは、シフトボタンを押してダッシュすることができます。
- * マップにいる時、ダッシュを無効にするオプションをサポートしています。
- * しかし、ゲーム中に手動でダッシュを無効にする方法はありません。
- * 例えば、カットシーンでプレイヤーがダッシュしないようにしたい場合などです。
- *
- * このプラグインを使用すると、プラグインコマンドを使用して
- * プレイヤーのダッシュ禁止・許可を切り替えられます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.0 - Jan 10, 2016
- *  - initial release
- *
- * == 使用方法 ==
- *
- * 以下のプラグインコマンドを使用します。
- *
- *   enable_dashing
- *   disable_dashing
- *
- * ダッシュを許可・禁止にします。
- *
  */
 
 var Imported = Imported || {};

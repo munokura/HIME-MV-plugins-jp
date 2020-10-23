@@ -1,4 +1,89 @@
-﻿/*:
+﻿/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_SaveTitle.js
+ * @title Save Title
+ * @author Hime --> HimeWorks (himeworks.com)
+ * @version 1.2
+ * @date Jan 27, 2015
+ * @filename HIME_SaveTitle.js
+ *
+ * @plugindesc v1.2 セーブデータに表示されるゲームタイトルをカスタマイズできます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * himeworks.com/2015/12/save-title/
+ *
+ * == 説明 ==
+ *
+ * デフォルトでは、ゲームをセーブデータのタイトルはゲームタイトルになります。
+ * しかし、あまり便利ではありません。
+ * マップの位置や現在のチャプターなど、
+ * 実際のセーブデータにもっと関連性のあるものを表示した方が良いでしょう。
+ * このプラグインを使えば、
+ * イベントを使ってセーブ時のセーブタイトルをカスタマイズできます。
+ *
+ * == 使用方法 ==
+ *
+ * セーブタイトルを設定するには、スクリプトを使用します。
+ *
+ * TH.setSaveTitle( TITLE )
+ *
+ * "TITLE"は任意の有効な文字列です。
+ * 例えば、セーブタイトルを Chapter1 に設定したい場合、
+ * 次のように書きます。
+ *
+ * TH.setSaveTitle("Chapter 1")
+ *
+ * 実行後、セーブすると表示されるタイトルになります。
+ *
+ * -- セーブタイトルに式を使う --
+ *
+ * デフォルトでは、全てのセーブタイトルは文字列としてセーブされます。
+ * 何を書いてもタイトルとして表示されます。
+ * ただし、セーブタイトルには式を使えます。
+ * 例えば、新しいマップを入力する度にタイトルを設定するのではなく、
+ * セーブタイトルを今いるマップの名前にしたい場合、
+ * 次のように記述します。
+ *
+ * TH.setSaveTitle("$gameMap.displayName()", true);
+ *
+ * 上記でセーブ時に自動的にマップの表示名がタイトルに表示されます。
+ * タイトルに式の結果を表示できます。
+ * 
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * 1.2 - Jan 27, 2016
+ * * Support for both literal and formula save titles
+ * 1.1 - Jan 11, 2016
+ * * save title supports formulas now
+ * 1.0 - Dec 31, 2015
+ * * initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: himeworks.com
+ * - Facebook: www.facebook.com/himeworkscom/
+ * - Twitter: twitter.com/HimeWorks
+ * - Youtube: www.youtube.com/c/HimeWorks
+ * - Tumblr: himeworks.tumblr.com/
+*/
+
+ /*:
 @title Save Title
 @author Hime --> HimeWorks (http://himeworks.com)
 @version 1.2
@@ -75,86 +160,6 @@ title everytime you enter a new map, you can write
 This will tell the game that you want to use a formula as the title.
 And then the game will automatically ask for the map's name when it's saving.
 
- */
-/*:ja
- * @title Save Title
- * @author Hime --> HimeWorks (himeworks.com)
- * @version 1.2
- * @date Jan 27, 2015
- * @filename HIME_SaveTitle.js
- * @url himeworks.com/2015/12/save-title/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: himeworks.com
- * - Facebook: www.facebook.com/himeworkscom/
- * - Twitter: twitter.com/HimeWorks
- * - Youtube: www.youtube.com/c/HimeWorks
- * - Tumblr: himeworks.tumblr.com/
- *
- * @plugindesc v1.2 セーブデータに表示されるゲームタイトルをカスタマイズできます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * デフォルトでは、ゲームをセーブデータのタイトルはゲームタイトルになります。
- * しかし、あまり便利ではありません。
- * マップの位置や現在のチャプターなど、
- * 実際のセーブデータにもっと関連性のあるものを表示した方が良いでしょう。
- * このプラグインを使えば、
- * イベントを使ってセーブ時のセーブタイトルをカスタマイズできます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * 1.2 - Jan 27, 2016
- * * Support for both literal and formula save titles
- * 1.1 - Jan 11, 2016
- * * save title supports formulas now
- * 1.0 - Dec 31, 2015
- * * initial release
- *
- * == 使用方法 ==
- *
- * セーブタイトルを設定するには、スクリプトを使用します。
- *
- * TH.setSaveTitle( TITLE )
- *
- * "TITLE"は任意の有効な文字列です。
- * 例えば、セーブタイトルを Chapter1 に設定したい場合、
- * 次のように書きます。
- *
- * TH.setSaveTitle("Chapter 1")
- *
- * 実行後、セーブすると表示されるタイトルになります。
- *
- * -- セーブタイトルに式を使う --
- *
- * デフォルトでは、全てのセーブタイトルは文字列としてセーブされます。
- * 何を書いてもタイトルとして表示されます。
- * ただし、セーブタイトルには式を使えます。
- * 例えば、新しいマップを入力する度にタイトルを設定するのではなく、
- * セーブタイトルを今いるマップの名前にしたい場合、
- * 次のように記述します。
- *
- * TH.setSaveTitle("$gameMap.displayName()", true);
- *
- * 上記でセーブ時に自動的にマップの表示名がタイトルに表示されます。
- * タイトルに式の結果を表示できます。
  */
 
 var Imported = Imported || {};
