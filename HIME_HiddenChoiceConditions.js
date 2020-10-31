@@ -1,121 +1,20 @@
-﻿/*:
-@title Hidden Choice Conditions
-@author Hime --> HimeWorks (http://himeworks.com)
-@version 1.2
-@date Jan 5, 2016
-@filename HIME_HiddenChoiceConditions.js
-@url http://himeworks.com/2015/11/hidden-choice-conditions/
-
-If you enjoy my work, consider supporting me on Patreon!
-
-* https://www.patreon.com/himeworks
-
-If you have any questions or concerns, you can contact me at any of
-the following sites:
-
-* Main Website: http://himeworks.com
-* Facebook: https://www.facebook.com/himeworkscom/
-* Twitter: https://twitter.com/HimeWorks
-* Youtube: https://www.youtube.com/c/HimeWorks
-* Tumblr: http://himeworks.tumblr.com/
-
-@plugindesc Allows you to hide choices with a simple event call
-@help 
-== Description ==
-
-Need a way to hide a choice without creating lots and lots of different
-sets of choices and conditional branches for each combination of choices?
-
-This plugin allows you to instruct the event to hide certain choices
-from being shown, using only events!
-
-== Terms of Use ==
-
-- Free for use in non-commercial projects with credits
-- Contact me for commercial use
-
-== Change Log ==
-
-1.2 - Jan 5, 2016
- * added support for evaluating formulas inside interpreter scope
-1.1 - Nov 6, 2015
- * choices need to be backed up and restored, otherwise the
-   choice list will just keep hiding them on refresh
-1.0 - Nov 4, 2015
- * initial release
-
-== Compatibility ==
-
-For compatibility purposes, please place this plugin below other
-choice-related plugins. For example, if you are using the Disabled
-Choice Conditions plugin, this plugin should go below it.
- 
-== Usage == 
-
-There are two ways to hide choices
-
-1. Using a plugin command.
-
-Create a plugin command and write
-
-   hide_choice choiceNumber
-   
-Where the choiceNumber is the number of the choice that you would
-like to hide.
-
-Choices are numbers starting from 1, so if you want to hide the second
-choice, you would say
-
-   hide_choice 2
-   
-2. Using a script call
-
-Create a script call and write
-
-   hide_choice( choiceNumber, condition )
-   
-Where the choiceNumber is the number of the choice that you would like
-to hide, and the condition is a javascript formula that evaluates to
-true or false.
-
-For example, if you want to hide a choice if switch 3 is OFF, you can
-use the script call
-
-   hide_choice(3, "$gameSwitches.value(3) === false")
-   
-Hidden choice commands apply to the first set of choices down the list
-from where the commands have been called. If you have multiple sets
-of choices that require hiding, you will need to create hidden choice
-commands for those as well.
-
- */
-/*:ja
+﻿/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_HiddenChoiceConditions.js
  * @title Hidden Choice Conditions
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @version 1.2
  * @date Jan 5, 2016
  * @filename HIME_HiddenChoiceConditions.js
- * @url http://himeworks.com/2015/11/hidden-choice-conditions/
- * 
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- * 
- * - https://www.patreon.com/himeworks
- * 
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- * 
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
  * 
  * @plugindesc v1.2 '選択肢の表示'の選択肢毎に表示/非表示をカスタム条件で切り替えられます
  * @help
  * 翻訳:ムノクラ
  * https://fungamemake.com/
  * https://twitter.com/munokura/
+ * 
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/hidden-choice-conditions/
  * 
  * == 説明 ==
  * 
@@ -124,21 +23,6 @@ commands for those as well.
  * 
  * このプラグインを使うと、イベントだけを使って、
  * 特定の選択肢を非表示に指示することができます。
- * 
- * == 利用規約 ==
- * 
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- * 
- * == Change Log ==
- * 
- * 1.2 - Jan 5, 2016
- *  * added support for evaluating formulas inside interpreter scope
- * 1.1 - Nov 6, 2015
- *  * choices need to be backed up and restored, otherwise the
- *    choice list will just keep hiding them on refresh
- * 1.0 - Nov 4, 2015
- *  * initial release
  * 
  * == 互換性 ==
  * 
@@ -183,7 +67,129 @@ commands for those as well.
  * 非表示を必要とする選択肢が複数ある場合、
  * それらの選択肢に対しても非表示の選択肢コマンドを作成する必要があります。
  * 
+ * 
+ * == 利用規約 ==
+ * 
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ * 
+ * == Change Log ==
+ * 
+ * 1.2 - Jan 5, 2016
+ *  * added support for evaluating formulas inside interpreter scope
+ * 1.1 - Nov 6, 2015
+ *  * choices need to be backed up and restored, otherwise the
+ *    choice list will just keep hiding them on refresh
+ * 1.0 - Nov 4, 2015
+ *  * initial release
  */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ * 
+ * - https://www.patreon.com/himeworks
+ * 
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ * 
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
+@title Hidden Choice Conditions
+@author Hime --> HimeWorks (http://himeworks.com)
+@version 1.2
+@date Jan 5, 2016
+@filename HIME_HiddenChoiceConditions.js
+@url http://himeworks.com/2015/11/hidden-choice-conditions/
+
+If you enjoy my work, consider supporting me on Patreon!
+
+* https://www.patreon.com/himeworks
+
+If you have any questions or concerns, you can contact me at any of
+the following sites:
+
+* Main Website: http://himeworks.com
+* Facebook: https://www.facebook.com/himeworkscom/
+* Twitter: https://twitter.com/HimeWorks
+* Youtube: https://www.youtube.com/c/HimeWorks
+* Tumblr: http://himeworks.tumblr.com/
+
+@plugindesc Allows you to hide choices with a simple event call
+@help 
+== Description ==
+
+Need a way to hide a choice without creating lots and lots of different
+sets of choices and conditional branches for each combination of choices?
+
+This plugin allows you to instruct the event to hide certain choices
+from being shown, using only events!
+
+== Terms of Use ==
+
+- Free for use in non-commercial projects with credits
+- Contact me for commercial use
+
+== Change Log ==
+
+1.2 - Jan 5, 2016
+* added support for evaluating formulas inside interpreter scope
+1.1 - Nov 6, 2015
+* choices need to be backed up and restored, otherwise the
+  choice list will just keep hiding them on refresh
+1.0 - Nov 4, 2015
+* initial release
+
+== Compatibility ==
+
+For compatibility purposes, please place this plugin below other
+choice-related plugins. For example, if you are using the Disabled
+Choice Conditions plugin, this plugin should go below it.
+ 
+== Usage == 
+
+There are two ways to hide choices
+
+1. Using a plugin command.
+
+Create a plugin command and write
+
+  hide_choice choiceNumber
+  
+Where the choiceNumber is the number of the choice that you would
+like to hide.
+
+Choices are numbers starting from 1, so if you want to hide the second
+choice, you would say
+
+  hide_choice 2
+  
+2. Using a script call
+
+Create a script call and write
+
+  hide_choice( choiceNumber, condition )
+  
+Where the choiceNumber is the number of the choice that you would like
+to hide, and the condition is a javascript formula that evaluates to
+true or false.
+
+For example, if you want to hide a choice if switch 3 is OFF, you can
+use the script call
+
+  hide_choice(3, "$gameSwitches.value(3) === false")
+  
+Hidden choice commands apply to the first set of choices down the list
+from where the commands have been called. If you have multiple sets
+of choices that require hiding, you will need to create hidden choice
+commands for those as well.
+
+*/
 var Imported = Imported || {}
 var TH = TH || {};
 Imported.HiddenChoiceConditions = 1;

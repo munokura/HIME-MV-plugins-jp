@@ -1,4 +1,87 @@
-﻿/*:
+﻿/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_CustomPartyLeader.js
+ * @title Movement Direction Lock
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Dec 31, 2015
+ * @filename HIME_MovementDirectionLock.js
+ *
+ *
+ * @plugindesc v1.0 (マウス移動未対応)プレイヤーの特定の方向への移動を禁止・許可できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/12/movement-direction-lock/
+ *
+ * == 説明 ==
+ *
+ * このプラグインを使うと、
+ * イベントを使ってプレイヤーの動きを一時的に制限することができます。
+ * デフォルトでは、4方向、8方向に移動することができます。
+ * 特定の方向への移動を禁止したい場合、
+ * プラグインコマンドを使用して、特定の方向を'ロック'することができます。
+ *
+ * == 使用方法 ==
+ *
+ * 下記が使える方向の名前です。
+ *
+ *   UP
+ *   DOWN
+ *   LEFT
+ *   RIGHT
+ *   UPLEFT
+ *   UPRIGHT
+ *   DOWNLEFT
+ *   DOWNRIGHT
+ *
+ * 下記のプラグインコマンドで、移動方向をロックします
+ *
+ *   lock_move_dir DIR1 DIR2 DIR3 ...
+ *
+ * 下記のプラグインコマンドで、移動方向のロックを解除します。
+ *
+ *   unlock_move_dir DIR1 DIR2 DIR3
+ *
+ * 1つのコマンドで複数の方向をロックすることができます。
+ * 例えば、プレイヤーが上や下に移動しないようにしたい場合、
+ * 次のように書きます。
+ *
+ *   lock_move_dir UP DOWN
+ *
+ * その後、それらの方向性を解除するには次のように書きます。
+ *
+ *   unlock_move_dir UP DOWN
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * Dec 31, 2015 -  initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
 @title Movement Direction Lock
 @author Hime --> HimeWorks (http://himeworks.com)
 @date Dec 31, 2015
@@ -68,83 +151,6 @@ And afterwards, you can unlock those directions with
 
   unlock_move_dir UP DOWN
 
- */
-/*:ja
- * @title Movement Direction Lock
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Dec 31, 2015
- * @filename HIME_MovementDirectionLock.js
- * @url  http://himeworks.com/2015/12/movement-direction-lock/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 (マウス移動未対応)プレイヤーの特定の方向への移動を禁止・許可できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * このプラグインを使うと、
- * イベントを使ってプレイヤーの動きを一時的に制限することができます。
- * デフォルトでは、4方向、8方向に移動することができます。
- * 特定の方向への移動を禁止したい場合、
- * プラグインコマンドを使用して、特定の方向を'ロック'することができます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * Dec 31, 2015 -  initial release
- *
- * == 使用方法 ==
- *
- * 下記が使える方向の名前です。
- *
- *   UP
- *   DOWN
- *   LEFT
- *   RIGHT
- *   UPLEFT
- *   UPRIGHT
- *   DOWNLEFT
- *   DOWNRIGHT
- *
- * 下記のプラグインコマンドで、移動方向をロックします
- *
- *   lock_move_dir DIR1 DIR2 DIR3 ...
- *
- * 下記のプラグインコマンドで、移動方向のロックを解除します。
- *
- *   unlock_move_dir DIR1 DIR2 DIR3
- *
- * 1つのコマンドで複数の方向をロックすることができます。
- * 例えば、プレイヤーが上や下に移動しないようにしたい場合、
- * 次のように書きます。
- *
- *   lock_move_dir UP DOWN
- *
- * その後、それらの方向性を解除するには次のように書きます。
- *
- *   unlock_move_dir UP DOWN
- *
  */
 
 var Imported = Imported || {};

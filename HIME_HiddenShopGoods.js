@@ -1,3 +1,85 @@
+/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_HiddenShopGoods.js
+ * @title Hidden Shop Goods
+ * @author Hime
+ * @date Nov 8, 2015
+ * @filename HIME_HiddenShopGoods.js
+ * @plugindesc v1.0 ショップの商品の表示/非表示を切り替えられます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/hidden-shop-goods/
+ * 
+ * == 説明 ==
+ *
+ * RPGメーカーMVでは、ショップを作成する際に、
+ * まず販売するアイテムのリストと価格を指定します。
+ * あとはエンジンが代行してくれるので、プレイヤーが店員に話しかけると、
+ * 設定したアイテムが表示されます。
+ *
+ * しかし、特定の条件で特定アイテムを非表示にしたい場合はどうしますか？
+ * 例えば、武器屋が様々な種類の武器を提供している場合、
+ * パーティの誰も使えない場合は特定の武器を非表示にしたいかもしれません。
+ * アクターが剣しか使えない場合、弓や槍を全て隠したいかもしれません。
+ *
+ * シンプルなコマンドで素早く簡単にショップ商品を非表示にできます。
+ * いつものようにイベントを作成して、ショップ商品を非表示にするだけです。
+ *
+ * == 使用方法 ==
+ *
+ * ショップの商品には、リストに表示されている順番に番号が付けられています。
+ * 最初の商品には1番、2番目の商品には2番、というように番号が付けられています。
+ *
+ * 商品を隠すには2つの方法があります
+ *
+ * 1. プラグインコマンドを使う
+ *
+ * プラグインコマンドを作成
+ *
+ *   hide_good shopGoodNumber
+ *
+ * shopGoodNumber は非表示にしたいショップ商品の番号です。
+ *
+ * 例えば、
+ * リストの3番目のショップ商品を隠したい場合、
+ * 次のように書きます。
+ *
+ *   hide_good 3
+ *
+ * ショップ商品がいつ非表示になるかは、
+ * 条件分岐を作成するかどうかにかかっています。
+ *
+ * 2. スクリプトコールを使う
+ *
+ * スクリプトコールを作成
+ *
+ *   hide_good(shopGoodNumber, condition)
+ *
+ * shopGoodNumber は非表示にしたいショップ商品の番号です。
+ *
+ * condition は、true/falseで評価されるjavascriptの式です。
+ * trueの場合、ショップの商品は非表示になります。
+ *
+ * 例えば、パーティリーダーのレベルが10以下の場合、
+ * 4番目のショップ商品を隠したい場合、下記のスクリプトで実現できます。
+ *
+ *   hide_good(4, "$gameParty.leader().level < 10")
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * Nov 8, 2015 -  initial release
+ */
+
 /*:
 @title Hidden Shop Goods
 @author Hime
@@ -73,83 +155,6 @@ leader's level is less than 10, you can make the script call
 
   hide_good(4, "$gameParty.leader().level < 10")
 
- */
-/*:ja
- * @title Hidden Shop Goods
- * @author Hime
- * @date Nov 8, 2015
- * @filename HIME_HiddenShopGoods.js
- * @url http://himeworks.com/2015/11/hidden-shop-goods/
- * @plugindesc v1.0 ショップの商品の表示/非表示を切り替えられます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * RPGメーカーMVでは、ショップを作成する際に、
- * まず販売するアイテムのリストと価格を指定します。
- * あとはエンジンが代行してくれるので、プレイヤーが店員に話しかけると、
- * 設定したアイテムが表示されます。
- *
- * しかし、特定の条件で特定アイテムを非表示にしたい場合はどうしますか？
- * 例えば、武器屋が様々な種類の武器を提供している場合、
- * パーティの誰も使えない場合は特定の武器を非表示にしたいかもしれません。
- * アクターが剣しか使えない場合、弓や槍を全て隠したいかもしれません。
- *
- * シンプルなコマンドで素早く簡単にショップ商品を非表示にできます。
- * いつものようにイベントを作成して、ショップ商品を非表示にするだけです。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * Nov 8, 2015 -  initial release
- *
- * == 使用方法 ==
- *
- * ショップの商品には、リストに表示されている順番に番号が付けられています。
- * 最初の商品には1番、2番目の商品には2番、というように番号が付けられています。
- *
- * 商品を隠すには2つの方法があります
- *
- * 1. プラグインコマンドを使う
- *
- * プラグインコマンドを作成
- *
- *   hide_good shopGoodNumber
- *
- * shopGoodNumber は非表示にしたいショップ商品の番号です。
- *
- * 例えば、
- * リストの3番目のショップ商品を隠したい場合、
- * 次のように書きます。
- *
- *   hide_good 3
- *
- * ショップ商品がいつ非表示になるかは、
- * 条件分岐を作成するかどうかにかかっています。
- *
- * 2. スクリプトコールを使う
- *
- * スクリプトコールを作成
- *
- *   hide_good(shopGoodNumber, condition)
- *
- * shopGoodNumber は非表示にしたいショップ商品の番号です。
- *
- * condition は、true/falseで評価されるjavascriptの式です。
- * trueの場合、ショップの商品は非表示になります。
- *
- * 例えば、パーティリーダーのレベルが10以下の場合、
- * 4番目のショップ商品を隠したい場合、下記のスクリプトで実現できます。
- *
- *   hide_good(4, "$gameParty.leader().level < 10")
- *
  */
 
 var Imported = Imported || {}
