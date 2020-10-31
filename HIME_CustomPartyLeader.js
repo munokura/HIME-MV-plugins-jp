@@ -1,4 +1,133 @@
-﻿/*:
+﻿/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_CustomPartyLeader.js
+ * @title Custom Party Leader
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Nov 27, 2015
+ * @filename HIME_CustomPartyLeader.js
+ *
+ * @plugindesc パーティと敵グループにリーダーを設定できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/custom-party-leader
+ *
+ * == 説明 ==
+ *
+ * Video: https://www.youtube.com/watch?v=uxYdoPP3Wd0
+ *
+ * RPGメーカーには、
+ * プレイヤーが操作するキャラクターである'アクター'と呼ばれるものがあります。
+ * 全てのアクターは'パーティ'と呼ばれる'ユニット'にまとめられています。
+ * アクターは、ゲーム中いつでもパーティに追加したり、外すことができます。
+ * プロジェクトの設定に応じて、ゲーム内に複数のパーティを持つことができます。
+ * 各パーティにはリーダーがいます。
+ * リーダーは、マップ上を移動している間に表示されるアクターです。
+ * デフォルトでは、リーダーはパーティの最初の位置にいるアクターです。
+ *
+ * 例えばパーティの先頭のメンバーと2番目のメンバーの位置を入れ替えると、
+ * リーダーが変わります。アクターと同様に、
+ * 敵も'敵グループ'と呼ばれるユニットにグループ化されます。
+ * 敵グループには、デフォルトではリーダーがいません。
+ *
+ * パーティのリーダーをパーティの先頭の人以外にしたい場合、
+ * どうなるでしょうか?
+ * リーダーを特定のアクターにしたいが、そのアクターは戦闘に参加しない。
+ * あるいは、敵グループにリーダーを決めて、
+ * リーダーが死んだら敵が散らばって逃げるようにしたいとします。
+ *
+ * このプラグインを使えば、
+ * パーティや敵グループのリーダーを設定することができ、
+ * その上に追加のプラグインを設定することで、
+ * これらのリーダーを使って新しいゲームシステムを実装することができます。
+ *
+ * == 使用方法 ==
+ *
+ * -- デフォルトのリーダー --
+ *
+ * パーティが最初に組まれた時、
+ * リーダーはパーティの最初の位置にいるアクターを想定しています。
+ * 同様に、敵グループが設定されている場合、最初の敵をリーダーに選択します。
+ * ゲーム中のイベントを通じてリーダーを変更することが意図されています。
+ *
+ * -- リーダーが誰か確認する --
+ *
+ * 下記のスクリプトで、誰がリーダーなのかを確認できます。
+ *
+ *   $gameParty.leader()
+ *   $gameTroop.leader()
+ *
+ * ユニットにリーダーがいない可能性があります。
+ * その場合は`null`を返します。
+ *
+ * -- リーダーの交代 --
+ *
+ * ゲーム中にリーダーを変更することができます。
+ * パーティリーダーを変更するには、以下のプラグインコマンドを使用します。
+ *
+ *   change_party_leader to actor ID
+ *
+ * IDは、リーダーとして設定したいアクターのIDです。
+ * 例えば、アクター4をリーダーに設定したい場合、次のように書きます。
+ *
+ *   change_party_leader to actor 4
+ *
+ * アクターはパーティーに参加する必要はありません。
+ *
+ * -- 敵グループのリーダーを変える --
+ *
+ * 同様に、敵グループのリーダーも変更することができます。
+ * 以下のプラグインコマンドを使用してください。
+ *
+ *   change_troop_leader to enemy MEMBER_ID
+ *
+ * MEMBER_IDは現在の敵グループ内の特定の敵の順番です。
+ * 敵グループに追加された順番に基づいています。
+ * 例えば、3番目の敵をリーダーに設定するには、次のように書きます。
+ *
+ *   change_troop_leader to enemy 3
+ *
+ * -- カスタムユニットでの作業 --
+ *
+ * パーティや敵グループ以外のユニットがある場合、
+ * スクリプトを使ってリーダーを設定する必要があります。
+ *
+ *   UNIT_OBJECT.setLeader(battlerObject)
+ *
+ * 全てのユニットはGame_Unitを継承し、
+ * リーダーはGame_BattlerBaseを継承する必要があります。
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * Nov 27, 2015 - fix crash error during battle test
+ * Nov 26, 2015 - initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
 @title Custom Party Leader
 @author Hime --> HimeWorks (http://himeworks.com)
 @date Nov 27, 2015
@@ -122,130 +251,6 @@ use script calls to set the leaders.
 All units must inherit from Game_Unit, and the leader must inherit from
 Game_BattlerBase.
 
- */
-/*:ja
- * @title Custom Party Leader
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Nov 27, 2015
- * @filename HIME_CustomPartyLeader.js
- * @url http://himeworks.com/2015/11/custom-party-leader
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc パーティと敵グループにリーダーを設定できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * Video: https://www.youtube.com/watch?v=uxYdoPP3Wd0
- *
- * RPGメーカーには、
- * プレイヤーが操作するキャラクターである'アクター'と呼ばれるものがあります。
- * 全てのアクターは'パーティ'と呼ばれる'ユニット'にまとめられています。
- * アクターは、ゲーム中いつでもパーティに追加したり、外すことができます。
- * プロジェクトの設定に応じて、ゲーム内に複数のパーティを持つことができます。
- * 各パーティにはリーダーがいます。
- * リーダーは、マップ上を移動している間に表示されるアクターです。
- * デフォルトでは、リーダーはパーティの最初の位置にいるアクターです。
- *
- * 例えばパーティの先頭のメンバーと2番目のメンバーの位置を入れ替えると、
- * リーダーが変わります。アクターと同様に、
- * 敵も'敵グループ'と呼ばれるユニットにグループ化されます。
- * 敵グループには、デフォルトではリーダーがいません。
- *
- * パーティのリーダーをパーティの先頭の人以外にしたい場合、
- * どうなるでしょうか?
- * リーダーを特定のアクターにしたいが、そのアクターは戦闘に参加しない。
- * あるいは、敵グループにリーダーを決めて、
- * リーダーが死んだら敵が散らばって逃げるようにしたいとします。
- *
- * このプラグインを使えば、
- * パーティや敵グループのリーダーを設定することができ、
- * その上に追加のプラグインを設定することで、
- * これらのリーダーを使って新しいゲームシステムを実装することができます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * Nov 27, 2015 - fix crash error during battle test
- * Nov 26, 2015 - initial release
- *
- * == 使用方法 ==
- *
- * -- デフォルトのリーダー --
- *
- * パーティが最初に組まれた時、
- * リーダーはパーティの最初の位置にいるアクターを想定しています。
- * 同様に、敵グループが設定されている場合、最初の敵をリーダーに選択します。
- * ゲーム中のイベントを通じてリーダーを変更することが意図されています。
- *
- * -- リーダーが誰か確認する --
- *
- * 下記のスクリプトで、誰がリーダーなのかを確認できます。
- *
- *   $gameParty.leader()
- *   $gameTroop.leader()
- *
- * ユニットにリーダーがいない可能性があります。
- * その場合は`null`を返します。
- *
- * -- リーダーの交代 --
- *
- * ゲーム中にリーダーを変更することができます。
- * パーティリーダーを変更するには、以下のプラグインコマンドを使用します。
- *
- *   change_party_leader to actor ID
- *
- * IDは、リーダーとして設定したいアクターのIDです。
- * 例えば、アクター4をリーダーに設定したい場合、次のように書きます。
- *
- *   change_party_leader to actor 4
- *
- * アクターはパーティーに参加する必要はありません。
- *
- * -- 敵グループのリーダーを変える --
- *
- * 同様に、敵グループのリーダーも変更することができます。
- * 以下のプラグインコマンドを使用してください。
- *
- *   change_troop_leader to enemy MEMBER_ID
- *
- * MEMBER_IDは現在の敵グループ内の特定の敵の順番です。
- * 敵グループに追加された順番に基づいています。
- * 例えば、3番目の敵をリーダーに設定するには、次のように書きます。
- *
- *   change_troop_leader to enemy 3
- *
- * -- カスタムユニットでの作業 --
- *
- * パーティや敵グループ以外のユニットがある場合、
- * スクリプトを使ってリーダーを設定する必要があります。
- *
- *   UNIT_OBJECT.setLeader(battlerObject)
- *
- * 全てのユニットはGame_Unitを継承し、
- * リーダーはGame_BattlerBaseを継承する必要があります。
- *
  */
 
 var Imported = Imported || {};
