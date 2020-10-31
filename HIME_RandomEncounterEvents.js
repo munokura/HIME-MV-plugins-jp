@@ -1,10 +1,10 @@
 /*:ja
- * @target MV
+ * @target MZ MV
  * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_RandomEncounterEvents.js
  * @title Random Encounter Events
  * @author Hime
  * @date Nov 10, 2015
- * @plugindesc ランダムエンカウント時、コモンイベントを実行できます
+ * @plugindesc ランダムエンカウント時、マップでコモンイベントを実行できます
  *
  * @help
  * 翻訳:ムノクラ
@@ -39,7 +39,7 @@
  * どのコモンイベントを実行するかを決定するために
  * ゲームが使用する特別な変数です。
  *
- * 次に、プラグインマネージャーに移動し、
+ * 次に、プラグイン管理に移動し、
  * RandomEncounterEventsをダブルクリックして、
  * 使用することにした変数のIDを入力します。
  *
@@ -68,7 +68,7 @@
  *
  * このプラグインを使用すると、ランダムエンカウントをスキップできます。
  *
- * これを行うには、スクリプトを使います。
+ * これを行うには、コモンイベント中にスクリプトを使います。
  *
  *   $gamePlayer.cancelEncounter();
  *
@@ -99,7 +99,7 @@
  *
  */
 
- /*:
+/*:
 @title Random Encounter Events
 @author Hime
 @date Nov 10, 2015
@@ -157,15 +157,15 @@ example:
 variable, and that your map has some random encounters set up.
 
 2. Create a common event that will display a message "Encounter!"
-   We'll assume this is common event 4
+  We'll assume this is common event 4
 
 3. Start testplay, press F9, and change the value of variable 10 to
-   the ID of the common event you set up in step 2. In this case, I will
-   set it to 4.
+  the ID of the common event you set up in step 2. In this case, I will
+  set it to 4.
 
 4. Now, run around and wait for a random encounter. At some point, you
-   should get a message that says "Encounter!", and once you finish
-   reading the message, the battle will occur.
+  should get a message that says "Encounter!", and once you finish
+  reading the message, the battle will occur.
 
 If you see the encounter message, then your random encounter event has
 been set up successfully. You can choose which common event to run
@@ -178,7 +178,7 @@ event.
 
 To do this, you would make a script call
 
-  $gamePlayer.cancelEncounter();
+ $gamePlayer.cancelEncounter();
 
 Which would basically tell the engine to ignore the battle.
 
@@ -189,12 +189,12 @@ you encounter.
 
 You can access the troop through this object in script calls
 
-   $gameTroop
+  $gameTroop
 
 I will provide a separate tutorial showing some things you can
 do with the troop information.
 
- */
+*/
 
 
 var Imported = Imported || {};
