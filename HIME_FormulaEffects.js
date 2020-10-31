@@ -1,3 +1,120 @@
+/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_FormulaEffects.js
+ * @title Formula Effects
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Feb 11, 2015
+ * @version 1.0
+ * @filename HIME_FormulaEffects.js
+ *
+ * @plugindesc v1.0 複数行のJavaScript式をアイテムやスキルの効果として実行できます。
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/02/formula-effects-mv/
+ *
+ * == 説明 ==
+ *
+ * RPGメーカーの全てのアイテムやスキルには、効果が付いています。
+ * 効果には、HPの獲得、スキルの習得、パラメータでのバフ獲得、
+ * コモンイベントの実行などがあります。
+ * しかし、デフォルトでは用意されていない効果をスキルに持たせたい場合、
+ * どうでしょうか?
+ * ダメージの計算式を使うこともできますが、
+ * その効果に条件をつけたい場合はどうでしょうか?
+ * このような条件を計算式に含めることもできますが、
+ * 問題は非常に複雑なダメージ計算式になってしまうことです。
+ * 全てにダメージ計算式を使用するのではなく、
+ * 計算式をサポートするカスタム効果を作成することができます。
+ * 計算式の書き方を既に知っていたのであれば、
+ * ダメージ計算式からこの効果計算式に移動させればいいのです。
+ * 効果計算式はただの効果なので、
+ * 条件に基づいて効果を実行すべきかを判断できるHIME_EffectConditionsなど、
+ * 効果を扱う他のプラグインにも対応しています。
+ *
+ * == 使用方法 ==
+ *
+ * 計算式の効果を作成するには、アイテムやスキルにメモタグを付けます。
+ *
+ *   <formula effect>
+ *     FORMULA
+ *   </formula effect>
+ *
+ * ここで、
+ * FORMULAはスキル実行時に評価され、
+ * 計算式に何を書くかで挙動が決まります。
+ * 以下のFORMULA変数が利用可能です。
+ *
+ *   a - 攻撃者
+ *   b - 対象
+ *   i - 使用アイテム・スキル
+ *   v - 変数
+ *   s - スイッチ
+ *   t - 敵グループ
+ *   p - パーティ
+ *
+ * 例えば、対象のHPを100減らしたい場合、次のような計算式を使います。
+ *
+ *   b.gainHp(-100);
+ *
+ * タグの書き方:
+ *
+ *   <formula effect>
+ *     b.gainHp(-100);
+ *   </formula effect>
+ *
+ * 対象のアクションの結果にアクセスするには下記を使います。
+ *
+ *   var r = b.result()
+ *
+ * 下記で、HPダメージやMPダメージを確認できます。
+ *
+ *   r.hpDamage
+ *   r.mpDamage
+ *
+ * そして、これを効果の計算に使用します。
+ *
+ * コードで定義されているものは何でも効果として使用できます。
+ *
+ * 使用例:
+ *   スキル使用者と対象者のHP値を対象者にダメージを与え、使用者を回復させる。
+ *   (式の大文字・小文字に注意)
+ *
+ *   <formula effect>
+ *     var hpDiff = Math.abs(a.hp - b.hp);
+ *     a.gainHp(hpDiff);
+ *     b.gainHp(-hpDiff);
+ *   </formula effect>
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * Feb 11, 2015 -  initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+*/
+
 /*:
 @title Formula Effects
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -92,118 +209,6 @@ And then use this in your effect calculations.
 
 Anything that is defined in the code can be used as an effect.
 
- */
-/*:ja
- * @title Formula Effects
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Feb 11, 2015
- * @version 1.0
- * @filename HIME_FormulaEffects.js
- * @url http://himeworks.com/2016/02/formula-effects-mv/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 - 複数行のJavaScript式をアイテムやスキルの効果として実行できます。
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * RPGメーカーの全てのアイテムやスキルには、効果が付いています。
- * 効果には、HPの獲得、スキルの習得、パラメータでのバフ獲得、
- * コモンイベントの実行などがあります。
- * しかし、デフォルトでは用意されていない効果をスキルに持たせたい場合、
- * どうでしょうか?
- * ダメージの計算式を使うこともできますが、
- * その効果に条件をつけたい場合はどうでしょうか?
- * このような条件を計算式に含めることもできますが、
- * 問題は非常に複雑なダメージ計算式になってしまうことです。
- * 全てにダメージ計算式を使用するのではなく、
- * 計算式をサポートするカスタム効果を作成することができます。
- * 計算式の書き方を既に知っていたのであれば、
- * ダメージ計算式からこの効果計算式に移動させればいいのです。
- * 効果計算式はただの効果なので、
- * 条件に基づいて効果を実行すべきかを判断できるHIME_EffectConditionsなど、
- * 効果を扱う他のプラグインにも対応しています。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * Feb 11, 2015 -  initial release
- *
- * == 使用方法 ==
- *
- * 計算式の効果を作成するには、アイテムやスキルにメモタグを付けます。
- *
- *   <formula effect>
- *     FORMULA
- *   </formula effect>
- *
- * ここで、
- * FORMULAはスキル実行時に評価され、
- * 計算式に何を書くかで挙動が決まります。
- * 以下のFORMULA変数が利用可能です。
- *
- *   a - 攻撃者
- *   b - 対象
- *   i - 使用アイテム・スキル
- *   v - 変数
- *   s - スイッチ
- *   t - 敵グループ
- *   p - パーティ
- *
- * 例えば、対象のHPを100減らしたい場合、次のような計算式を使います。
- *
- *   b.gainHp(-100);
- *
- * タグの書き方:
- *
- *   <formula effect>
- *     b.gainHp(-100);
- *   </formula effect>
- *
- * 対象のアクションの結果にアクセスするには下記を使います。
- *
- *   var r = b.result()
- *
- * 下記で、HPダメージやMPダメージを確認できます。
- *
- *   r.hpDamage
- *   r.mpDamage
- *
- * そして、これを効果の計算に使用します。
- *
- * コードで定義されているものは何でも効果として使用できます。
- *
- * 使用例:
- *   スキル使用者と対象者のHP値を対象者にダメージを与え、使用者を回復させる。
- *   (式の大文字・小文字に注意)
- *
- *   <formula effect>
- *     var hpDiff = Math.abs(a.hp - b.hp);
- *     a.gainHp(hpDiff);
- *     b.gainHp(-hpDiff);
- *   </formula effect>
- *
  */
 
 var Imported = Imported || {};
