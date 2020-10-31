@@ -1,3 +1,111 @@
+/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_WindowBackgroundDesigner.js
+ * @title Window Background Designer
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.1
+ * @date Apr 25, 2016
+ * @filename HIME_WindowBackgroundDesigner.js
+ *
+ * @plugindesc v1.1 ウィンドウ別に背景画像を指定できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * http://himeworks.com/2016/04/window-background-designer/
+ *
+ * == 説明 ==
+ *
+ * 同じ古いウィンドウに飽きた?
+ * 背景を作成するためにあなた自身のカスタム画像を使用したいですか?
+ * このプラグインを使用すると、ウィンドウに画像を割り当てて、
+ * ウィンドウの背景として使用することができます。
+ * また、ウィンドウのフレームを削除して、
+ * プレイヤーに見えるのはカスタム画像だけになります。
+ * 画像はウィンドウの内容の下に表示されるので、
+ * ウィンドウに表示されたテキストやその他の画像は画像の上に表示されます。
+ * このプラグインは、付属の設定ファイルに追加する限り、
+ * どのようなウィンドウにも対応しています。
+ *
+ * == 使用方法 ==
+ *
+ * dataフォルダ内に'windows_config.csv'という設定ファイルを作成します。
+ * このファイルには、ウィンドウに使用する全背景の情報を保存します。
+ *
+ * ファイルの書式は下記です。
+ *
+ * Window Name,Image Name (in System folder),Window Opacity,Scene Name
+ * Window_MenuStatus,bg_menuStatus,0,
+ * Window_MenuCommand,bg_menuCommand,0
+ *
+ * これをcsvファイルにコピーするか、
+ * 私が提供したテンプレートをダウンロードしてください。
+ *
+ * 全ての画像は img/system フォルダに保存します。
+ * そして、どのシーンにいるかに応じて、
+ * どの画像をどのウィンドウに使用するかを決定します。
+ *
+ * -- ウィンドウに画像を割り当てる --
+ *
+ * このプラグインは、
+ * コードで定義されているウィンドウのクラス名に基づいて画像を割り当てます。
+ * テンプレートの設定ファイルでは、
+ * デフォルトのコードベースに存在するウィンドウのリストを書き留めていますので、
+ * どのウィンドウが目的のウィンドウなのかを把握する必要があります。
+ * 名前は、ほとんどの場合、ある程度直感的なものになっています。
+ * 例えば、以下のようになります。
+ *
+ * "Window_Gold"は所持金を表示するためのウィンドウです。
+ * "Window_MenuStatus"はメニューの全アクターを表示するウィンドウです。
+ * "Window_EquipList"は装備メニューの中で
+ * 装備を選択できる全ての装備を表示するウィンドウです。
+ *
+ * カスタムウィンドウを提供するプラグインを使用している場合、
+ * ウィンドウの名前を見つけ出して設定ファイルに追加する必要があります。
+ * 通常、プラグインを開いて、次のような形式のものを探すことで行われます。
+ *
+ *    function WINDOW_SOMETHING()
+ *
+ * WINDOW_SOMETHING は対象となるウィンドウの名前です。
+ * いつもこのパターンに従うとは限りませんが、運が良ければそうなるでしょう。
+ * ウィンドウ名が何であるかは、いつでも何かに教えてもらうことができます。
+ *
+ * -- ウィンドウの不透明度を設定 --
+ *
+ * デフォルトでは、全てのウィンドウの不透明度は255です。
+ * ウィンドウを透明にしたい場合は0に設定します。
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.1 - Apr 25, 2016
+ *  * Fixed bug with scene-specific entries.
+ * 1.0 - Apr 1, 2016
+ *  * initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
 /*:
 @title Window Background Designer
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -104,110 +212,6 @@ You can always have something tell you what the window names are.
 By default, all windows have an opacity of 255.
 If you would like to make the window transparent, you can set that to 0.
 
- */
-/*:ja
- * @title Window Background Designer
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.1
- * @date Apr 25, 2016
- * @filename HIME_WindowBackgroundDesigner.js
- * @url http://himeworks.com/2016/04/window-background-designer/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.1 - ウィンドウ別に背景画像を指定できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * 同じ古いウィンドウに飽きた?
- * 背景を作成するためにあなた自身のカスタム画像を使用したいですか?
- * このプラグインを使用すると、ウィンドウに画像を割り当てて、
- * ウィンドウの背景として使用することができます。
- * また、ウィンドウのフレームを削除して、
- * プレイヤーに見えるのはカスタム画像だけになります。
- * 画像はウィンドウの内容の下に表示されるので、
- * ウィンドウに表示されたテキストやその他の画像は画像の上に表示されます。
- * このプラグインは、付属の設定ファイルに追加する限り、
- * どのようなウィンドウにも対応しています。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.1 - Apr 25, 2016
- *  * Fixed bug with scene-specific entries.
- * 1.0 - Apr 1, 2016
- *  * initial release
- *
- * == 使用方法 ==
- *
- * dataフォルダ内に'windows_config.csv'という設定ファイルを作成します。
- * このファイルには、ウィンドウに使用する全背景の情報を保存します。
- *
- * ファイルの書式は下記です。
- *
- * Window Name,Image Name (in System folder),Window Opacity,Scene Name
- * Window_MenuStatus,bg_menuStatus,0,
- * Window_MenuCommand,bg_menuCommand,0
- *
- * これをcsvファイルにコピーするか、
- * 私が提供したテンプレートをダウンロードしてください。
- *
- * 全ての画像は img/system フォルダに保存します。
- * そして、どのシーンにいるかに応じて、
- * どの画像をどのウィンドウに使用するかを決定します。
- *
- * -- ウィンドウに画像を割り当てる --
- *
- * このプラグインは、
- * コードで定義されているウィンドウのクラス名に基づいて画像を割り当てます。
- * テンプレートの設定ファイルでは、
- * デフォルトのコードベースに存在するウィンドウのリストを書き留めていますので、
- * どのウィンドウが目的のウィンドウなのかを把握する必要があります。
- * 名前は、ほとんどの場合、ある程度直感的なものになっています。
- * 例えば、以下のようになります。
- *
- * "Window_Gold"は所持金を表示するためのウィンドウです。
- * "Window_MenuStatus"はメニューの全アクターを表示するウィンドウです。
- * "Window_EquipList"は装備メニューの中で
- * 装備を選択できる全ての装備を表示するウィンドウです。
- *
- * カスタムウィンドウを提供するプラグインを使用している場合、
- * ウィンドウの名前を見つけ出して設定ファイルに追加する必要があります。
- * 通常、プラグインを開いて、次のような形式のものを探すことで行われます。
- *
- *    function WINDOW_SOMETHING()
- *
- * WINDOW_SOMETHING は対象となるウィンドウの名前です。
- * いつもこのパターンに従うとは限りませんが、運が良ければそうなるでしょう。
- * ウィンドウ名が何であるかは、いつでも何かに教えてもらうことができます。
- *
- * -- ウィンドウの不透明度を設定 --
- *
- * デフォルトでは、全てのウィンドウの不透明度は255です。
- * ウィンドウを透明にしたい場合は0に設定します。
- *
  */
 
 var Imported = Imported || {};
