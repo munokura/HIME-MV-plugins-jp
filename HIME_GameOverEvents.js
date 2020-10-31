@@ -1,3 +1,85 @@
+/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_GameOverEvents.js
+ * @title Game Over Events
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Feb 2, 2016
+ * @version 1.2
+ * @filename HIME_GameOverEvents.js
+ *
+ * @plugindesc v1.2 ゲームオーバー時にイベントを実行できます
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/gameover-events-mv/
+ * 
+ * == 説明 ==
+ *
+ * 動画: https://www.youtube.com/watch?v=UZfjKUib0V0
+ *
+ * ランダムエンカウントでパーティが負けた場合、
+ * 単にゲームオーバーのシーンに行くのではなく、
+ * カスタムイベントを実行できるようにしたいと思ったことはありませんか?
+ *
+ * いくつかのイベント戦闘があって、
+ * プレイヤーが負けた場合のゲームオーバー処理を
+ * 全て同じように処理されるようにしたいと思ったことはありませんか?
+ * ランダムエンカウントと同じように処理してもいいのではないでしょうか?
+ *
+ * このプラグインを使えば、
+ * 独自のゲームオーバーイベントを作成することができます。
+ * マップを作成してイベントを設定するだけで、
+ * 自分だけのゲームオーバーシーンを演出することができます。
+ *
+ * == 使用方法 ==
+ *
+ * プラグインのパラメータで、
+ * ゲームオーバー時にプレイヤーが送信するマップのIDを選択します。
+ * ゲームオーバーシーンをイベント化できます。
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * 1.2 - Feb  2, 2016
+ *  * Fixed bug where interpreter is not cleared out when gameover,
+ *    causing events to continue running even in the gameover scene
+ * 1.1 - Dec  1, 2015
+ *  * Fixed bug where party is dead caused gameover loop
+ * 1.0 - Nov 29, 2015
+ *  * initial release
+ *
+ * @param Gameover Map ID
+ * @text ゲームオーバー マップID
+ * @type number
+ * @min 1
+ * @desc ゲームオーバー時にプレイヤーを送るマップID
+ * @default 999
+ */
+
+/*
+* あなたが私の仕事を楽しんでいるなら、
+* パトレオンで私への支援を検討してください！
+*
+* - https://www.patreon.com/himeworks
+*
+* ご質問や懸念がある場合、
+* 次のサイトのいずれかで私に連絡できます。
+*
+* - Main Website: http://himeworks.com
+* - Facebook: https://www.facebook.com/himeworkscom/
+* - Twitter: https://twitter.com/HimeWorks
+* - Youtube: https://www.youtube.com/c/HimeWorks
+* - Tumblr: http://himeworks.tumblr.com/
+*/
+
 /*:
 @title Game Over Events
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -49,12 +131,12 @@ own gameover scene!
 == Change Log ==
 
 1.2 - Feb  2, 2016
- * Fixed bug where interpreter is not cleared out when gameover,
-   causing events to continue running even in the gameover scene
+* Fixed bug where interpreter is not cleared out when gameover,
+  causing events to continue running even in the gameover scene
 1.1 - Dec  1, 2015
- * Fixed bug where party is dead caused gameover loop
+* Fixed bug where party is dead caused gameover loop
 1.0 - Nov 29, 2015
- * initial release
+* initial release
 
 == Usage ==
 
@@ -63,83 +145,7 @@ will be sent to upon game over.
 
 You can now event your game over scene.
 
- */
-/*:ja
- * @title Game Over Events
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Feb 2, 2016
- * @version 1.2
- * @filename HIME_GameOverEvents.js
- * @url http://himeworks.com/2015/11/gameover-events-mv/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.2 ゲームオーバー時にイベントを実行できます
- *
- * @param Gameover Map ID
- * @text ゲームオーバー マップID
- * @type number
- * @min 1
- * @desc ゲームオーバー時にプレイヤーを送るマップID
- * @default 999
- *
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * 動画: https://www.youtube.com/watch?v=UZfjKUib0V0
- *
- * ランダムエンカウントでパーティが負けた場合、
- * 単にゲームオーバーのシーンに行くのではなく、
- * カスタムイベントを実行できるようにしたいと思ったことはありませんか?
- *
- * いくつかのイベント戦闘があって、
- * プレイヤーが負けた場合のゲームオーバー処理を
- * 全て同じように処理されるようにしたいと思ったことはありませんか?
- * ランダムエンカウントと同じように処理してもいいのではないでしょうか?
- *
- * このプラグインを使えば、
- * 独自のゲームオーバーイベントを作成することができます。
- * マップを作成してイベントを設定するだけで、
- * 自分だけのゲームオーバーシーンを演出することができます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * 1.2 - Feb  2, 2016
- *  * Fixed bug where interpreter is not cleared out when gameover,
- *    causing events to continue running even in the gameover scene
- * 1.1 - Dec  1, 2015
- *  * Fixed bug where party is dead caused gameover loop
- * 1.0 - Nov 29, 2015
- *  * initial release
- *
- * == 使用方法 ==
- *
- * プラグインのパラメータで、
- * ゲームオーバー時にプレイヤーが送信するマップのIDを選択します。
- * ゲームオーバーシーンをイベント化できます。
- *
- */
+*/
 
 var Imported = Imported || {};
 var TH = TH || {};
