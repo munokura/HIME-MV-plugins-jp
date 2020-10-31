@@ -1,3 +1,112 @@
+/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_CommonEventButtons.js
+ * @title Common Event Buttons
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.1
+ * @date Feb 1, 2016
+ * @filename HIME_CommonEventButtons.js
+ *
+ * @plugindesc v1.1 マップ上でキーを押すだけでコモンイベントを実行できます。
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/01/common-event-buttons/
+ * 
+ * == 説明 ==
+ *
+ * デフォルトのコモンイベントは、コモンイベントを呼び出すイベントがある場合、
+ * 条件が満たされた時、コモンイベントが自動的に実行される場合に実行できます。
+ *
+ * このプラグインを使用すると、
+ * キーボードの特定のキーにコモンイベントを割り当てることができます。
+ * そのキーを押すと、マップ上にいる限りコモンイベントが実行され、
+ * コモンイベントを実行できます。
+ *
+ * 特定のキーが押された時、独自の特別なロジックを作成できます。
+ * プラグインを検索/作成する必要はありません。
+ *
+ * 例えば、マップ上でキーを押してパーティメンバーの順序を切り替えたい場合、
+ * コモンイベントを作成してからイベントロジックをまとめることができます。
+ * 最後に、このコモンイベントをゲームボタンの1つに割り当てることができます。
+ * スクリプトは必要ありません。
+ *
+ * == 使用法 ==
+ *
+ * コモンイベントをキーに割り当てるには、
+ * コモンイベントのどこかに注釈を作成してから、
+ *
+ *   <trigger button: BUTTON_NAME />
+ *
+ * RPGツクールMVには、デフォルトで機能するキーセットが用意されています。
+ * それらは次のとおりです。
+ *
+ *   ok       - Zキー / Enterキー
+ *   escape   - Xキー / Escキー
+ *   shift    - 左/右 Shiftキー
+ *   control  - 左/右 Ctrlキー / Altキー
+ *   pageup   - Qキー / PageUpキー
+ *   pagedown - Wキー / PageDownキー
+ *   up       - 上矢印 / テンキー8
+ *   down     - 下矢印 / テンキー2
+ *   left     - 左矢印 / テンキー4
+ *   right    - 右矢印 / テンキー6
+ *   debug    - F9キー
+ *
+ * 例えば、Escキーを1回押す度にコモンイベントを実行したい場合、
+ * 次のように記述します。
+ *
+ *   <trigger button: escape />
+ *
+ * 成功した場合、マップ上でキーを押すと、
+ * 割り当てたコモンイベントが実行されます。
+ *
+ * 他のキーボードプラグインを使用して、次のようなキーを追加できます。
+ *
+ * ZE Keymapper:
+ *   http://mvplugins.com/plugin/Zalerinian/ZE%20-%20Key%20Mapper
+ *
+ * Quasi Input:
+ *   http://forums.rpgmakerweb.com/index.php?/topic/51087-quasi-input/
+ *
+ *
+ * キー名のリストについては、これらのプラグインの手順を参照してください。
+ *
+ * 
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.1 - Feb 1, 2016
+ *  * Supports common event buttons in the battle scene now
+ *  * Refactored to make it easier to extend to other scenes
+ * 1.0 - Jan 21, 2016
+ *  * initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ *
+*/
+
 /*:
  * @title Common Event Buttons
  * @author Hime --> HimeWorks (http://himeworks.com)
@@ -90,112 +199,6 @@
  * Quasi Input: http://forums.rpgmakerweb.com/index.php?/topic/51087-quasi-input/
  *
  * Please refer to the instructions in those plugins for a list of button names.
- *
- * -------------------------------------------------------------------------
- */
-
-/*:ja
- * -------------------------------------------------------------------------
- * @title Common Event Buttons
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.1
- * @date Feb 1, 2016
- * @filename HIME_CommonEventButtons.js
- * @url http://himeworks.com/2016/01/common-event-buttons/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.1 マップ上でキーを押すだけでコモンイベントを実行できます。
- *
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * -------------------------------------------------------------------------
- * == 説明 ==
- *
- * デフォルトのコモンイベントは、コモンイベントを呼び出すイベントがある場合、
- * 条件が満たされた時、コモンイベントが自動的に実行される場合に実行できます。
- *
- * このプラグインを使用すると、
- * キーボードの特定のキーにコモンイベントを割り当てることができます。
- * そのキーを押すと、マップ上にいる限りコモンイベントが実行され、
- * コモンイベントを実行できます。
- *
- * 特定のキーが押された時、独自の特別なロジックを作成できます。
- * プラグインを検索/作成する必要はありません。
- *
- * 例えば、マップ上でキーを押してパーティメンバーの順序を切り替えたい場合、
- * コモンイベントを作成してからイベントロジックをまとめることができます。
- * 最後に、このコモンイベントをゲームボタンの1つに割り当てることができます。
- * スクリプトは必要ありません。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.1 - Feb 1, 2016
- *  * Supports common event buttons in the battle scene now
- *  * Refactored to make it easier to extend to other scenes
- * 1.0 - Jan 21, 2016
- *  * initial release
- *
- * == 使用法 ==
- *
- * コモンイベントをキーに割り当てるには、
- * コモンイベントのどこかに注釈を作成してから、
- *
- *   <trigger button: BUTTON_NAME />
- *
- * RPGツクールMVには、デフォルトで機能するキーセットが用意されています。
- * それらは次のとおりです。
- *
- *   ok       - Zキー / Enterキー
- *   escape   - Xキー / Escキー
- *   shift    - 左/右 Shiftキー
- *   control  - 左/右 Ctrlキー / Altキー
- *   pageup   - Qキー / PageUpキー
- *   pagedown - Wキー / PageDownキー
- *   up       - 上矢印 / テンキー8
- *   down     - 下矢印 / テンキー2
- *   left     - 左矢印 / テンキー4
- *   right    - 右矢印 / テンキー6
- *   debug    - F9キー
- *
- * 例えば、Escキーを1回押す度にコモンイベントを実行したい場合、
- * 次のように記述します。
- *
- *   <trigger button: escape />
- *
- * 成功した場合、マップ上でキーを押すと、
- * 割り当てたコモンイベントが実行されます。
- *
- * 他のキーボードプラグインを使用して、次のようなキーを追加できます。
- *
- * ZE Keymapper:
- *   http://mvplugins.com/plugin/Zalerinian/ZE%20-%20Key%20Mapper
- *
- * Quasi Input:
- *   http://forums.rpgmakerweb.com/index.php?/topic/51087-quasi-input/
- *
- *
- * キー名のリストについては、これらのプラグインの手順を参照してください。
  *
  * -------------------------------------------------------------------------
  */
