@@ -1,3 +1,78 @@
+/*:ja
+ * @target MV
+ * @title Enemy Classes
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Jan 7, 2016
+ * @version 1.1
+ * @filename HIME_EnemyClasses.js
+ *
+ *
+ * @plugindesc v1.1 敵に職業を割り当て、敵の職業とレベルで能力値やアクションを決められます。
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/enemy-classes/
+ * 
+ * == 説明 ==
+ *
+ * 敵を管理するより良い方法が必要ですか？
+ *
+ * 例えば、敵レベルを提供するプラグインがある場合、
+ * 職業を使用して敵の能力値を決定できます。
+ *
+ * このプラグインを使用すると、職業を敵に割り当てることができます。
+ *
+ * 敵に職業がある場合、能力値は全て職業とレベルに基づいて決まります。
+ * デフォルトでは、レベル1と見なされます。
+ *
+ * 職業が提供されていない場合、通常どおり独自の能力値から読み取ります。
+ *
+ * == 使用法 ==
+ *
+ * 職業を敵に割り当てるには、メモタグを使用します。
+ *
+ *   <enemy class: CLASS_ID />
+ *
+ * CLASS_ID は設定する職業のIDです。
+ *
+ * -- 敵の職業を変更する --
+ *
+ * 敵の職業を変更したい場合、プラグインコマンドを使用できます。
+ *
+ *   change_enemy_class member MEMBER_ID to class CLASS_ID
+ *
+ * MEMBER_IDは、1から始まる敵の位置です。
+ * 例えば、3番目の敵の職業を4に変更する場合、次のように記述します。
+ *
+ *   change_enemy_class member 3 to class 4
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * 1.1 - Jan 7, 2016
+ *  * enemy trait objects now includes enemy class
+ * 1.0 - Nov 23, 2015
+ *  * initial release
+ */
+/*
+ * ご質問やご不明な点がございましたら、下記のいずれかでご連絡ください。
+ *
+ * Main Website: http://himeworks.com
+ * Facebook: https://www.facebook.com/himeworkscom/
+ * Twitter: https://twitter.com/HimeWorks
+ * Youtube: https://www.youtube.com/c/HimeWorks
+ * Tumblr: http://himeworks.tumblr.com/
+ */
+
 /*:
 @title Enemy Classes
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -67,75 +142,6 @@ would write
 
   change_enemy_class member 3 to class 4
 
- */
-/*:ja
- * @title Enemy Classes
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Jan 7, 2016
- * @version 1.1
- * @filename HIME_EnemyClasses.js
- * @url  http://himeworks.com/2015/11/enemy-classes/
- *
- * ご質問やご不明な点がございましたら、下記のいずれかでご連絡ください。
- *
- * Main Website: http://himeworks.com
- * Facebook: https://www.facebook.com/himeworkscom/
- * Twitter: https://twitter.com/HimeWorks
- * Youtube: https://www.youtube.com/c/HimeWorks
- * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.1 敵に職業を割り当て、敵の職業とレベルで能力値やアクションを決められます。
- *
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * 敵を管理するより良い方法が必要ですか？
- *
- * 例えば、敵レベルを提供するプラグインがある場合、
- * 職業を使用して敵の能力値を決定できます。
- *
- * このプラグインを使用すると、職業を敵に割り当てることができます。
- *
- * 敵に職業がある場合、能力値は全て職業とレベルに基づいて決まります。
- * デフォルトでは、レベル1と見なされます。
- *
- * 職業が提供されていない場合、通常どおり独自の能力値から読み取ります。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * 1.1 - Jan 7, 2016
- *  * enemy trait objects now includes enemy class
- * 1.0 - Nov 23, 2015
- *  * initial release
- *
- * == 使用法 ==
- *
- * 職業を敵に割り当てるには、メモタグを使用します。
- *
- *   <enemy class: CLASS_ID />
- *
- * CLASS_ID は設定する職業のIDです。
- *
- * -- 敵の職業を変更する --
- *
- * 敵の職業を変更したい場合、プラグインコマンドを使用できます。
- *
- *   change_enemy_class member MEMBER_ID to class CLASS_ID
- *
- * MEMBER_IDは、1から始まる敵の位置です。
- * 例えば、3番目の敵の職業を4に変更する場合、次のように記述します。
- *
- *   change_enemy_class member 3 to class 4
- *
  */
 
 var Imported = Imported || {};
