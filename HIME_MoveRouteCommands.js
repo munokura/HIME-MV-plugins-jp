@@ -1,4 +1,81 @@
-﻿/*:
+﻿/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_MoveRouteCommands.js
+ * @title Move Route Commands
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.0
+ * @date Jan 2, 2016
+ * @filename HIME_MoveRouteCommands.js
+ *
+ * @plugindesc v1.0 イベントの移動ルートにコマンドを追加します。
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/01/move-route-commands/
+ *
+ * == 説明 ==
+ *
+ * このプラグインは、追加の移動ルートコマンドを提供します。
+ * 現在、以下をサポートしています。
+ *
+ * * 特定のイベントに向かって移動する
+ * * 特定のイベントから離れる
+ *
+ * 何か希望があれば、私にメッセージを送ってください。
+ * ライブラリに追加することを検討します。
+ *
+ * == 使用法 ==
+ *
+ * イベントの移動ルート内のスクリプトで使用します。
+ *
+ * 以下は、このプラグインによって提供される全てのスクリプトです。
+ *
+ * -- イベントに向けて移動 --
+ *
+ * イベントを特定のイベントに向けて移動します
+ *
+ * スクリプト: this.moveTowardsEvent(ID);
+ * 例: this.moveTowardsEvent(23);
+ *
+ * -- イベントから離れる --
+ *
+ * イベントを指定したイベントから離れるよう移動します
+ *
+ * スクリプト: this.moveAwayFromEvent(ID);
+ * 例: this.moveAwayFromEvent(5);
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.0 - Jan 2, 2016
+ *  - initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * * Main Website: http://himeworks.com
+ * * Facebook: https://www.facebook.com/himeworkscom/
+ * * Twitter: https://twitter.com/HimeWorks
+ * * Youtube: https://www.youtube.com/c/HimeWorks
+ * * Tumblr: http://himeworks.tumblr.com/
+*/
+
+/*:
 @title Move Route Commands
 @author Hime --> HimeWorks (http://himeworks.com)
 @version 1.0
@@ -63,78 +140,6 @@ Moves the characters away from a specified event
 script: this.moveAwayFromEvent(ID)
 example: this.moveAwayFromEvent(5)
 
- */
-/*:ja
- * @title Move Route Commands
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.0
- * @date Jan 2, 2016
- * @filename HIME_MoveRouteCommands.js
- * @url http://himeworks.com/2016/01/move-route-commands/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * * Main Website: http://himeworks.com
- * * Facebook: https://www.facebook.com/himeworkscom/
- * * Twitter: https://twitter.com/HimeWorks
- * * Youtube: https://www.youtube.com/c/HimeWorks
- * * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 イベントの移動ルートにコマンドを追加します。
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * このプラグインは、追加の移動ルートコマンドを提供します。
- * 現在、以下をサポートしています。
- *
- * * 特定のイベントに向かって移動する
- * * 特定のイベントから離れる
- *
- * 何か希望があれば、私にメッセージを送ってください。
- * ライブラリに追加することを検討します。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.0 - Jan 2, 2016
- *  - initial release
- *
- * == 使用法 ==
- *
- * イベントの移動ルート内のスクリプトで使用します。
- *
- * 以下は、このプラグインによって提供される全てのスクリプトです。
- *
- * -- イベントに向けて移動 --
- *
- * イベントを特定のイベントに向けて移動します
- *
- * スクリプト: this.moveTowardsEvent(ID)
- * 例: this.moveTowardsEvent(23)
- *
- * -- イベントから離れる --
- *
- * イベントを指定したイベントから離れるよう移動します
- *
- * スクリプト: this.moveAwayFromEvent(ID)
- * 例: this.moveAwayFromEvent(5)
- *
  */
 
 var Imported = Imported || {};
