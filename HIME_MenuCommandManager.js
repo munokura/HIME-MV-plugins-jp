@@ -1,3 +1,145 @@
+/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_MenuCommandManager.js
+ * @title Menu Command Manager
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.0
+ * @date Mar 16, 2016
+ * @filename HIME_MenuCommandManager.js
+ *
+ * @plugindesc v1.0 パーティメニューの表示名変更や非表示・無効化などゲーム中に制御できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/03/menu-command-manager-mv
+ *
+ * == 説明 ==
+ *
+ * Video: https://www.youtube.com/watch?v=ncfMXeMOz84
+ *
+ * RPGメーカーでは、メニューからいくつかのコマンドを利用することができます。
+ * また、セーブコマンドや並べ替えコマンドなどのイベントを使用して、
+ * それらの一部を無効にすることもできます。
+ * システムデータベースから、
+ * メニューに表示・非表示にするコマンドを選択することができます。
+ * しかし、プロジェクトでは、これらのコマンドだけでは不十分かもしれません。
+ * このプラグインを使えば、
+ * メニューコマンドを完全にコントロールすることができます。
+ * いつでもコマンドを非表示・表示にできます。
+ * コマンドを無効・有効にできます。
+ * いつでもコマンドの名前を変更することができます。
+ * 複数のパーティがある場合、
+ * それぞれのパーティが独自のコマンドを持つことができます。
+ * コマンドにいくつかのより多くのコントロールが必要ですか?
+ * このプラグインを試してみてください
+ *
+ * == 使用方法 ==
+ *
+ * 始める前に、いくつかの用語を説明します。
+ * コマンドは3つの基本的な要素で構成されています。
+ *
+ * 1. コマンドの ID であるシンボル
+ * 2. プレイヤーに表示されるテキストである名前
+ * 3. コマンドに付属する情報であるエクストラデータ
+ *
+ * 例えば、'Item'コマンドを例にすると、次のようになります。
+ *
+ * 1. シンボル = item
+ * 2. 名前 = アイテム
+ * 3. エクストラデータ = なし
+ *
+ * デフォルトのコマンド名を想定したデフォルトのシンボルの一覧です。
+ *
+ *   シンボル - 名前
+ *   ==============
+ *   item - アイテム
+ *   skill - スキル
+ *   equip - 装備
+ *   status - ステータス
+ *   formation - 並べ替え
+ *   options - オプション
+ *   save - セーブ
+ *   gameEnd - ゲーム終了
+ *
+ * -- パーティーメニューコマンド --
+ *
+ * メニューにアクセスすると、
+ * 現在のパーティのメニューにアクセスしていることになります。
+ * したがって、利用可能なコマンドは全てそのパーティに割り当てられています。
+ *
+ * 以下のスクリプトで現在のパーティのコマンドリストにアクセスします。
+ *
+ *   $gameParty.menuCommands()
+ *
+ * -- パーティーメニューコマンドを無効にする --
+ *
+ * 以下のスクリプトでコマンドを無効化・有効化します。
+ *
+ *   $gameParty.disableMenuCommand(SYMBOL)
+ *   $gameParty.enableMenuCommand(SYMBOL)
+ *
+ * 例えば、'item' が 'アイテム' コマンドのシンボルであると仮定して、
+ * それを無効にしたり有効にしたりするには、次のようにします。
+ *
+ *   $gameParty.disableMenuCommand("item")
+ *   $gameParty.enableMenuCommand("item")
+ *
+ * -- パーティーメニューのコマンドを非表示にする --
+ *
+ * 以下のスクリプトでコマンドを非表示・表示にします。
+ *
+ *   $gameParty.hideMenuCommand(SYMBOL)
+ *   $gameParty.showMenuCommand(SYMBOL)
+ *
+ * 例えば、'item'が'Item'コマンドのシンボルであると仮定して、
+ * それを非表示・表示するには
+ *
+ *   $gameParty.hideMenuCommand("item")
+ *   $gameParty.showMenuCommand("item")
+ *
+ * -- Renaming Commands --
+ *
+ * コマンドの名前はいつでも変更できます。
+ * 以下のスクリプトでコマンドの名前を変更します。
+ *
+ *   $gameParty.renameMenuCommand(SYMBOL, NAME)
+ *
+ * 例えば、アイテムコマンドを有効にするまで不明にしたい場合、
+ * 以下のように無効にしてから、'???'に名前を変更します。
+ *
+ *   $gameParty.disableMenuCommand("item");
+ *   $gameParty.renameMenuCommand("item", "???");
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.0 - Mar 16, 2016
+ *  - initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+*/
+
 /*:
 @title Menu Command Manager
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -129,144 +271,6 @@ enabled, you can disable it and then rename it to "???" as follows:
   $gameParty.disableMenuCommand("item");
   $gameParty.renameMenuCommand("item", "???");
 
- */
-/*:ja
- * @title Menu Command Manager
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.0
- * @date Mar 16, 2016
- * @filename HIME_MenuCommandManager.js
- * @url http://himeworks.com/2016/03/menu-command-manager-mv
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 パーティメニューの表示名変更や非表示・無効化などゲーム中に制御できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * Video: https://www.youtube.com/watch?v=ncfMXeMOz84
- *
- * RPGメーカーでは、メニューからいくつかのコマンドを利用することができます。
- * また、セーブコマンドや並べ替えコマンドなどのイベントを使用して、
- * それらの一部を無効にすることもできます。
- * システムデータベースから、
- * メニューに表示・非表示にするコマンドを選択することができます。
- * しかし、プロジェクトでは、これらのコマンドだけでは不十分かもしれません。
- * このプラグインを使えば、
- * メニューコマンドを完全にコントロールすることができます。
- * いつでもコマンドを非表示・表示にできます。
- * コマンドを無効・有効にできます。
- * いつでもコマンドの名前を変更することができます。
- * 複数のパーティがある場合、
- * それぞれのパーティが独自のコマンドを持つことができます。
- * コマンドにいくつかのより多くのコントロールが必要ですか?
- * このプラグインを試してみてください
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.0 - Mar 16, 2016
- *  - initial release
- *
- * == 使用方法 ==
- *
- * 始める前に、いくつかの用語を説明します。
- * コマンドは3つの基本的な要素で構成されています。
- *
- * 1. コマンドの ID であるシンボル
- * 2. プレイヤーに表示されるテキストである名前
- * 3. コマンドに付属する情報であるエクストラデータ
- *
- * 例えば、'Item'コマンドを例にすると、次のようになります。
- *
- * 1. シンボル = item
- * 2. 名前 = アイテム
- * 3. エクストラデータ = なし
- *
- * デフォルトのコマンド名を想定したデフォルトのシンボルの一覧です。
- *
- *   シンボル - 名前
- *   ==============
- *   item - アイテム
- *   skill - スキル
- *   equip - 装備
- *   status - ステータス
- *   formation - 並べ替え
- *   options - オプション
- *   save - セーブ
- *   gameEnd - ゲーム終了
- *
- * -- パーティーメニューコマンド --
- *
- * メニューにアクセスすると、
- * 現在のパーティのメニューにアクセスしていることになります。
- * したがって、利用可能なコマンドは全てそのパーティに割り当てられています。
- *
- * 以下のスクリプトで現在のパーティのコマンドリストにアクセスします。
- *
- *   $gameParty.menuCommands()
- *
- * -- パーティーメニューコマンドを無効にする --
- *
- * 以下のスクリプトでコマンドを無効化・有効化します。
- *
- *   $gameParty.disableMenuCommand(SYMBOL)
- *   $gameParty.enableMenuCommand(SYMBOL)
- *
- * 例えば、'item' が 'アイテム' コマンドのシンボルであると仮定して、
- * それを無効にしたり有効にしたりするには、次のようにします。
- *
- *   $gameParty.disableMenuCommand("item")
- *   $gameParty.enableMenuCommand("item")
- *
- * -- パーティーメニューのコマンドを非表示にする --
- *
- * 以下のスクリプトでコマンドを非表示・表示にします。
- *
- *   $gameParty.hideMenuCommand(SYMBOL)
- *   $gameParty.showMenuCommand(SYMBOL)
- *
- * 例えば、'item'が'Item'コマンドのシンボルであると仮定して、
- * それを非表示・表示するには
- *
- *   $gameParty.hideMenuCommand("item")
- *   $gameParty.showMenuCommand("item")
- *
- * -- Renaming Commands --
- *
- * コマンドの名前はいつでも変更できます。
- * 以下のスクリプトでコマンドの名前を変更します。
- *
- *   $gameParty.renameMenuCommand(SYMBOL, NAME)
- *
- * 例えば、アイテムコマンドを有効にするまで不明にしたい場合、
- * 以下のように無効にしてから、'???'に名前を変更します。
- *
- *   $gameParty.disableMenuCommand("item");
- *   $gameParty.renameMenuCommand("item", "???");
- *
  */
 
 var Imported = Imported || {};
