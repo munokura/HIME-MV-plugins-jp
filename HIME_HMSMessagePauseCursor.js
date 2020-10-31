@@ -1,166 +1,11 @@
-/*:
- * @title HMS: Message Pause Cursor
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.2.1
- * @date Dec 21, 2015
- * @filename HIME_HMSMessagePauseCursor.js
- * @url http://himeworks.com/2015/12/message-pause-cursor/
- *
- * If you enjoy my work, consider supporting me on Patreon!
- *
- * - https://www.patreon.com/himeworks
- *
- * If you have any questions or concerns, you can contact me at any of
- * the following sites:
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- *
- * @plugindesc v1.2 - Allows you to customize your message pause cursor.
- * @help
- *
- * == Description ==
- *
- * By default, when a message has finished displaying all of the words and is
- * waiting for player input, a little animated cursor is shown to indicate that
- * the player should press the confirm button to proceed.
- *
- * However, this cursor is stored inside the windowskin, which gives you enough
- * freedom to have one 24x24 cursor with 4 frames of animation. You also cannot
- * choose where the cursor should appear, or how fast it should animate.
- *
- * With this plugin, you are given more control over that pause cursor.
- *
- * You can change how it looks!
- * You can change where it's positioned!
- * You can change how fast it animates!
- *
- * What kind of cursor will you create?
- *
- * == Terms of Use ==
- *
- * - Free for use in non-commercial projects with credits
- * - Contact me for commercial use
- *
- * == Change Log ==
- *
- * 1.2.1 - Apr 11, 2020 by Renko
- *  * from loadSystemImages function (line 157) to loadSystemWindowImage
- * 1.2 - Dec 21, 2015
- *  * renamed to HMSMessagePauseCursor
- *  * added support for 'end' text align
- * 1.1 - Dec 15, 2015
- *  * use "Default Align" plugin parameter
- * 1.0 - Dec 14, 2015
- *  * initial release
- *
- * == Usage ==
- *
- * Create an image called "MessagePauseCursor" and save it in the img/system
- * folder of your project.
- *
- * This image is broken down into a grid.
- *
- * Each row represents a single cursor.
- * Each column represents an animation frame for that cursor.
- *
- * Each frame can be of any width or height, but all frames must have the
- * same width and height.
- *
- * You can have any number of frames per cursor, but all cursors must have
- * the same number of frames.
- *
- * Once you have set up your pause cursor image, go to the plugin manager
- * and for this plugin "Hime_MessagePauseCursor", specify how many rows
- * there are and how many frames there are in each row.
- *
- * -- Changing Cursors --
- *
- * To change which cursor is shown, you can use the script call
- *
- *   $gameMessage.setCursorId(NUMBER)
- *
- * Where the NUMBER is the ID of the cursor. The first cursor at the top
- * is number 1. The second is number 2. So if you wanted to change to cursor 2,
- * you would make the script call
- *
- *   $gameMessage.setCursorId(2)
- *
- * -- Changing Alignment --
- *
- * Alignment determines where the cursor is positioned in the window.
- * To change the alignment, use the script call
- *
- *   $gameMessage.setCursorAlign( ALIGNMENT )
- *
- * You have three options for the ALIGNMENT
- *
- *   'center'  - center of window, at the bottom
- *   'left'    - lower-left corner of the window
- *   'right'   - lower right corner of the window
- *   'end'     - right after the last character
- *
- * -- Changing Animation Speed --
- *
- * To change the animation speed, use the script call
- *
- *   $gameMessage.setCursorSpeed( SPEED )
- *
- * Where the SPEED is a number between 1 and probably 24.
- * The higher the number, the faster it is. You can experiment with each
- * number to see how fast they are.
- *
- *
- * @param Filename
- * @desc Name of the file to use in the img/system folder (no extension)
- * Change this if needed.
- * @default MessagePauseCursor
- *
- * @param Default Cursor ID
- * @desc default cursor ID you want to start with as a number.
- * First cursor at the top is 1, second is 2, and so on.
- * @default 1
- *
- * @param Number of Rows
- * @desc Number of rows in the image. One cursor per row.
- * @default 3
- *
- * @param Number of Frames
- * @desc Number of frames per animation.
- * @default 4
- *
- * @param Default Align
- * @desc The alignment of the pause cursor in the message window.
- * Can be 'left', 'center', 'right', or 'end' without quotes
- * @default center
- *
- */
 /*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_HMSMessagePauseCursor.js
  * @title HMS: Message Pause Cursor
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @version 1.2.1
  * @date Dec 21, 2015
  * @filename HIME_HMSMessagePauseCursor.js
- * @url http://himeworks.com/2015/12/message-pause-cursor/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
  *
  * @plugindesc v1.2.1 文章の表示の一時停止カーソルをカスタマイズ（アニメーション）できます
  * @help
@@ -168,6 +13,8 @@
  * https://fungamemake.com/
  * https://twitter.com/munokura/
  *
+ * 元プラグイン:
+ * http://himeworks.com/2015/12/message-pause-cursor/
  *
  * == 説明 ==
  *
@@ -191,23 +38,6 @@
  * 
  * サンプル画像が下記にあります。
  * http://himeworks.com/blog/wp-content/uploads/2015/12/MessagePauseCursor.png
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * 1.2.1 - Apr 11, 2020 by Renko
- *  * from loadSystemImages function (line 157) to loadSystemWindowImage
- * 1.2 - Dec 21, 2015
- *  * renamed to HMSMessagePauseCursor
- *  * added support for 'end' text align
- * 1.1 - Dec 15, 2015
- *  * use "Default Align" plugin parameter
- * 1.0 - Dec 14, 2015
- *  * initial release
  *
  * == 使用法 ==
  *
@@ -266,6 +96,22 @@
  * 数値が大きいほど、高速です。
  * それぞれの数値を試して、どれだけ速いかを確認してください。
  *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * 1.2.1 - Apr 11, 2020 by Renko
+ *  * from loadSystemImages function (line 157) to loadSystemWindowImage
+ * 1.2 - Dec 21, 2015
+ *  * renamed to HMSMessagePauseCursor
+ *  * added support for 'end' text align
+ * 1.1 - Dec 15, 2015
+ *  * use "Default Align" plugin parameter
+ * 1.0 - Dec 14, 2015
+ *  * initial release
  *
  * @param Filename
  * @text ファイル名
@@ -305,6 +151,163 @@
  * @default center
  *
  */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+*/
+
+/*:
+* @title HMS: Message Pause Cursor
+* @author Hime --> HimeWorks (http://himeworks.com)
+* @version 1.2.1
+* @date Dec 21, 2015
+* @filename HIME_HMSMessagePauseCursor.js
+* @url http://himeworks.com/2015/12/message-pause-cursor/
+*
+* If you enjoy my work, consider supporting me on Patreon!
+*
+* - https://www.patreon.com/himeworks
+*
+* If you have any questions or concerns, you can contact me at any of
+* the following sites:
+*
+* - Main Website: http://himeworks.com
+* - Facebook: https://www.facebook.com/himeworkscom/
+* - Twitter: https://twitter.com/HimeWorks
+* - Youtube: https://www.youtube.com/c/HimeWorks
+* - Tumblr: http://himeworks.tumblr.com/
+*
+*
+* @plugindesc v1.2 - Allows you to customize your message pause cursor.
+* @help
+*
+* == Description ==
+*
+* By default, when a message has finished displaying all of the words and is
+* waiting for player input, a little animated cursor is shown to indicate that
+* the player should press the confirm button to proceed.
+*
+* However, this cursor is stored inside the windowskin, which gives you enough
+* freedom to have one 24x24 cursor with 4 frames of animation. You also cannot
+* choose where the cursor should appear, or how fast it should animate.
+*
+* With this plugin, you are given more control over that pause cursor.
+*
+* You can change how it looks!
+* You can change where it's positioned!
+* You can change how fast it animates!
+*
+* What kind of cursor will you create?
+*
+* == Terms of Use ==
+*
+* - Free for use in non-commercial projects with credits
+* - Contact me for commercial use
+*
+* == Change Log ==
+*
+* 1.2.1 - Apr 11, 2020 by Renko
+*  * from loadSystemImages function (line 157) to loadSystemWindowImage
+* 1.2 - Dec 21, 2015
+*  * renamed to HMSMessagePauseCursor
+*  * added support for 'end' text align
+* 1.1 - Dec 15, 2015
+*  * use "Default Align" plugin parameter
+* 1.0 - Dec 14, 2015
+*  * initial release
+*
+* == Usage ==
+*
+* Create an image called "MessagePauseCursor" and save it in the img/system
+* folder of your project.
+*
+* This image is broken down into a grid.
+*
+* Each row represents a single cursor.
+* Each column represents an animation frame for that cursor.
+*
+* Each frame can be of any width or height, but all frames must have the
+* same width and height.
+*
+* You can have any number of frames per cursor, but all cursors must have
+* the same number of frames.
+*
+* Once you have set up your pause cursor image, go to the plugin manager
+* and for this plugin "Hime_MessagePauseCursor", specify how many rows
+* there are and how many frames there are in each row.
+*
+* -- Changing Cursors --
+*
+* To change which cursor is shown, you can use the script call
+*
+*   $gameMessage.setCursorId(NUMBER)
+*
+* Where the NUMBER is the ID of the cursor. The first cursor at the top
+* is number 1. The second is number 2. So if you wanted to change to cursor 2,
+* you would make the script call
+*
+*   $gameMessage.setCursorId(2)
+*
+* -- Changing Alignment --
+*
+* Alignment determines where the cursor is positioned in the window.
+* To change the alignment, use the script call
+*
+*   $gameMessage.setCursorAlign( ALIGNMENT )
+*
+* You have three options for the ALIGNMENT
+*
+*   'center'  - center of window, at the bottom
+*   'left'    - lower-left corner of the window
+*   'right'   - lower right corner of the window
+*   'end'     - right after the last character
+*
+* -- Changing Animation Speed --
+*
+* To change the animation speed, use the script call
+*
+*   $gameMessage.setCursorSpeed( SPEED )
+*
+* Where the SPEED is a number between 1 and probably 24.
+* The higher the number, the faster it is. You can experiment with each
+* number to see how fast they are.
+*
+*
+* @param Filename
+* @desc Name of the file to use in the img/system folder (no extension)
+* Change this if needed.
+* @default MessagePauseCursor
+*
+* @param Default Cursor ID
+* @desc default cursor ID you want to start with as a number.
+* First cursor at the top is 1, second is 2, and so on.
+* @default 1
+*
+* @param Number of Rows
+* @desc Number of rows in the image. One cursor per row.
+* @default 3
+*
+* @param Number of Frames
+* @desc Number of frames per animation.
+* @default 4
+*
+* @param Default Align
+* @desc The alignment of the pause cursor in the message window.
+* Can be 'left', 'center', 'right', or 'end' without quotes
+* @default center
+*
+*/
 var Imported = Imported || {};
 var TH = TH || {};
 Imported.TH_MessagePauseCursor = 1;
