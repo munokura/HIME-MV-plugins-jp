@@ -1,4 +1,53 @@
-﻿/*:
+﻿/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_CommonEventButtons.js
+ * @title End Phase Triggers
+ * @author Hime
+ * @date Nov 11, 2015
+ * @plugindesc v1.0 戦闘終了前に実行するイベントがあれば、実行してから戦闘を終了します
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/10/end-phase-triggers-mv/
+ * 
+ * == 説明 ==
+ *
+ * RPGツクールMVのデフォルトでは、全てのアクターや敵が戦闘で敗北した場合、
+ * 単純に勝敗処理に直行するようになっています。
+ *
+ * プラグインを有効にすることで、
+ * 戦闘終了までに実行できるイベントがあるかチェックし、実行します。
+ *
+ * == 使用方法 ==
+ *
+ * インストールするだけで動きます。
+ *
+ * == 利用例 ==
+ *
+ * 死に際にセリフを言う敵を作る
+ * https://tkool.jp/mv/guide/006_006f.html
+ *
+ * 上記の記事では台詞イベントを実行するために、
+ * 不死身ステートをつける方法を案内しています。
+ *
+ * このプラグインを使用すると、不死身ステートをつける必要はなく、
+ * 敵を倒すと台詞イベントが実行されてから、戦闘が終了します。
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * Nov 11, 2015 - added a check to see if events can run.
+ * Oct 28, 2015 - initial release
+ */
+
+/*:
 @title End Phase Triggers
 @author Hime
 @date Nov 11, 2015
@@ -28,52 +77,7 @@ Oct 28, 2015 - initial release
 
 Plug and Play.
 
- */
-/*:ja
- * @title End Phase Triggers
- * @author Hime
- * @date Nov 11, 2015
- * @url http://himeworks.com/2015/10/end-phase-triggers-mv/
- * @plugindesc v1.0 戦闘終了前に実行するイベントがあれば、実行してから戦闘を終了します
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * RPGツクールMVのデフォルトでは、全てのアクターや敵が戦闘で敗北した場合、
- * 単純に勝敗処理に直行するようになっています。
- *
- * プラグインを有効にすることで、
- * 戦闘終了までに実行できるイベントがあるかチェックし、実行します。
- *
- * == 利用例 ==
- *
- * 死に際にセリフを言う敵を作る
- * https://tkool.jp/mv/guide/006_006f.html
- *
- * 上記の記事では台詞イベントを実行するために、
- * 不死身ステートをつける方法を案内しています。
- *
- * このプラグインを使用すると、不死身ステートをつける必要はなく、
- * 敵を倒すと台詞イベントが実行されてから、戦闘が終了します。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * Nov 11, 2015 - added a check to see if events can run.
- * Oct 28, 2015 - initial release
- *
- * == 使用方法 ==
- *
- * インストールするだけで動きます。
- *
- */
+*/
 
 var Imported = Imported || {};
 var TH = TH || {};
