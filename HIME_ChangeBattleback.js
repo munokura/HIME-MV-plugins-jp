@@ -1,107 +1,11 @@
-/*:
- * @title Change Battleback
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Apr 16, 2016
- * @version 1.1
- * @filename HIME_ChangeBattleback.js
- * @url http://himeworks.com/2015/11/change-battleback/
- * 
- * If you enjoy my work, consider supporting me on Patreon!
- * 
- * * https://www.patreon.com/himeworks
- * 
- * If you have any questions or concerns, you can contact me at any of
- * the following sites:
- * 
- * * Main Website: http://himeworks.com
- * * Facebook: https://www.facebook.com/himeworkscom/
- * * Twitter: https://twitter.com/HimeWorks
- * * Youtube: https://www.youtube.com/c/HimeWorks
- * * Tumblr: http://himeworks.tumblr.com/
- * 
- * @plugindesc v1.1 Allows you to change battle background images during battle.
- * @help 
- * == Description ==
- * 
- * Video: https://www.youtube.com/watch?v=KHA6yRAMhMk
- * 
- * Battle backgrounds can be used to provide some sense of atmosphere.
- * For example, if you're walking through a forest and you encounter an enemy,
- * seeing some cute bunnies and trees in the background makes it feel like a
- * forest.
- * 
- * However, if you see dead bunnies and dying trees in the background, it feels
- * much different. What happens if an enemy can cast a spell that will cause all
- * of those bunnies and trees to die during battle?
- * 
- * RPG Maker MV comes with an event command that allows you to change battlebacks.
- * However, if you try to change battlebacks during battle, you'll notice that
- * nothing happens.
- * 
- * Instead, the change will only appear in the next battle.
- * This plugin allows you to change battle backgrounds during battle.
- * 
- * == Terms of Use ==
- * 
- * - Free for use in non-commercial projects with credits
- * - Contact me for commercial use
- * 
- * == Change Log ==
- * 
- * 1.1 - Apr 19, 2016
- *  * Implemented support for saving and loading battlebacks
- * 1.0 - Nov 22, 2015
- *  * initial release
- * 
- * == Usage ==
- * 
- * During battle, use the "Change Battleback" event command located on the 
- * third page of the event commands.
- * 
- * This will change the battleback immediately.
- * The changes will only last for the current battle, and will revert after
- * the battle finishes.
- * 
- * -- Saving and Restoring Battlebacks --
- * 
- * There may be situations where you want to change the battleback, and you
- * want to restore it to what it was before you changed it, but you didn't
- * know what the battlebacks were because they could have been anything at
- * that point.
- * 
- * This plugin provides functionality for saving the current battlebacks and
- * then restoring them.
- * 
- * To save battlebacks, use the script call
- * 
- *   BattleManager.saveBattlebacks()
- * 
- * To restore battlebacks, use the script call
- * 
- *   BattleManager.restoreBattlebacks()
- * 
- */
 /*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_ChangeBattleback.js
  * @title Change Battleback
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @date Apr 16, 2016
  * @version 1.1
  * @filename HIME_ChangeBattleback.js
- * @url http://himeworks.com/2015/11/change-battleback/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
  *
  * @plugindesc v1.1 戦闘中に戦闘背景を変更できます。
  * @help
@@ -109,6 +13,9 @@
  * https://fungamemake.com/
  * https://twitter.com/munokura/
  *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/change-battleback/
+ * 
  * == 説明文 ==
  *
  * 動画: https://www.youtube.com/watch?v=KHA6yRAMhMk
@@ -127,13 +34,6 @@
  *
  * 代わりに、変更は次の戦闘で反映されます。
  * このプラグインを使用すると、戦闘中に背景を変更できます。
- *
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
  *
  * == 使用法 ==
  *
@@ -156,6 +56,10 @@
  *
  *   BattleManager.restoreBattlebacks()
  *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
  *
  * == Change Log ==
  *
@@ -164,6 +68,106 @@
  * 1.0 - Nov 22, 2015
  *  * initial release
  */
+
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
+* @title Change Battleback
+* @author Hime --> HimeWorks (http://himeworks.com)
+* @date Apr 16, 2016
+* @version 1.1
+* @filename HIME_ChangeBattleback.js
+* @url http://himeworks.com/2015/11/change-battleback/
+* 
+* If you enjoy my work, consider supporting me on Patreon!
+* 
+* * https://www.patreon.com/himeworks
+* 
+* If you have any questions or concerns, you can contact me at any of
+* the following sites:
+* 
+* * Main Website: http://himeworks.com
+* * Facebook: https://www.facebook.com/himeworkscom/
+* * Twitter: https://twitter.com/HimeWorks
+* * Youtube: https://www.youtube.com/c/HimeWorks
+* * Tumblr: http://himeworks.tumblr.com/
+* 
+* @plugindesc v1.1 Allows you to change battle background images during battle.
+* @help 
+* == Description ==
+* 
+* Video: https://www.youtube.com/watch?v=KHA6yRAMhMk
+* 
+* Battle backgrounds can be used to provide some sense of atmosphere.
+* For example, if you're walking through a forest and you encounter an enemy,
+* seeing some cute bunnies and trees in the background makes it feel like a
+* forest.
+* 
+* However, if you see dead bunnies and dying trees in the background, it feels
+* much different. What happens if an enemy can cast a spell that will cause all
+* of those bunnies and trees to die during battle?
+* 
+* RPG Maker MV comes with an event command that allows you to change battlebacks.
+* However, if you try to change battlebacks during battle, you'll notice that
+* nothing happens.
+* 
+* Instead, the change will only appear in the next battle.
+* This plugin allows you to change battle backgrounds during battle.
+* 
+* == Terms of Use ==
+* 
+* - Free for use in non-commercial projects with credits
+* - Contact me for commercial use
+* 
+* == Change Log ==
+* 
+* 1.1 - Apr 19, 2016
+*  * Implemented support for saving and loading battlebacks
+* 1.0 - Nov 22, 2015
+*  * initial release
+* 
+* == Usage ==
+* 
+* During battle, use the "Change Battleback" event command located on the 
+* third page of the event commands.
+* 
+* This will change the battleback immediately.
+* The changes will only last for the current battle, and will revert after
+* the battle finishes.
+* 
+* -- Saving and Restoring Battlebacks --
+* 
+* There may be situations where you want to change the battleback, and you
+* want to restore it to what it was before you changed it, but you didn't
+* know what the battlebacks were because they could have been anything at
+* that point.
+* 
+* This plugin provides functionality for saving the current battlebacks and
+* then restoring them.
+* 
+* To save battlebacks, use the script call
+* 
+*   BattleManager.saveBattlebacks()
+* 
+* To restore battlebacks, use the script call
+* 
+*   BattleManager.restoreBattlebacks()
+* 
+*/
 
 var Imported = Imported || {};
 var TH = TH || {};
