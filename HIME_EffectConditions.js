@@ -1,4 +1,117 @@
-﻿/*:
+﻿/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_EffectConditions.js
+ * @title Effect Conditions
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Feb 7, 2015
+ * @version 1.1
+ * @filename HIME_EffectConditions.js
+ *
+ * @plugindesc v1.1 スキルやアイテムを発動させる為の、発動条件を追加できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/02/effect-conditions/
+ *
+ * == 説明 ==
+ *
+ * RPGツクールMVでは、アイテムやスキルに効果を割り当てられます。
+ * 効果とは、アイテムやスキルが正常に実行された時に発生する動作のことです。
+ * 例えば、
+ * 50%の確率で対象に'毒'ステートを付与するスキル'ポイズン'を作成したり、
+ * 特定のアクターが選択された時、
+ * 新しいスキルを習得できるアイテム'スキルの書'を作成したりできます。
+ * 例えば、'ファイア'を習得できるスキルの書があったとしましょう。
+ * 魔法を使わない人にも使えるようにしたいと思いますか?
+ * そうではないかもしれません。
+ * このような場合、
+ * スキルの書を使用するために満たすべき'発動条件'を定義できると便利です。
+ *
+ * このプラグインでは、アイテムやスキルの効果が発揮するための
+ * '効果発動条件'を定義することができます。
+ * 効果が適用される前に、全ての発動条件を満たす必要があります。
+ * この発動条件があれば、
+ * アイテムを使用するアクターがファイアを習得できるか確認できます。
+ * 効果発動条件は数式なので、あらゆるものに発動条件をつけることができます。
+ *
+ * == 使い方 ==
+ *
+ * 効果発動条件を作成するには、スキルやアイテムに
+ *
+ *   <effect condition: 1, 2, ..., 8 >
+ *      FORMULA
+ *   </effect condition>
+ *
+ * 1, 2, ..., 8 は、スキル/アイテムの発動条件が適用される
+ * データベースにある使用効果です。
+ * 1は1行目の使用効果が使用されます。
+ *
+ * FORMULAは、指定した効果に追加する発動条件です。
+ * FORMULAの変数には以下のようなものがあります。
+ *
+ *   a - スキル/アイテムの使用者
+ *   b - スキル/アイテムの対象
+ *   i - 使用したスキル/アイテム
+ *   v - 変数
+ *   s - スイッチ
+ *   p - パーティ
+ *   t - 敵グループ
+ *
+ *   -- 例 --
+ *
+ * 'ファイア'の呪文を習得する'ファイアの書'アイテムを持っていたとします。
+ * 'スキルの書'アイテムに、'ファイア'の呪文を習得する効果を1つ追加します。
+ * その書を誰かに使ってみると、ファイアのスキルを習得することが分かります。
+ * そこで、今から'スキルを習得する'効果の発動条件を追加していきます。
+ * 仮に'マジシャン'と'ウィザード'の職業のみが習得できるとします。
+ * マジシャンは職業ID2、ウィザードは職業ID4と仮定して、
+ * リストの最初の効果を対象にして、対象の職業をチェックする式を使って、
+ * 効果の発動条件を設定します。
+ *
+ *   <effect condition: 1>
+ *     b.isClass($dataClasses[2]) || b.isClass($dataClasses[4])
+ *   </effect condition>
+ *
+ * 式を自然言語に翻訳すると
+ *
+ *   対象が職業2または職業4か？
+ *
+ * これらの発動条件のいずれかが true (合致)であれば、
+ * 効果発動条件が満たされ、対象がファイアの呪文を習得することができます。
+ *
+ * 
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * 1.1 - Feb 8, 2015
+ *  * forgot to "call" the aliased item test method
+ * 1.0 - Feb 7, 2015
+ *  * initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+*/
+
+/*:
 @title Effect Conditions
 @author Hime --> HimeWorks (http://himeworks.com)
 @date Feb 7, 2015
@@ -112,114 +225,6 @@ Translating the formula into natural language, it means
 If any of those conditions are true, our effect condition is satisfied, and
 we can proceed to teach the target the fire spell.
 
- */
-/*:ja
- * @title Effect Conditions
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Feb 7, 2015
- * @version 1.1
- * @filename HIME_EffectConditions.js
- * @url http://himeworks.com/2016/02/effect-conditions/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.1 スキルやアイテムを発動させる為の、発動条件を追加できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * RPGツクールMVでは、アイテムやスキルに効果を割り当てられます。
- * 効果とは、アイテムやスキルが正常に実行された時に発生する動作のことです。
- * 例えば、
- * 50%の確率で対象に'毒'ステートを付与するスキル'ポイズン'を作成したり、
- * 特定のアクターが選択された時、
- * 新しいスキルを習得できるアイテム'スキルの書'を作成したりできます。
- * 例えば、'ファイア'を習得できるスキルの書があったとしましょう。
- * 魔法を使わない人にも使えるようにしたいと思いますか?
- * そうではないかもしれません。
- * このような場合、
- * スキルの書を使用するために満たすべき'発動条件'を定義できると便利です。
- *
- * このプラグインでは、アイテムやスキルの効果が発揮するための
- * '効果発動条件'を定義することができます。
- * 効果が適用される前に、全ての発動条件を満たす必要があります。
- * この発動条件があれば、
- * アイテムを使用するアクターがファイアを習得できるか確認できます。
- * 効果発動条件は数式なので、あらゆるものに発動条件をつけることができます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * 1.1 - Feb 8, 2015
- *  * forgot to "call" the aliased item test method
- * 1.0 - Feb 7, 2015
- *  * initial release
- *
- * == 使い方 ==
- *
- * 効果発動条件を作成するには、スキルやアイテムに
- *
- *   <effect condition: 1, 2, ..., 8 >
- *      FORMULA
- *   </effect condition>
- *
- * 1, 2, ..., 8 は、スキル/アイテムの発動条件が適用される
- * データベースにある使用効果です。
- * 1は1行目の使用効果が使用されます。
- *
- * FORMULAは、指定した効果に追加する発動条件です。
- * FORMULAの変数には以下のようなものがあります。
- *
- *   a - スキル/アイテムの使用者
- *   b - スキル/アイテムの対象
- *   i - 使用したスキル/アイテム
- *   v - 変数
- *   s - スイッチ
- *   p - パーティ
- *   t - 敵グループ
- *
- *   -- 例 --
- *
- * 'ファイア'の呪文を習得する'ファイアの書'アイテムを持っていたとします。
- * 'スキルの書'アイテムに、'ファイア'の呪文を習得する効果を1つ追加します。
- * その書を誰かに使ってみると、ファイアのスキルを習得することが分かります。
- * そこで、今から'スキルを習得する'効果の発動条件を追加していきます。
- * 仮に'マジシャン'と'ウィザード'の職業のみが習得できるとします。
- * マジシャンは職業ID2、ウィザードは職業ID4と仮定して、
- * リストの最初の効果を対象にして、対象の職業をチェックする式を使って、
- * 効果の発動条件を設定します。
- *
- *   <effect condition: 1>
- *     b.isClass($dataClasses[2]) || b.isClass($dataClasses[4])
- *   </effect condition>
- *
- * 式を自然言語に翻訳すると
- *
- *   対象が職業2または職業4か？
- *
- * これらの発動条件のいずれかが true (合致)であれば、
- * 効果発動条件が満たされ、対象がファイアの呪文を習得することができます。
- *
  */
 
 var Imported = Imported || {};
