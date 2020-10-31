@@ -1,3 +1,87 @@
+/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_PreEmptiveBattleEvents.js
+ * @title Pre-emptive Battle Events
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.0
+ * @date Jan 10, 2016
+ * @filename HIME_PreEmptiveBattleEvents.js
+ *
+ * @plugindesc v1.0 次の戦闘が先制攻撃か不意打ちかを変数で指定できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/01/pre-emptive-battle-events/
+ * 
+ * == 説明 ==
+ *
+ * 戦闘が始まる時、先制攻撃を行うか、敵からの不意打ちを受けるかを
+ * 制御したいと思ったことはありませんか?
+ *
+ * このプラグインは、いくつかの変数を設定することにより、
+ * 先制攻撃/不意打ちを保証する方法を提供します。
+ *
+ * 変数は、対応するエフェクトが発生する戦闘回数を決定します。
+ *
+ * 例えば、先制変数の値が3だった場合、
+ * つまり次の3回の戦闘で先制攻撃を受けることになります。
+ *
+ * 各戦闘中、変数は自動的に1ずつ減少するため、
+ * 自分で更新することを心配する必要はありません。
+ *
+ * イベント/スキルでこれらの変数を管理することにより、
+ * 強制的な先制攻撃/不意打ちを作成できます。
+ *
+ * == 使用法 ==
+ *
+ * プラグインパラメータで、先制攻撃を表す変数を選択します。
+ *
+ * 次に、イベントで設定するか、
+ * 変数値を変更する他の手法で設定します。
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.0 - Jan 10, 2016
+ *  - initial release
+ * 
+ * @param Pre-Emptive Variable ID
+ * @text 先制攻撃変数ID
+ * @type variable
+ * @desc 先制攻撃の数を追跡する変数
+ * @default 10
+ *
+ * @param Surprise Variable ID
+ * @text 不意打ち変数ID
+ * @type variable
+ * @desc 不意打ちの数を追跡する変数
+ * @default 11
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
 /*:
  * @title Pre-emptive Battle Events
  * @author Hime --> HimeWorks (http://himeworks.com)
@@ -67,82 +151,6 @@
  *
  * @param Surprise Variable ID
  * @desc Game Varaible that tracks the number of battles that will be surprise
- * @default 11
- */
-
-/*:ja
- * @title Pre-emptive Battle Events
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.0
- * @date Jan 10, 2016
- * @filename HIME_PreEmptiveBattleEvents.js
- * @url http://himeworks.com/2016/01/pre-emptive-battle-events/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 次の戦闘が先制攻撃か不意打ちかを変数で指定できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * 戦闘が始まる時、先制攻撃を行うか、敵からの不意打ちを受けるかを
- * 制御したいと思ったことはありませんか?
- *
- * このプラグインは、いくつかの変数を設定することにより、
- * 先制攻撃/不意打ちを保証する方法を提供します。
- *
- * 変数は、対応するエフェクトが発生する戦闘回数を決定します。
- *
- * 例えば、先制変数の値が3だった場合、
- * つまり次の3回の戦闘で先制攻撃を受けることになります。
- *
- * 各戦闘中、変数は自動的に1ずつ減少するため、
- * 自分で更新することを心配する必要はありません。
- *
- * イベント/スキルでこれらの変数を管理することにより、
- * 強制的な先制攻撃/不意打ちを作成できます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.0 - Jan 10, 2016
- *  - initial release
- *
- * == 使用法 ==
- *
- * プラグインパラメータで、先制攻撃を表す変数を選択します。
- *
- * 次に、イベントで設定するか、
- * 変数値を変更する他の手法で設定します。
- *
- * @param Pre-Emptive Variable ID
- * @text 先制攻撃変数ID
- * @desc 先制攻撃の数を追跡する変数
- * @default 10
- *
- * @param Surprise Variable ID
- * @text 不意打ち変数ID
- * @desc 不意打ちの数を追跡する変数
  * @default 11
  */
 
