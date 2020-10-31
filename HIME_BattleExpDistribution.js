@@ -13,6 +13,7 @@
  * https://fungamemake.com/
  * https://twitter.com/munokura/
  *
+ * 元プラグイン:
  * http://himeworks.com/2016/01/battle-exp-distribution/
  *
  * == 説明 ==

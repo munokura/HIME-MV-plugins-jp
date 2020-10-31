@@ -13,6 +13,7 @@
  * https://fungamemake.com/
  * https://twitter.com/munokura/
  *
+ * 元プラグイン:
  * http://himeworks.com/2016/04/window-background-designer/
  *
  * == 説明 ==
