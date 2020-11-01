@@ -1,3 +1,73 @@
+/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_ToggleableStates.js
+ * @title Toggle-able States
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Dec 2, 2015
+ * @filename HIME_ToggleableStates.js
+ *
+ * @plugindesc スイッチのように切り替え可能なステートを作成できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/toggle-able-states/
+ *
+ * == 説明 ==
+ *
+ * Video: https://www.youtube.com/watch?v=PESDHBV5V4A
+ *
+ * 同じステートを適用する時、削除できるステートがありますか?
+ *
+ * 例えば、毒ステートを追加するステートを使用しますが、
+ * 同じ毒ステートを適用すると、既存の毒ステートがキャンセルされます。
+ *
+ * このプラグインにより、切り替え可能なステートを作成できます。
+ * ステートが追加されると、次の2つのことが起こります。
+ *
+ * 1.ステートがOFFの場合、ONになります。
+ * 2.ステートがONの場合、OFFになります。
+ *
+ * == 使用法 ==
+ *
+ * ステートを切り替えることができるように指定するには、
+ * データベースで[ステート]タブ内のステートのメモ欄に下記のメモタグを入れます。
+ *
+ *   <toggleable state>
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * Dec 2, 2015
+ *   - fixed bug where test did not return a value
+ * Dec 1, 2015
+ *   - skills that add toggle-able states can be used even if state is added
+ * Nov 17, 2015
+ *   - initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * Main Website: http://himeworks.com
+ * Facebook: https://www.facebook.com/himeworkscom/
+ * Twitter: https://twitter.com/HimeWorks
+ * Youtube: https://www.youtube.com/c/HimeWorks
+ * Tumblr: http://himeworks.tumblr.com/
+ */
+
 /*:
 @title Toggle-able States
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -44,85 +114,20 @@ one of two things can happen
 == Change Log ==
 
 Dec 2, 2015
-  - fixed bug where test did not return a value
+ - fixed bug where test did not return a value
 Dec 1, 2015
-  - skills that add toggle-able states can be used even if state is added
+ - skills that add toggle-able states can be used even if state is added
 Nov 17, 2015
-  - initial release
+ - initial release
 
 == Usage ==
 
 To specify that a state can be toggled, in your database go to the
 states tab, find the state you want, and then write in its note-box
 
-  <toggleable state>
+ <toggleable state>
 
- */
-/*:ja
- * @title Toggle-able States
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Dec 2, 2015
- * @filename HIME_ToggleableStates.js
- * @url http://himeworks.com/2015/11/toggle-able-states/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * Main Website: http://himeworks.com
- * Facebook: https://www.facebook.com/himeworkscom/
- * Twitter: https://twitter.com/HimeWorks
- * Youtube: https://www.youtube.com/c/HimeWorks
- * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc スイッチのように切り替え可能なステートを作成できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * Video: https://www.youtube.com/watch?v=PESDHBV5V4A
- *
- * 同じステートを適用する時、削除できるステートがありますか?
- *
- * 例えば、毒ステートを追加するステートを使用しますが、
- * 同じ毒ステートを適用すると、既存の毒ステートがキャンセルされます。
- *
- * このプラグインにより、切り替え可能なステートを作成できます。
- * ステートが追加されると、次の2つのことが起こります。
- *
- * 1.ステートがOFFの場合、ONになります。
- * 2.ステートがONの場合、OFFになります。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * Dec 2, 2015
- *   - fixed bug where test did not return a value
- * Dec 1, 2015
- *   - skills that add toggle-able states can be used even if state is added
- * Nov 17, 2015
- *   - initial release
- *
- * == 使用法 ==
- *
- * ステートを切り替えることができるように指定するには、
- * データベースで[ステート]タブ内のステートのメモ欄に下記のメモタグを入れます。
- *
- *   <toggleable state>
- *
- */
+*/
 
 var Imported = Imported || {};
 var TH = TH || {};
