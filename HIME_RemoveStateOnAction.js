@@ -1,3 +1,100 @@
+/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_RemoveStateOnAction.js
+ * @title Remove State on Action
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Nov 19, 2015
+ * @filename HIME_RemoveStateOnAction.js
+ *
+ * @plugindesc ステートの解除条件に行動やスキルの回数を指定できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/remove-state-on-action
+ *
+ * == 説明 ==
+ *
+ * Video: https://www.youtube.com/watch?v=Gtxf84YmGs0
+ *
+ * 保証された会心の一撃を放つことができるバフステートがありますか?
+ *
+ * あるいは、全ての回復スペルの効果を高めるステート、
+ * しかし、回復スペルが使用された後にのみ、ステートは消滅しますか?
+ *
+ * このプラグインを使用すると、'自動解除'条件を
+ * 'ステート:行動時にステートを解除'に割り当てることができます。
+ *
+ * ステートが消えるまでに必要な行動の数と、
+ * 特定の行動のみがステートに影響するかどうかを選択できます。
+ *
+ * この解除条件を他の自動解除条件(特定のターン数の確認、ダメージなど)と
+ * 組み合わせることができます。
+ *
+ * == 使用法 ==
+ *
+ * 特定の数の行動された後、自動的に解除するステートを作成するには、
+ * ステートにメモタグを付けます。
+ *
+ *   <remove by action count: minCount maxCount>
+ *
+ * minCountとmaxCountは、
+ * ステートが自動的に解除されるまでの行動回数の範囲を表します。
+ * 1回の行動のみ継続させる場合、下記のように記述します。
+ *
+ *   <remove by action count: 1 1>
+ *
+ * 行動回数が1回から3回の間でランダムに継続するには、下記のように記述します。
+ *
+ *   <remove by action count: 1 3>
+ *
+ * -- 特定のスキルを確認する --
+ *
+ * デフォルトでは、行動毎にカウントダウンが更新されます。
+ * 例えば、ステートが2つの行動に関連する場合、
+ * 1ターンで2つの行動を実行すると、ステートは解除されます。
+ *
+ * ステートを更新するために特定のスキルのみをカウントする場合、
+ * 次のメモタグを使用します。
+ *
+ *   <update action count skill: SKILL_ID>
+ *
+ * SKILL_IDは、このステートに影響を与えるスキルのIDです。
+ * 例えば、攻撃がスキル1で、防御がスキル2であり、実際に攻撃した時のみ
+ * ステートを解除したい場合、次のように記述します。
+ *
+ *   <update action count skill: 1>
+ *
+ * この場合、防御を続けると、行動のカウントダウンは更新されません。
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は連絡してください
+ *
+ * == Change Log ==
+ *
+ * Nov 19, 2015 -  initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * * Main Website: http://himeworks.com
+ * * Facebook: https://www.facebook.com/himeworkscom/
+ * * Twitter: https://twitter.com/HimeWorks
+ * * Youtube: https://www.youtube.com/c/HimeWorks
+ * * Tumblr: http://himeworks.tumblr.com/
+ */
+
 /*:
 @title Remove State on Action
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -86,98 +183,6 @@ your state to only be removed when you actually attack, you can write
 
 This way, if you just keep guarding, the action countdown won't be updated.
 
- */
-/*:ja
- * @title Remove State on Action
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Nov 19, 2015
- * @filename HIME_RemoveStateOnAction.js
- * @url http://himeworks.com/2015/11/remove-state-on-action
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * * Main Website: http://himeworks.com
- * * Facebook: https://www.facebook.com/himeworkscom/
- * * Twitter: https://twitter.com/HimeWorks
- * * Youtube: https://www.youtube.com/c/HimeWorks
- * * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc ステートの解除条件に行動やスキルの回数を指定できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * Video: https://www.youtube.com/watch?v=Gtxf84YmGs0
- *
- * 保証された会心の一撃を放つことができるバフステートがありますか?
- *
- * あるいは、全ての回復スペルの効果を高めるステート、
- * しかし、回復スペルが使用された後にのみ、ステートは消滅しますか?
- *
- * このプラグインを使用すると、'自動解除'条件を
- * 'ステート:行動時にステートを解除'に割り当てることができます。
- *
- * ステートが消えるまでに必要な行動の数と、
- * 特定の行動のみがステートに影響するかどうかを選択できます。
- *
- * この解除条件を他の自動解除条件(特定のターン数の確認、ダメージなど)と
- * 組み合わせることができます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は連絡してください
- *
- * == Change Log ==
- *
- * Nov 19, 2015 -  initial release
- *
- * == 使用法 ==
- *
- * 特定の数の行動された後、自動的に解除するステートを作成するには、
- * ステートにメモタグを付けます。
- *
- *   <remove by action count: minCount maxCount>
- *
- * minCountとmaxCountは、
- * ステートが自動的に解除されるまでの行動回数の範囲を表します。
- * 1回の行動のみ継続させる場合、下記のように記述します。
- *
- *   <remove by action count: 1 1>
- *
- * 行動回数が1回から3回の間でランダムに継続するには、下記のように記述します。
- *
- *   <remove by action count: 1 3>
- *
- * -- 特定のスキルを確認する --
- *
- * デフォルトでは、行動毎にカウントダウンが更新されます。
- * 例えば、ステートが2つの行動に関連する場合、
- * 1ターンで2つの行動を実行すると、ステートは解除されます。
- *
- * ステートを更新するために特定のスキルのみをカウントする場合、
- * 次のメモタグを使用します。
- *
- *   <update action count skill: SKILL_ID>
- *
- * SKILL_IDは、このステートに影響を与えるスキルのIDです。
- * 例えば、攻撃がスキル1で、防御がスキル2であり、実際に攻撃した時のみ
- * ステートを解除したい場合、次のように記述します。
- *
- *   <update action count skill: 1>
- *
- * この場合、防御を続けると、行動のカウントダウンは更新されません。
- *
  */
 
 var Imported = Imported || {};
