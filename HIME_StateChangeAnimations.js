@@ -1,4 +1,74 @@
-﻿/*:
+﻿/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_StateChangeAnimations.js
+ * @title State Change Animations
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Jan 9, 2016
+ * @filename HIME_StateChangeAnimations.js
+ *
+ * @plugindesc v1.1 ステートが追加/解除された時、アニメーションを再生します
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/state-change-animations/
+ * 
+ * == 説明 ==
+ *
+ * Video: https://www.youtube.com/watch?v=3M769d9f0IA
+ *
+ * ステートが追加/解除されたことを視覚的に示しますか?
+ * このプラグインは、ステートが変化した時、
+ * アニメーションを再生する機能を提供します。
+ *
+ * == 使用法 ==
+ * ステートのメモ欄にタグを記入してください。
+ *
+ * 新しくステートが追加されたバトラーでアニメーションを再生するには、
+ * 下記を記入してください。
+ * IDは、再生するアニメーションのIDです。
+ *
+ *   <state add animation: ID />
+ *
+ * ステートが解除されたバトラーでアニメーションを再生するには、
+ * 下記を記入してください。
+ *
+ *   <state remove animation: ID />
+ *
+ * 1つのステートに追加/解除のアニメーションを追加できます。
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は連絡してください
+ *
+ * == Change Log ==
+ *
+ * 1.1 - Jan 9, 2016
+ *  * fixed bug where erasing state without having state plays erase animation
+ * 1.0 - Nov 24, 2015
+ *  * initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * * https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * * Main Website: http://himeworks.com
+ * * Facebook: https://www.facebook.com/himeworkscom/
+ * * Twitter: https://twitter.com/HimeWorks
+ * * Youtube: https://www.youtube.com/c/HimeWorks
+ * * Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
 @title State Change Animations
 @author Hime --> HimeWorks (http://himeworks.com)
 @date Jan 9, 2016
@@ -58,71 +128,6 @@ note-tag states with
 
 A single state can have both add and remove animations.
 
- */
-/*:ja
- * @title State Change Animations
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Jan 9, 2016
- * @filename HIME_StateChangeAnimations.js
- * @url http://himeworks.com/2015/11/state-change-animations/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * * https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * * Main Website: http://himeworks.com
- * * Facebook: https://www.facebook.com/himeworkscom/
- * * Twitter: https://twitter.com/HimeWorks
- * * Youtube: https://www.youtube.com/c/HimeWorks
- * * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.1 ステートが追加/解除された時、アニメーションを再生します
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * Video: https://www.youtube.com/watch?v=3M769d9f0IA
- *
- * ステートが追加/解除されたことを視覚的に示しますか?
- * このプラグインは、ステートが変化した時、
- * アニメーションを再生する機能を提供します。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は連絡してください
- *
- * == Change Log ==
- *
- * 1.1 - Jan 9, 2016
- *  * fixed bug where erasing state without having state plays erase animation
- * 1.0 - Nov 24, 2015
- *  * initial release
- *
- * == 使用法 ==
- * ステートのメモ欄にタグを記入してください。
- *
- * 新しくステートが追加されたバトラーでアニメーションを再生するには、
- * 下記を記入してください。
- * IDは、再生するアニメーションのIDです。
- *
- *   <state add animation: ID />
- *
- * ステートが解除されたバトラーでアニメーションを再生するには、
- * 下記を記入してください。
- *
- *   <state remove animation: ID />
- *
- * 1つのステートに追加/解除のアニメーションを追加できます。
- *
  */
 
 var Imported = Imported || {};
