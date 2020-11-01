@@ -1,3 +1,96 @@
+/*:ja
+ * @target MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_StateCountdownPopup.js
+ * @title State Countdown Popup
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @date Nov 22, 2015
+ * @filename HIME_StateCountdownPopup.js
+ *
+ * @plugindesc 特定のステートが終了するまでの残りのターン数をバトラーの頭上に表示できます。
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/state-countdown-popup/
+ *
+ * == 説明 ==
+ *
+ * Video: https://www.youtube.com/watch?v=EVmrE60flbM
+ *
+ * ステートが解除されるまで、ステートのターン数を表示しますか?
+ *
+ * 例えば、5ターンが過ぎた後、自動的にあなたを殺すステートにあり、
+ * プレイヤーにこの数字を視覚的なインジケータとして見せたい場合があります。
+ *
+ * このプラグインを使用すると、
+ * 特定のステートが終了するまでの残りのターン数を
+ * バトラーの頭上に表示できます。
+ *
+ * == 使用法 ==
+ *
+ * デフォルトでは、ステートはカウントダウンを表示しません。
+ * メモタグを使用して、ステートが表示するかを指定する必要があります。
+ *
+ *   <show countdown popup>
+ *
+ * カウントダウンポップアップが有効になると、
+ * ステートが追加される度、自動的に表示します。
+ *
+ * -- 複数ステートのカウントダウンポップアップ --
+ *
+ * このプラグインは、
+ * 一度に1つのカウントダウンポップアップのみをサポートします。
+ * 戦闘中にカウントダウンポップアップが有効なステートが2つ以上ある場合、
+ * そのうちの1つだけが表示されます。
+ *
+ * 選択されるのは、ステートの'優先度'に基づいています。
+ * つまり、優先度が高いほど優先されます。
+ *
+ * 同順の場合、最初に受けたステートが選択されます。
+ *
+ * -- カウンター表示の丸め --
+ *
+ * 一部のプラグインは、ステートカウンターを整数ではなく10進数に変換します。
+ * デフォルトでは、このプラグインは丸めを行いません。
+ *
+ * 番号を丸めたい場合、下記のメモタグを使用してください。
+ *
+ * <show countdown popup>
+ *   rounding: NUM_PLACES
+ * </show countdown popup>
+ *
+ * 小数点以下2桁に丸める場合は、2を使用します。
+ * 整数に丸める場合は、0を使用します。
+ * 例:
+ *
+ * <show countdown popup>
+ *   rounding: 0
+ * </show countdown popup>
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は連絡してください
+ *
+ * == Change Log ==
+ *
+ * Nov 22, 2015 - implemented rounding option
+ * Nov 21, 2015 - initial release
+ */
+/*
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * Main Website: http://himeworks.com
+ * Facebook: https://www.facebook.com/himeworkscom/
+ * Twitter: https://twitter.com/HimeWorks
+ * Youtube: https://www.youtube.com/c/HimeWorks
+ * Tumblr: http://himeworks.tumblr.com/
+ */
+
 /*:
 @title State Countdown Popup
 @author Hime --> HimeWorks (http://himeworks.com)
@@ -82,94 +175,6 @@ If you want it to round to whole numbers, use 0.  For example:
   rounding: 0
 </show countdown popup>
 
- */
-/*:ja
- * @title State Countdown Popup
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @date Nov 22, 2015
- * @filename HIME_StateCountdownPopup.js
- * @url http://himeworks.com/2015/11/state-countdown-popup/
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * Main Website: http://himeworks.com
- * Facebook: https://www.facebook.com/himeworkscom/
- * Twitter: https://twitter.com/HimeWorks
- * Youtube: https://www.youtube.com/c/HimeWorks
- * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc 特定のステートが終了するまでの残りのターン数をバトラーの頭上に表示できます。
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * Video: https://www.youtube.com/watch?v=EVmrE60flbM
- *
- * ステートが解除されるまで、ステートのターン数を表示しますか?
- *
- * 例えば、5ターンが過ぎた後、自動的にあなたを殺すステートにあり、
- * プレイヤーにこの数字を視覚的なインジケータとして見せたい場合があります。
- *
- * このプラグインを使用すると、
- * 特定のステートが終了するまでの残りのターン数を
- * バトラーの頭上に表示できます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は連絡してください
- *
- * == Change Log ==
- *
- * Nov 22, 2015 - implemented rounding option
- * Nov 21, 2015 - initial release
- *
- * == 使用法 ==
- *
- * デフォルトでは、ステートはカウントダウンを表示しません。
- * メモタグを使用して、ステートが表示するかを指定する必要があります。
- *
- *   <show countdown popup>
- *
- * カウントダウンポップアップが有効になると、
- * ステートが追加される度、自動的に表示します。
- *
- * -- 複数ステートのカウントダウンポップアップ --
- *
- * このプラグインは、
- * 一度に1つのカウントダウンポップアップのみをサポートします。
- * 戦闘中にカウントダウンポップアップが有効なステートが2つ以上ある場合、
- * そのうちの1つだけが表示されます。
- *
- * 選択されるのは、ステートの'優先度'に基づいています。
- * つまり、優先度が高いほど優先されます。
- *
- * 同順の場合、最初に受けたステートが選択されます。
- *
- * -- カウンター表示の丸め --
- *
- * 一部のプラグインは、ステートカウンターを整数ではなく10進数に変換します。
- * デフォルトでは、このプラグインは丸めを行いません。
- *
- * 番号を丸めたい場合、下記のメモタグを使用してください。
- *
- * <show countdown popup>
- *   rounding: NUM_PLACES
- * </show countdown popup>
- *
- * 小数点以下2桁に丸める場合は、2を使用します。
- * 整数に丸める場合は、0を使用します。
- * 例:
- *
- * <show countdown popup>
- *   rounding: 0
- * </show countdown popup>
- *
  */
 
 var Imported = Imported || {};
