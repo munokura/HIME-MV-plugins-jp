@@ -1,120 +1,11 @@
-/*:
- * @title Large Choices
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.2
- * @date Jul 17, 2016
- * @filename HIME_LargeChoices.js
- * @url http://himeworks.com/2015/10/large-choices-mv/
- *
- * If you enjoy my work, consider supporting me on Patreon!
- *
- * * https://www.patreon.com/himeworks
- *
- * If you have any questions or concerns, you can contact me at any of
- * the following sites:
- *
- * * Main Website: http://himeworks.com
- * * Facebook: https://www.facebook.com/himeworkscom/
- * * Twitter: https://twitter.com/HimeWorks
- * * Youtube: https://www.youtube.com/c/HimeWorks
- * * Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.2 - Combines multiple show choice commands into a single,
- * large list.
- * @help
- * == Description ==
- *
- * By default, RPG Maker only provides you with 6 choices when you create
- * Show Choice commands.
- *
- * This script allows you to display more than 6 choices by combining multiple
- * Show Choice commands into a single, large list.
- *
- * In order to properly set up the choice settings such as the default choice or
- * the cancel choice, please read the Usage section for more information.
- *
- * If you want to have two or more, separate choices, please insert a comment in
- * between so they aren't merged together.
- *
- * == Terms of Use ==
- *
- * - Free for use in non-commercial projects with credits
- * - Contact me for commercial use
- *
- * == Change Log ==
- *
- * 1.2 - Jul 14, 2016
- *   * fixed bug where game crashes during "Event Test" if choices exist
- * 1.1 - Dec 22, 2015
- *   * fixed bug where "default" choice #1 for extended choices did nothing
- *   * fixed bug where "cancel" choice #1 for extended choices did nothing
- * 1.0 - Oct 23, 2015
- *   * initial release
- *
- * == Usage ==
- *
- * -- Combining Choices --
- *
- * To combine choices, start by creating a Show Choice command and fill in your
- * options. To add more choices, create another Show Choice command and fill
- * in your options. The game will automatically combine them for you.
- *
- * -- Custom Default Choice --
- *
- * The default choice is relative to the choice command that the choice
- * belongs to.
- *
- * Suppose you have 8 choices as follows, split across two choice commands:
- *
- * Show Choices #1
- *   Choice 1
- *   Choice 2
- *   Choice 3
- *   Choice 4
- *   Choice 5
- *   Choice 6
- * Show Choices #2
- *   Choice 7
- *   Choice 8
- *
- * And you wanted to set Choice 7 as the default choice. That is, when you
- * run this event, choice 7 will be highlighted by default.
- *
- * In order to accomplish this, set the default choice for the second set of
- * choices to "Choice 2", and set the first set to "None". The engine will
- * automatically update the default choice, so you need to make sure it
- * selects the right one.
- *
- * -- Custom Cancel Choice --
- *
- * Having a custom cancel choice is similar to default choices: select the
- * appropriate choice, and then make sure all other choices are disallowed.
- *
- * If you need to use a "cancel branch", make sure that only the last set
- * of choices has that option, and previous cancel choices are disallowed.
- */
-
 /*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_LargeChoices.js
  * @title Large Choices
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @version 1.2
  * @date Jul 17, 2016
  * @filename HIME_LargeChoices.js
- * @url http://himeworks.com/2015/10/large-choices-mv/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
  *
  * @plugindesc v1.2 複数の'選択肢の表示…'を1つの大きなリストに結合します
  * @help
@@ -122,6 +13,9 @@
  * https://fungamemake.com/
  * https://twitter.com/munokura/
  *
+ * 元プラグイン:
+ * http://himeworks.com/2015/10/large-choices-mv/
+ * 
  * == 説明 ==
  *
  * RPGツクールMVのデフォルトでは、
@@ -137,13 +31,6 @@
  *
  * 2つ以上の個別の選択肢が必要な場合、それらの間に注釈を挿入して、
  * それらが結合されないようにしてください。
- *
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
  *
  * == 使用法 ==
  *
@@ -190,6 +77,12 @@
  * 最後の選択肢のセットのみにその機能があり、
  * 以前のキャンセルの選択肢は機能しないことに注意してください。
  *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ * 
  * == Change Log ==
  *
  * 1.2 - Jul 14, 2016
@@ -201,6 +94,117 @@
  *   * initial release
  *
  */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
+* @title Large Choices
+* @author Hime --> HimeWorks (http://himeworks.com)
+* @version 1.2
+* @date Jul 17, 2016
+* @filename HIME_LargeChoices.js
+* @url http://himeworks.com/2015/10/large-choices-mv/
+*
+* If you enjoy my work, consider supporting me on Patreon!
+*
+* * https://www.patreon.com/himeworks
+*
+* If you have any questions or concerns, you can contact me at any of
+* the following sites:
+*
+* * Main Website: http://himeworks.com
+* * Facebook: https://www.facebook.com/himeworkscom/
+* * Twitter: https://twitter.com/HimeWorks
+* * Youtube: https://www.youtube.com/c/HimeWorks
+* * Tumblr: http://himeworks.tumblr.com/
+*
+* @plugindesc v1.2 - Combines multiple show choice commands into a single,
+* large list.
+* @help
+* == Description ==
+*
+* By default, RPG Maker only provides you with 6 choices when you create
+* Show Choice commands.
+*
+* This script allows you to display more than 6 choices by combining multiple
+* Show Choice commands into a single, large list.
+*
+* In order to properly set up the choice settings such as the default choice or
+* the cancel choice, please read the Usage section for more information.
+*
+* If you want to have two or more, separate choices, please insert a comment in
+* between so they aren't merged together.
+*
+* == Terms of Use ==
+*
+* - Free for use in non-commercial projects with credits
+* - Contact me for commercial use
+*
+* == Change Log ==
+*
+* 1.2 - Jul 14, 2016
+*   * fixed bug where game crashes during "Event Test" if choices exist
+* 1.1 - Dec 22, 2015
+*   * fixed bug where "default" choice #1 for extended choices did nothing
+*   * fixed bug where "cancel" choice #1 for extended choices did nothing
+* 1.0 - Oct 23, 2015
+*   * initial release
+*
+* == Usage ==
+*
+* -- Combining Choices --
+*
+* To combine choices, start by creating a Show Choice command and fill in your
+* options. To add more choices, create another Show Choice command and fill
+* in your options. The game will automatically combine them for you.
+*
+* -- Custom Default Choice --
+*
+* The default choice is relative to the choice command that the choice
+* belongs to.
+*
+* Suppose you have 8 choices as follows, split across two choice commands:
+*
+* Show Choices #1
+*   Choice 1
+*   Choice 2
+*   Choice 3
+*   Choice 4
+*   Choice 5
+*   Choice 6
+* Show Choices #2
+*   Choice 7
+*   Choice 8
+*
+* And you wanted to set Choice 7 as the default choice. That is, when you
+* run this event, choice 7 will be highlighted by default.
+*
+* In order to accomplish this, set the default choice for the second set of
+* choices to "Choice 2", and set the first set to "None". The engine will
+* automatically update the default choice, so you need to make sure it
+* selects the right one.
+*
+* -- Custom Cancel Choice --
+*
+* Having a custom cancel choice is similar to default choices: select the
+* appropriate choice, and then make sure all other choices are disallowed.
+*
+* If you need to use a "cancel branch", make sure that only the last set
+* of choices has that option, and previous cancel choices are disallowed.
+*/
 
 // ===========================================================================
 // Rest of Script
