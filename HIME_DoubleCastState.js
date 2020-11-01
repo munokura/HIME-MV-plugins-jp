@@ -1,4 +1,60 @@
-﻿/*:
+﻿/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_DoubleCastState.js
+ * @title Double Cast State
+ * @author Hime
+ * @date Nov 5, 2015
+ * @filename HIME_DoubleCastState.js
+ *
+ * @plugindesc v1.0 スキル、アイテムの連続回数が2倍になるステートが作れます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2015/11/double-cast-state/
+ *
+ * == 説明 ==
+ *
+ * 特定のスキルの連続回数を簡単に2倍にできるプラグインです。
+ * アクターや敵に特定のステートが追加されると、
+ * そのスキルの連続回数が2倍になるダブルキャストステートになります。
+ * 例えば、デフォルトでは回復の連続回数は1回です。
+ * しかし、ダブルキャストステートになると、
+ * 1回分のコストで2回の回復が可能になります。
+ *
+ * == 使用方法 ==
+ *
+ * ステートのメモタグ
+ *
+ *    <double cast>
+ *
+ * このステートがダブルキャストステートになります。
+ *
+ * 
+ * スキル、アイテムのメモタグ
+ * 
+ *   ダブルキャスト効果を受けられる全スキル、アイテムに
+ *   下記のメモタグを入れてください。
+ *
+ *    <can double cast>
+ *
+ *   このメモタグが入っているスキル、アイテムだけが
+ *   ダブルキャスト効果を発揮します。
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ *
+ * == Change Log ==
+ *
+ * Nov 5, 2015 -  initial release
+ */
+
+/*:
 @title Double Cast State
 @author Hime
 @date Nov 5, 2015
@@ -30,69 +86,18 @@ Nov 5, 2015 -  initial release
 
 First, note-tag states with
 
-   <double cast>
+  <double cast>
 
 To specify that they have the double cast effect.
 
 Then, note-tag all skills that can be affected by this
 double cast effect with
 
-   <can double cast>
+  <can double cast>
 
 Only skills that have this note-tag will have the double effect.
 
- */
-/*:ja
- * @title Double Cast State
- * @author Hime
- * @date Nov 5, 2015
- * @filename HIME_DoubleCastState.js
- * @url http://himeworks.com/2015/11/double-cast-state/
- *
- * @plugindesc v1.0 スキル、アイテムの連続回数が2倍になるステートが作れます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- *
- * == 説明 ==
- *
- * 特定のスキルの連続回数を簡単に2倍にできるプラグインです。
- * アクターや敵に特定のステートが追加されると、
- * そのスキルの連続回数が2倍になるダブルキャストステートになります。
- * 例えば、デフォルトでは回復の連続回数は1回です。
- * しかし、ダブルキャストステートになると、
- * 1回分のコストで2回の回復が可能になります。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- *
- * == Change Log ==
- *
- * Nov 5, 2015 -  initial release
- *
- * == 使用方法 ==
- *
- * ステートのメモタグ
- *
- *    <double cast>
- *
- * このステートがダブルキャストステートになります。
- *
- *
- * スキル、アイテムのメモタグ
- *   ダブルキャスト効果を受けられる全スキル、アイテムに
- *   下記のメモタグを入れてください。
- *
- *    <can double cast>
- *
- *   このメモタグが入っているスキル、アイテムだけが
- *   ダブルキャスト効果を発揮します。
- *
- */
+*/
 
 var Imported = Imported || {}
 var TH = TH || {};
