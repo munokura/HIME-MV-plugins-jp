@@ -1,4 +1,93 @@
-﻿/*:
+﻿/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_PlaceholderStates.js
+ * @title Placeholder States
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.0
+ * @date Jan 10, 2015
+ * @filename HIME_PlaceholderStates.js
+ * 
+ * @plugindesc v1.0 同じステートを追加で付与された時、違うステートを付与するなどJavaScriptでカスタマイズできます
+ * @help 
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ * 
+ * 元プラグイン:
+ * http://himeworks.com/2016/01/placeholder-states/
+ * 
+ * == 説明 ==
+ * 
+ * プレースホルダステートとは、実際にバトラーに追加される時、
+ * どのステートが追加されるかを式を使って決定する特別なステートのことです。
+ * 例えば、'凍結'というステートがあったとします。
+ * 最初に凍結ステートを適用すると、敵は凍結ステートになります。
+ * しかし、既に凍結している敵に凍結ステートを適用すると、
+ * 敵は粉々になって死んでしまいます。
+ * 別の例として、'毒'というステートがあったとします。
+ * このステートを最初にバトラーに適用すると、毒1が追加されます。
+ * すでに毒1を持っているバトラーに毒のステートを追加すると、
+ * 毒は削除され、毒2に置き換わります。
+ * 同じバトラーに複数回使用しても、
+ * 潜在的に異なる結果が得られるステートを作成することができます。
+ * 
+ * == 使用方法 ==
+ * 
+ * ステートのメモタグ
+ * 
+ * <placeholder state>
+ *   FORMULA
+ * </placeholder state>
+ * 
+ * FORMULAは数値を返すjavascriptの式で、
+ * 実際に追加/削除されたステートのIDになります。
+ * 任意の数の条件を使用することができます。
+ * 
+ * 以下の数式変数が利用可能です。
+ * 
+ *   a - "this"バトラー
+ *   v - 変数
+ *   
+ * 例:ステート4、5以外に設定(無効化の仮のステートを作成)
+ *   ステート4が付与していればステート5に置き換え。
+ *   付与していなければ、ステート4を付与。
+ * 
+ * <placeholder state>
+ *   if (a.isStateAffected(4)) { 
+ *        5;
+ *     } else {
+ *        4;
+ *     }
+ * </placeholder state>
+ * 
+ * 
+ * == 利用規約 ==
+ * 
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用利用の場合、私に連絡してください
+ * 
+ * == Change Log ==
+ * 
+ * 1.0 - Jan 10, 2016
+ *  - initial release
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ * 
+ * - https://www.patreon.com/himeworks
+ * 
+ * ご質問や懸念がある場合、
+ * 次のサイトのいずれかで私に連絡できます。
+ * 
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
 @title Placeholder States
 @author Hime --> HimeWorks (http://himeworks.com)
 @version 1.0
@@ -47,14 +136,14 @@ times, but potentially have different results.
 == Change Log ==
 
 1.0 - Jan 10, 2016
- - initial release
+- initial release
 
 == Usage ==
 
 Note-tag states with
 
 <placeholder state>
-  FORMULA
+ FORMULA
 </placeholder state>
 
 Where the FORMULA is any javascript expression that returns a number, which
@@ -63,94 +152,10 @@ any number of conditions.
 
 The following formula variables are available
 
-  a - "this" battler.
-  v - game variables
-  
- */
-/*:ja
- * @title Placeholder States
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.0
- * @date Jan 10, 2015
- * @filename HIME_PlaceholderStates.js
- * @url http://himeworks.com/2016/01/placeholder-states/
- * 
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- * 
- * - https://www.patreon.com/himeworks
- * 
- * ご質問や懸念がある場合、
- * 次のサイトのいずれかで私に連絡できます。
- * 
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- * 
- * @plugindesc v1.0 同じステートを追加で付与された時、違うステートを付与するなどJavaScriptでカスタマイズできます
- * @help 
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- * 
- * 
- * == 説明 ==
- * 
- * プレースホルダステートとは、実際にバトラーに追加される時、
- * どのステートが追加されるかを式を使って決定する特別なステートのことです。
- * 例えば、'凍結'というステートがあったとします。
- * 最初に凍結ステートを適用すると、敵は凍結ステートになります。
- * しかし、既に凍結している敵に凍結ステートを適用すると、
- * 敵は粉々になって死んでしまいます。
- * 別の例として、'毒'というステートがあったとします。
- * このステートを最初にバトラーに適用すると、毒1が追加されます。
- * すでに毒1を持っているバトラーに毒のステートを追加すると、
- * 毒は削除され、毒2に置き換わります。
- * 同じバトラーに複数回使用しても、
- * 潜在的に異なる結果が得られるステートを作成することができます。
- * 
- * == 利用規約 ==
- * 
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用利用の場合、私に連絡してください
- * 
- * == Change Log ==
- * 
- * 1.0 - Jan 10, 2016
- *  - initial release
- * 
- * == 使用方法 ==
- * 
- * ステートのメモタグ
- * 
- * <placeholder state>
- *   FORMULA
- * </placeholder state>
- * 
- * FORMULAは数値を返すjavascriptの式で、
- * 実際に追加/削除されたステートのIDになります。
- * 任意の数の条件を使用することができます。
- * 
- * 以下の数式変数が利用可能です。
- * 
- *   a - "this"バトラー
- *   v - 変数
- *   
- * 例:ステート4、5以外に設定(無効化の仮のステートを作成)
- *   ステート4が付与していればステート5に置き換え。
- *   付与していなければ、ステート4を付与。
- * 
- * <placeholder state>
- *   if (a.isStateAffected(4)) { 
- *        5;
- *     } else {
- *        4;
- *     }
- * </placeholder state>
- * 
- */
+ a - "this" battler.
+ v - game variables
+ 
+*/
 
 var Imported = Imported || {};
 var TH = TH || {};
