@@ -1,4 +1,134 @@
-﻿/*:
+﻿/*:ja
+ * @target MZ MV
+ * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_EventTriggerLabels.js
+ * @title Event Trigger Labels
+ * @author Hime --> HimeWorks (http://himeworks.com)
+ * @version 1.0
+ * @date Dec 31, 2015
+ * @filename HIME_EventTriggerLabels.js
+ *
+ *
+ * @plugindesc v1.0 イベントのトリガーを拡張し、キーによって異なる動作をする分岐を作成できます
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * 元プラグイン:
+ * http://himeworks.com/2016/01/event-trigger-labels-mv/
+ * 
+ * == 説明 ==
+ *
+ * RPGツクールMVでは、マップ上にイベントがあります。
+ * イベントは、プレイヤーが上/前に立っている時、トリガーできます。
+ * プレイヤーがイベントをトリガーしたい場合、'実行'ボタンを押します。
+ * デフォルトではZ/Enterキーです。
+ * イベントがトリガーされると、コマンドのリスト全体が実行されます。
+ *
+ * しかし、プレーヤーが別の方法でイベントと対話できるようにしたい場合は?
+ *
+ * 例えば、プレイヤーがイベントに近づいて通常どおりに話しかけた場合、
+ * 会話をしているだけです。
+ *
+ * 一方、プレイヤーがイベントに近づいてAキーを押すと、
+ * ミニゲームを実行するかどうかを確認するイベントが表示されます。
+ *
+ * このプラグインを使用すると、
+ * イベントのコマンドのリストをセクションに分けることができます。
+ * イベントのトリガー方法に応じて、異なるセクションが実行され、
+ * プレーヤーがイベントと対話する時、異なる動作を作成できます。
+ *
+ * == 使用法 ==
+ *
+ * デフォルトでは、現在のイベントページの全てのコマンドは、
+ * イベントの実行時に上から下まで実行されます。
+ *
+ * トリガーラベル条件が満たされた場合のみ実行される
+ * ページのセクションを作成できます。
+ *
+ *   -- ボタントリガーラベル --
+ *
+ * これらのトリガーラベルには、特定のボタンを押す必要があります。
+ *
+ * 例えば、'a'キーが押された時、のみ実行されるコマンドセットと、
+ * 'b'キーが押された時のみ実行されるコマンドセットがあります。
+ *
+ * ボタントリガーラベルを作成するには、'ラベル'イベントコマンドを作成して、
+ *
+ *   button_trigger BUTTON
+ *
+ * BUTTONは押さなければならないボタンの名称です。
+ *
+ * ボタンに使用しているプラグインに応じて、異なる場合があります。
+ * 例えば、カスタムキーボードや入力スクリプトを使用していない場合、
+ * これらのボタン以外にはあまり選択肢がありません。
+ *
+ *   ok       - Zキー, Enterキー, Bボタン
+ *   escape   - Xキー, Escキー
+ *   control  - 左Control, 右Contorl
+ *   shift    - 左Shift, 右Shift, Aボタン
+ *   alt
+ *   pageup   - Qキー, Lボタン
+ *   pagedown - Wキー, Rボタン
+ *
+ * これらは、Yanflyのキーボード設定プラグインにも適用されます。
+ *
+ * 例えば、目の前のイベントを次のタイミングでトリガーする場合
+ * Xキー(通常はメニューに移動します)を押すと、次のように記述できます。
+ *
+ *   button_trigger escape
+ *
+ * メニューを開く代わりに、エスケープボタンを押してイベントをトリガーします。
+ *
+ * ZE - Key Mapper等のフルキーボードプラグインを使用している場合、
+ * キーボード全体にアクセスできます。
+ *
+ * 使用可能なボタンについては、入力プラグインの手順をご覧ください。
+ * また、押されているボタンの名前を表示する'デバッグ'情報を表示できる
+ * プラグインパラメータも提供しています。
+ * これをラベルに使用します。
+ *
+ *
+ * == 利用規約 ==
+ *
+ * - クレジットを表示する非営利プロジェクトでの使用は無料
+ * - 商用プロジェクトでの使用は無料ですが、連絡してください
+ * - クレジット表示をHimeWorksにしてください
+ *
+ * == Change Log ==
+ *
+ * 1.0 - Dec 31, 2015
+ *  * initial release
+ * 0.2 - Dec 12, 2015
+ *  * fixed error where page switching didn't load up trigger buttons properly
+ * 0.1 - Dec 10, 2015
+ *  * initial beta release
+ * 
+ * 
+ * @param Show Debug
+ * @text デバッグ表示
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 押されているキーを表示する場合'true'に設定します。テストプレイ中にF8を押してConsoleで確認してください。
+ * @default true
+ */
+/*
+ * あなたが私の仕事を楽しんでいるなら、
+ * パトレオンで私への支援を検討してください！
+ *
+ * - https://www.patreon.com/himeworks
+ *
+ * ご質問や懸念がある場合、次のサイトのいずれかで私に連絡できます。
+ *
+ * - Main Website: http://himeworks.com
+ * - Facebook: https://www.facebook.com/himeworkscom/
+ * - Twitter: https://twitter.com/HimeWorks
+ * - Youtube: https://www.youtube.com/c/HimeWorks
+ * - Tumblr: http://himeworks.tumblr.com/
+ */
+
+/*:
 @title Event Trigger Labels
 @author Hime --> HimeWorks (http://himeworks.com)
 @version 1.0
@@ -54,11 +184,11 @@ an event.
 == Change Log ==
 
 1.0 - Dec 31, 2015
-  * initial release
+ * initial release
 0.2 - Dec 12, 2015
-  * fixed error where page switching didn't load up trigger buttons properly
+ * fixed error where page switching didn't load up trigger buttons properly
 0.1 - Dec 10, 2015
-  * initial beta release
+ * initial beta release
 
 == Usage ==
 
@@ -68,7 +198,7 @@ bottom when the event is run.
 We can create sections of the page that will only be run when the trigger
 label condition is met.
 
-  -- Button Trigger Labels --
+ -- Button Trigger Labels --
 
 These trigger labels require certain buttons to be pressed.
 
@@ -78,7 +208,7 @@ pressed.
 
 To create a button trigger label, create a "Label" event command and write
 
-  button_trigger BUTTON
+ button_trigger BUTTON
 
 Where the BUTTON is the name of a button that should be pressed.
 
@@ -86,20 +216,20 @@ Depending on what plugins you're using for buttons, it may be different.
 For example, if you're not using any custom keyboard or input scripts, you
 don't really have much choice beyond these buttons:
 
-  ok       - Z key, Enter key
-  escape   - X key, Esc key
-  control  - left control, right contorl
-  shift    - left shift, right shift
-  alt
-  pageup   - Q key
-  pagedown - W key
+ ok       - Z key, Enter key
+ escape   - X key, Esc key
+ control  - left control, right contorl
+ shift    - left shift, right shift
+ alt
+ pageup   - Q key
+ pagedown - W key
 
 These apply to Yanfly's keyboard config plugin as well.
 
 So for example, if you want the event in front of you to be triggered when
 you press the X key (which usually goes to the menu), you can write
 
-  button_trigger escape
+ button_trigger escape
 
 Which would intercept the escape button press and trigger the event instead
 of opening the menu.
@@ -116,129 +246,8 @@ pressed. You will use this for your labels.
 @desc set this to `true` without quotes if you want to print out the key
 that is being pressed. This is to see what to use for your labels.
 @default true
- */
+*/
 
-/*:ja
- * @title Event Trigger Labels
- * @author Hime --> HimeWorks (http://himeworks.com)
- * @version 1.0
- * @date Dec 31, 2015
- * @filename HIME_EventTriggerLabels.js
- * @url http://himeworks.com/2016/01/event-trigger-labels-mv/
- *
- * あなたが私の仕事を楽しんでいるなら、
- * パトレオンで私への支援を検討してください！
- *
- * - https://www.patreon.com/himeworks
- *
- * ご質問や懸念がある場合、次のサイトのいずれかで私に連絡できます。
- *
- * - Main Website: http://himeworks.com
- * - Facebook: https://www.facebook.com/himeworkscom/
- * - Twitter: https://twitter.com/HimeWorks
- * - Youtube: https://www.youtube.com/c/HimeWorks
- * - Tumblr: http://himeworks.tumblr.com/
- *
- * @plugindesc v1.0 イベントのトリガーを拡張し、キーによって異なる動作をする分岐を作成できます
- * @help
- * 翻訳:ムノクラ
- * https://fungamemake.com/
- * https://twitter.com/munokura/
- *
- * == 説明 ==
- *
- * RPGツクールMVでは、マップ上にイベントがあります。
- * イベントは、プレイヤーが上/前に立っている時、トリガーできます。
- * プレイヤーがイベントをトリガーしたい場合、'実行'ボタンを押します。
- * デフォルトではZ/Enterキーです。
- * イベントがトリガーされると、コマンドのリスト全体が実行されます。
- *
- * しかし、プレーヤーが別の方法でイベントと対話できるようにしたい場合は?
- *
- * 例えば、プレイヤーがイベントに近づいて通常どおりに話しかけた場合、
- * 会話をしているだけです。
- *
- * 一方、プレイヤーがイベントに近づいてAキーを押すと、
- * ミニゲームを実行するかどうかを確認するイベントが表示されます。
- *
- * このプラグインを使用すると、
- * イベントのコマンドのリストをセクションに分けることができます。
- * イベントのトリガー方法に応じて、異なるセクションが実行され、
- * プレーヤーがイベントと対話する時、異なる動作を作成できます。
- *
- * == 利用規約 ==
- *
- * - クレジットを表示する非営利プロジェクトでの使用は無料
- * - 商用プロジェクトでの使用は無料ですが、連絡してください
- * - クレジット表示をHimeWorksにしてください
- *
- * == Change Log ==
- *
- * 1.0 - Dec 31, 2015
- *  * initial release
- * 0.2 - Dec 12, 2015
- *  * fixed error where page switching didn't load up trigger buttons properly
- * 0.1 - Dec 10, 2015
- *  * initial beta release
- *
- * == 使用法 ==
- *
- * デフォルトでは、現在のイベントページの全てのコマンドは、
- * イベントの実行時に上から下まで実行されます。
- *
- * トリガーラベル条件が満たされた場合のみ実行される
- * ページのセクションを作成できます。
- *
- *   -- ボタントリガーラベル --
- *
- * これらのトリガーラベルには、特定のボタンを押す必要があります。
- *
- * 例えば、'a'キーが押された時、のみ実行されるコマンドセットと、
- * 'b'キーが押された時のみ実行されるコマンドセットがあります。
- *
- * ボタントリガーラベルを作成するには、'ラベル'イベントコマンドを作成して、
- *
- *   button_trigger BUTTON
- *
- * BUTTONは押さなければならないボタンの名称です。
- *
- * ボタンに使用しているプラグインに応じて、異なる場合があります。
- * 例えば、カスタムキーボードや入力スクリプトを使用していない場合、
- * これらのボタン以外にはあまり選択肢がありません。
- *
- *   ok       - Zキー, Enterキー, Bボタン
- *   escape   - Xキー, Escキー
- *   control  - 左Control, 右Contorl
- *   shift    - 左Shift, 右Shift, Aボタン
- *   alt
- *   pageup   - Qキー, Lボタン
- *   pagedown - Wキー, Rボタン
- *
- * これらは、Yanflyのキーボード設定プラグインにも適用されます。
- *
- * 例えば、目の前のイベントを次のタイミングでトリガーする場合
- * Xキー(通常はメニューに移動します)を押すと、次のように記述できます。
- *
- *   button_trigger escape
- *
- * メニューを開く代わりに、エスケープボタンを押してイベントをトリガーします。
- *
- * ZE - Key Mapper等のフルキーボードプラグインを使用している場合、
- * キーボード全体にアクセスできます。
- *
- * 使用可能なボタンについては、入力プラグインの手順をご覧ください。
- * また、押されているボタンの名前を表示する'デバッグ'情報を表示できる
- * プラグインパラメータも提供しています。
- * これをラベルに使用します。
- *
- * @param Show Debug
- * @text デバッグ表示
- * @type boolean
- * @on 表示
- * @off 非表示
- * @desc 押されているキーを表示する場合'true'に設定します。テストプレイ中にF8を押してConsoleで確認してください。
- * @default true
- */
 
 
 var Imported = Imported || {};
