@@ -1,5 +1,5 @@
 /*:ja
- * @target MZ MV
+ * @target MV
  * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_WindowBackgroundDesigner.js
  * @title Window Background Designer
  * @author Hime --> HimeWorks (http://himeworks.com)
