@@ -1,10 +1,10 @@
-﻿/*:ja
+/*:ja
  * @target MV
  * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_EnemyReinforcements.js
  * @title Enemy Reinforcements
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @date Aug 15, 2016
- * @version 1.3a
+ * @version 1.3a2
  * @filename HIME_EnemyReinforcements.js
  *
  * @plugindesc 敵のスキルを作成し、新しい敵を召喚して戦闘に参加させることができます
@@ -138,6 +138,8 @@
  *
  * == Change Log ==
  *
+ * 1.3a2
+ *  * resolve conflict for MOG_BattleCursor.js(v2.3) by triacontane
  * 1.3a
  *  * resolve conflict for MOG_BattleCursor.js by triacontane
  * 1.3 - Aug 15, 2016
@@ -165,10 +167,11 @@
  */
 
 /*:
+-------------------------------------------------------------------------
 @title Enemy Reinforcements
 @author Hime --> HimeWorks (http://himeworks.com)
 @date Aug 15, 2016
-@version 1.3a
+@version 1.3a2
 @filename HIME_EnemyReinforcements.js
 @url http://himeworks.com/2015/11/enemy-reinforcements-mv/
 
@@ -185,9 +188,11 @@ the following sites:
 * Youtube: https://www.youtube.com/c/HimeWorks
 * Tumblr: http://himeworks.tumblr.com/
 
+-------------------------------------------------------------------------
 @plugindesc Allows you to summon more enemies into the current battle
 using event commands.
 @help
+-------------------------------------------------------------------------
 == Description ==
 
 Video: https://youtu.be/ROy4nEoao-I
@@ -215,8 +220,10 @@ command to remove all enemy reinforcements from another troop!
 
 == Change Log ==
 
+1.3a2
+ * resolve conflict for MOG_BattleCursor.js(v2.3) by triacontane
 1.3a
-* resolve conflict for MOG_BattleCursor.js by triacontane
+* resolve conflict for MOG_BattleCursor.js
 1.3 - Aug 15, 2016
 * Fix checking whether a certain member existed
 1.2 - Nov 21, 2015
@@ -321,8 +328,8 @@ alive, you would write
 
  $gameTroop.isEnemyReinforcementAdded(4, 2, true)
 
+-------------------------------------------------------------------------
 */
-
 var Imported = Imported || {};
 var TH = TH || {};
 Imported.EnemyReinforcements = 1;
@@ -350,11 +357,11 @@ TH.EnemyReinforcements = TH.EnemyReinforcements || {};
   Spriteset_Battle.prototype.refreshEnemyReinforcements = function () {
     this.removeEnemies();
     this.createEnemies();
-    // resolve conflict for MOG_BattleCursor.js
-    if (this.create_arrow_enemy) {
-      this.create_arrow_enemy();
+    // resolve conflict for MOG_BattleCursor.js v2.3
+    if (SceneManager._scene._battleCursor) {
+      SceneManager._scene._battleCursor.createArrowEnemy();
     }
-    // resolve conflict for MOG_BattleCursor.js
+    // resolve conflict for MOG_BattleCursor.js v2.3
     // this.createEnemyReinforcements();
   }
 
@@ -366,7 +373,7 @@ TH.EnemyReinforcements = TH.EnemyReinforcements || {};
     }
     sprites.sort(this.compareEnemySprite.bind(this));
     for (var j = 0; j < sprites.length; j++) {
-      console.log(sprites[j]);
+      // console.log(sprites[j]);
       this._enemySprites.push(sprites[j]);
       this._battleField.addChild(sprites[j]);
 
@@ -542,4 +549,5 @@ TH.EnemyReinforcements = TH.EnemyReinforcements || {};
       TH_EnemyReinforcements_Game_Interpreter_pluginCommand.call(this, command, args);
     }
   };
+
 })(TH.EnemyReinforcements);
