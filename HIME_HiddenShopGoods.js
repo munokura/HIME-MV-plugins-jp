@@ -1,5 +1,5 @@
 /*:ja
- * @target MV
+ * @target MV MZ
  * @url https://raw.githubusercontent.com/munokura/HIME-MV-plugins-jp/master/HIME_HiddenShopGoods.js
  * @title Hidden Shop Goods
  * @author Hime
