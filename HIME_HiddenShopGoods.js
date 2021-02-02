@@ -5,7 +5,7 @@
  * @author Hime
  * @date Nov 8, 2015
  * @filename HIME_HiddenShopGoods.js
- * @plugindesc v1.0 ショップの商品の表示/非表示を切り替えられます
+ * @plugindesc v1.1 ショップの商品の表示/非表示を切り替えられます
  * @help
  * 翻訳:ムノクラ
  * https://fungamemake.com/
@@ -16,7 +16,7 @@
  * 
  * == 説明 ==
  *
- * RPGメーカーMVでは、ショップを作成する際に、
+ * RPGメーカーでは、ショップを作成する際に、
  * まず販売するアイテムのリストと価格を指定します。
  * あとはエンジンが代行してくれるので、プレイヤーが店員に話しかけると、
  * 設定したアイテムが表示されます。
@@ -76,8 +76,18 @@
  * - 商用利用の場合、私に連絡してください
  *
  * == Change Log ==
- *
+ * 
+ * Feb 2, 2021 - Add plugin command for MZ by munokura
  * Nov 8, 2015 -  initial release
+ * 
+ * @command hide_good
+ * @text 商品を非表示
+ * @desc 指定した商品を非表示にします。
+ *
+ * @arg goodsNumber
+ * @text 商品の番号
+ * @desc 非表示にしたい商品のショップでの連番の番号を入れます。
+ * @default 1
  */
 
 /*:
@@ -155,6 +165,12 @@ leader's level is less than 10, you can make the script call
 
   hide_good(4, "$gameParty.leader().level < 10")
 
+@command hide_good
+@desc Hides the specified product.
+
+@arg goodsNumber
+@desc Enter the serial number of the item you want to hide at the shop.
+@default 1
  */
 
 var Imported = Imported || {}
@@ -196,6 +212,16 @@ TH.HiddenShopGoods = TH.HiddenShopGoods || {};
     var shopGoodNum = Math.floor(args[0]) - 1;
     $gameTemp.hideShopGood(shopGoodNum);
   };
+
+  /* Use a plugin command for MZ */
+  const pluginName = document.currentScript.src.split("/").pop().replace(/\.js$/, "");
+
+  PluginManager.registerCommand(pluginName, "hide_good", function (arr) {
+    const args = Object.entries(arr).map(([key, value]) => `${value}`);
+    var shopGoodNum = Math.floor(args[0]) - 1;
+    $gameTemp.hideShopGood(shopGoodNum);
+  });
+
 
   /* Use a script call */
   hide_good = function (shopGoodNum, condition) {
