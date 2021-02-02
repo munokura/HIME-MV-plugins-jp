@@ -93,6 +93,7 @@
  * Nov 7, 2015  - initial release
  *
  * @param Variable ID
+ * @text コモン指定変数ID
  * @desc 変数IDを指定。変数の値をコモンイベントIDとして実行
  * @type variable
  * @default 0
