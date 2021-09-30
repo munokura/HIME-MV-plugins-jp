@@ -14,6 +14,7 @@
  * - Tumblr: http://himeworks.tumblr.com/
 */
 /*:ja
+ * @target MZ MV
  * @title Exp Tables
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @version 1.2
