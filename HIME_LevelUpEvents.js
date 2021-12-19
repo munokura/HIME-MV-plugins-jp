@@ -1,5 +1,5 @@
 ﻿/*:ja
- * @target MZ MV
+ * @target MV
  * @title Level Up Events
  * @author Hime --> HimeWorks (http://himeworks.com)
  * @date Jun 15, 2020
